@@ -1,0 +1,47 @@
+@Before("pt()")
+public void before() {
+    System.out.println("before advice ...");
+}
+
+@After("pt()")
+public void after() {
+    System.out.println("after advice ...");
+}
+
+@AfterReturning("pt()") // 方法正常運行(無異常)後執行
+public void afterReturning() {
+    System.out.println("afterReturning advice ...");
+}
+
+@AfterThrowing("pt()") // 方法拋異常後執行
+public void afterThrowing() {
+    System.out.println("afterThrowing advice ...");
+}
+
+@AfterReturning(value = "pt()", returning = "ret")
+public void afterReturning(Object ret) {}
+
+@AfterThrowing(value = "pt()", throwing = "t")
+public void afterThrowing(Throwable t) {}
+
+若需要JoinPoint jp 則放置於第一個參數
+---------------------------------------------------------------------
+@Around("pt()")
+public Object around(ProceedingJoinPoint pjp) throws Throwable {
+    System.out.println("around before advice ...");
+    Object ret = pjp.proceed();
+    System.out.println("around after advice ...");
+    return ret; 可以攔截返回結果
+}
+
+Object ret = pjp.proceed(); 權限較驗 可以不執行原方法
+Object[] args = pjp.getArgs();
+if (args[0].getClass().equas(String.class)) {
+    args[0] = args[0].toString().trim();
+} 
+Object ret = pjp.proceed(args); 可以攔截參數
+
+Signature signature = pjp.getSignature();
+signature.getDeclaringTypeName(); // 類型
+signature.getName(); // 方法名
+---------------------------------------------------------------------

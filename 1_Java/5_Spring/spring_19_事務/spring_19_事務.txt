@@ -1,0 +1,43 @@
+Spring框架
+
+@Bean
+public PlatformTransactionManager transactionManager(DataSource dataSource) {
+	DataSourceTransactionManager ptm = new DataSourceTransactionManager();
+	ptm.setDataSource(dataSource);
+	return ptm;
+}
+
+@EnableTransactionManagement
+public class SpringConfig {
+
+}
+
+public interface AccountService {
+	@Transactional
+	void transfer(String out, String in, Double money);
+}
+----------------------------------------------------------------------------------------------
+SpringBoot框架
+
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+@GetMapping("/demo")
+public String demo() {
+	TwTradeLogEntity e1 = new TwTradeLogEntity();
+	e1.setQuantity(1);
+	twTradeLogRepository.save(e1);
+	TwTradeLogEntity e2 = new TwTradeLogEntity();
+	e2.setQuantity(2);
+	int i = 5 / 0;
+	twTradeLogRepository.save(e2);
+	return "demo";
+}
+----------------------------------------------------------------------------------------------
+@Transactional 可以放在類上(該類所有方法皆開啟事務)
+
+SpringTransaction的Propagation
+https://www.tpisoftware.com/tpu/articleDetails/2741
+
+spring同類調用事務不生效原因及三種解決方式
+https://blog.csdn.net/hellozhxy/article/details/109753711

@@ -1,0 +1,14 @@
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+<bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
+    <contructor-arg name="bookDao" ref="bookDao"/>
+</bean>
+
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl">
+    <contructor-arg type="int" value="10"/>
+    <contructor-arg type="java.lang.String" value="mysql"/>
+</bean>
+
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl">
+    <contructor-arg index="0" value="10"/>
+    <contructor-arg index="1" value="mysql"/>
+</bean>

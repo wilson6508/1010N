@@ -1,0 +1,17 @@
+@TableId(type = IdType.AUTO)
+private Long id;
+
+@TableId(type = IdType.INPUT)
+private Long id;
+資料表非自增id
+開發人員自行setId
+
+@TableId(type = IdType.ASSIGN_ID)
+private Long id;
+資料表非自增id
+系統自動以雪花算法setId(64位2進制形成的long值)
+https://www.bilibili.com/video/BV1Fi4y1S7ix?p=114
+
+
+userDao.deleteBatchIds(list);
+userDao.selectBatchIds(list);

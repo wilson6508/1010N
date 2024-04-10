@@ -1,0 +1,19 @@
+如果拋異常不會rollback 因為異常被捕捉了
+
+@Transactional
+public void test() {
+    try {
+        // 操作資料庫
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+------------------------------------------------------
+在外層加try-catch 如果拋異常會rollback
+
+try {
+    notificationServiceImpl.test();
+} catch (Exception e) {
+    e.printStackTrace();
+}
+------------------------------------------------------

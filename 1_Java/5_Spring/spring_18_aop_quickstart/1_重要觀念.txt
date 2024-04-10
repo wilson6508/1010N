@@ -1,0 +1,34 @@
+JoinPoint: 所有的方法
+Pointcut: 要追加功能的方法
+Advice: 要追加的功能
+Aspect: Advice與Pointcut之間的關係
+------------------------------------------------------------
+Spring容器啟動
+讀取Pointcut和Advice
+
+判定bean的方法 有沒有匹配Pointcut和Advice
+沒有:創建對象
+有:創建原始對象(Target)的代理對象(Proxy)
+
+有匹配的 容器中保存的是代理對象
+------------------------------------------------------------
+https://www.bilibili.com/video/BV1Fi4y1S7ix/?p=34
+execution(public void com.itheima.dao.BookDao.update(int))
+
+修飾符: private public(可省)
+返回值: void User *
+包名: com.itheima.dao  com.itheima.*  com..
+類名: BookDao  *  *Service
+方法名: update  get*  *e
+參數: () (*) (int) (..)
+
+*單個任意符號 可為前後綴
+..多個連續任意符號 
++子類
+
+任意返回值 任意包下 以Service結尾的類的子類 任意方法 任意參數
+execution(* *..*Service+.*(..))
+
+通常切interface 不切實現
+getBy* 
+------------------------------------------------------------

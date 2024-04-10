@@ -1,0 +1,2 @@
+MyBatis批量插入
+https://juejin.cn/post/7016691244973686820

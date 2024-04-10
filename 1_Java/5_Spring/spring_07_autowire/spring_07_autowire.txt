@@ -1,0 +1,14 @@
+public class BookServiceImpl implements BookService {
+    private BookDao bookDao;
+    public void setBookDao(BookDao bookDao) {
+        this.bookDao = bookDao;
+    }
+}
+
+按類加載(類唯一)
+<bean class="com.itheima.dao.impl.BookDaoImpl"/>
+<bean id="bookService" class="com.itheima.service.impl.BookServiceImpl" autowire="byType"/>
+
+按名加載
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+<bean id="bookService" class="com.itheima.service.impl.BookServiceImpl" autowire="byName"/>
