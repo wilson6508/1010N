@@ -1,0 +1,53 @@
+package com.eland.scheduler;
+
+import com.eland.pojo.dto.SearchApiResponseBean;
+import com.eland.pojo.info.membership.AutoReportTaskBean;
+import com.eland.service.autoreport.AutoReportNotifyService;
+import com.eland.service.autoreport.AutoReportScheduleService;
+import com.eland.service.autoreport.AutoReportTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+/**
+ * Created by chienhaoyu on 2021/5/11.
+ */
+
+@Component
+public class AutoReportScheduler {
+
+    @Autowired
+    private AutoReportTaskService autoReportTaskService;
+    @Autowired
+    private AutoReportScheduleService autoReportScheduleService;
+    @Autowired
+    private AutoReportNotifyService autoReportNotifyService;
+
+    @Scheduled(cron = "${task.cron}")
+    public void autoReportTask() {
+        try {
+            autoReportTaskService.process(0, "wait", 2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Scheduled(cron = "${scheduled.cron}")
+    public void autoReportSchedule() {
+        try {
+            autoReportScheduleService.process();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Scheduled(cron = "${notify.scheduled.cron}")
+    public void autoReportNotify() {
+        SearchApiResponseBean statusError = autoReportTaskService.getTask(0, "error");
+        List<AutoReportTaskBean> autoReportTaskBeanList = autoReportNotifyService.getAutoReportTaskBean(statusError);
+        autoReportNotifyService.processAutoReportNotify(autoReportTaskBeanList);
+    }
+
+}

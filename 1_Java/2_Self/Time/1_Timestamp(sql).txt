@@ -1,0 +1,43 @@
+1. 創建
+import java.sql.Timestamp;
+Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+Timestamp timestamp = Timestamp.valueOf("2020-01-01 01:01:01.999");
+-------------------------------------------------------------------------
+2. 加減
+Timestamp timestamp = Timestamp.valueOf("2020-01-01 00:00:00.000");
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(timestamp);
+calendar.add(Calendar.YEAR, -2);
+calendar.add(Calendar.MONTH, 1);
+calendar.add(Calendar.DAY_OF_MONTH, 1);
+calendar.add(Calendar.HOUR, 5);
+calendar.add(Calendar.MINUTE, 5);
+calendar.add(Calendar.SECOND, 5);
+timestamp.setTime(calendar.getTime().getTime());
+System.out.println(timestamp.toString());
+-------------------------------------------------------------------------
+3. 比較
+Timestamp t1 = Timestamp.valueOf("2020-01-01 00:00:00.000");
+Timestamp t2 = Timestamp.valueOf("2020-01-01 01:00:00.000");
+System.out.println(t1.equals(t2)); // false
+System.out.println(t1.before(t2)); // true
+System.out.println(t1.after(t2));  // false
+-------------------------------------------------------------------------
+Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+Calendar cal = Calendar.getInstance();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");  // T和Z為處理時區的參數
+System.out.println(sdf.format(currentTime));								// 這樣子轉jsonString 才能用gson.from()轉為Timestamp物件
+cal.setTime(currentTime);													// 日期加減													
+cal.add(Calendar.DAY_OF_WEEK, 3);											// 日期加減
+currentTime.setTime(cal.getTime().getTime());								// 日期加減
+System.out.println(sdf.format(currentTime));								// 這樣子轉jsonString 才能用gson.from()轉為Timestamp物件
+
+
+Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+Calendar cal = Calendar.getInstance();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.000");		// 毫秒歸零
+System.out.println(sdf.format(currentTime));
+cal.setTime(currentTime);
+cal.add(Calendar.MINUTE, -10);												// 往前10分鐘
+currentTime.setTime(cal.getTime().getTime());
+System.out.println(sdf.format(currentTime));

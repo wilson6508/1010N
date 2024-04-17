@@ -1,0 +1,23 @@
+﻿public static void main(String[] args) {
+	List<String> list01 = Arrays.asList("AAA", "BBB", "CCC", "DDD", "BBB");
+	List<String> list02 = Arrays.asList("aaa", "BBB", "CCC", "ddd", "bbb");
+	String repetitiveItem = list01.stream()
+					  .filter(itemOfList01 -> list02.stream().anyMatch(itemOfList02 -> itemOfList02.equals(itemOfList01)))
+					  .map(itemOfList01 -> "-"+itemOfList01+"-")
+					  .collect(Collectors.joining("、"));
+}
+----------------------------------------------------------------------------------------------------------------------------
+public static void main(String[] args) {
+	List<String> list01 = Arrays.asList("AAA", "BBB", "CCC", "DDD");
+	List<String> list02 = Arrays.asList("aaa", "BBB", "CCC", "ddd");
+	Set<String> set01 = new LinkedHashSet<>();
+	Set<String> set02 = new LinkedHashSet<>();
+	set01.addAll(list01);
+	set02.addAll(list02);
+	set01.retainAll(set02);
+}
+----------------------------------------------------------------------------------------------------------------------------
+Set<String> listOne = new LinkedHashSet<>(Arrays.asList("milan","dingo", "elpha", "hafil", "meat", "iga", "neeta.peeta"));
+Set<String> listTwo = new LinkedHashSet<>(Arrays.asList("hafil", "iga", "binga", "mike", "dingo"));
+listOne.retainAll(listTwo);
+----------------------------------------------------------------------------------------------------------------------------

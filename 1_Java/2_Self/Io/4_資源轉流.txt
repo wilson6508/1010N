@@ -1,0 +1,12 @@
+FileInputStream file = new FileInputStream(fileName);
+Workbook workbook = new XSSFWorkbook(file);
+
+InputStream inputStream = getClass().getResourceAsStream("/test.xlsx");
+XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
+
+ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+xssfWorkbook.write(outputStream);
+xssfWorkbook.close();
+inputStream.close();
+
+byte[] bytes = outputStream.toByteArray();

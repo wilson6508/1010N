@@ -1,0 +1,43 @@
+﻿Thread(線程，或稱執行緒)
+在Java當中一個JVM就是一個process，在JVM中可以產生非常多的threads。
+import java.util.concurrent.CompletableFuture;
+
+new Thread(() -> {
+    System.out.println("hello thread");
+}).start();
+當呼叫start()此method時，則會啟動這個thread，並且執行Runnable#run()
+
+
+synchronized(myReource) {}
+
+
+private Object lock = new Object();
+當一個thread對一個物件呼叫wait()之後會完全卡住，要一直到另外一個thread觸發 notify()才可以繼續往下執行。
+synchronized (lock) { lock.notify(); }
+synchronized (lock) { lock.wait(); }
+
+
+private LinkedBlockingQueue queue = new LinkedBlockingQueue<>(5);
+queue.put(message);
+它會放一個message進queue中，如果滿了會block；
+queue.take();
+它會從queue中取一筆資料出來，如果queue是空的則會block。
+在這邊職員就是thread，而我們的號碼牌就是一個task，而這個取票機就是queue。
+
+
+
+if (...) {
+	CompletableFuture.runAsync(() -> process());
+}
+在非同步呼叫時，會先產生一個CompletableFuture，並且回傳給caller
+這個CompletableFuture會連同async task一起傳到worker thread中。
+當執行完這個async task，callee會呼叫CompletableFuture的complete()
+此時caller可以透過CompletableFuture的get()取得結果的值。
+
+
+synchorinzed keyword
+wait()/notify()包在synchronized中，並且實作producer/consumer
+用blockqueue來做producer/consumer
+用producer/consumer的概念來做thread pool
+透過thread pool的submit來回傳非同步的結果，也就是Future
+CompletableFuture可以在thread pool中執行

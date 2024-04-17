@@ -1,0 +1,8 @@
+定義泛型的例子
+https://openhome.cc/Gossip/JavaGossip-V1/GenericsExamples.htm
+
+泛型基礎 (一) — Java 與 Kotlin 的變型
+https://medium.com/kuos-funhouse/%E6%B3%9B%E5%9E%8B%E5%9F%BA%E7%A4%8E-%E4%B8%80-java-%E8%88%87-kotlin-%E7%9A%84%E8%AE%8A%E5%9E%8B-86c4b022d29f
+
+Java 泛型 T，E，K，V
+https://iter01.com/578027.html

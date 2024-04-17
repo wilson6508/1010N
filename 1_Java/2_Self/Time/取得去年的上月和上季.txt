@@ -1,0 +1,40 @@
+package test01;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Ex4 {
+
+    public static void main(String[] args) {
+
+        Ex4 ex4 = new Ex4();
+        System.out.println(ex4.getDeleteMonth());
+        System.out.println(ex4.getDeleteSeason());
+
+    }
+
+    private String getDeleteMonth() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+        Calendar c1 = Calendar.getInstance();
+        c1.add(Calendar.YEAR, -1);
+        c1.add(Calendar.MONTH, -2);
+        c1.set(Calendar.DAY_OF_MONTH, 1);
+        return sdf.format(c1.getTime());
+    }
+
+    private String getDeleteSeason() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+        Calendar c1 = Calendar.getInstance();
+        c1.add(Calendar.YEAR, -1);
+        c1.add(Calendar.MONTH, -6);
+        c1.set(Calendar.DAY_OF_MONTH, 1);
+        String first = sdf.format(c1.getTime());
+        Calendar c2 = Calendar.getInstance();
+        c2.add(Calendar.YEAR, -1);
+        c2.add(Calendar.MONTH, -3);
+        c2.set(Calendar.DAY_OF_MONTH, 0);
+        String last = sdf.format(c2.getTime());
+        return first + " - " + last;
+    }
+
+}

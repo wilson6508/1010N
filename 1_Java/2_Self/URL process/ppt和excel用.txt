@@ -1,0 +1,47 @@
+第1版
+private String processURL(String url) {
+	String str = "";
+	try {
+		str = URLEncoder.encode(url, "UTF-8");
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	}
+	return str;
+}
+-----------------------------------------------------------------------------------------------------------
+第2版
+import org.springframework.web.util.UriUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
+public static String processURL(String urlString) {
+	StringBuilder result = new StringBuilder();
+	try {
+		URI uri = new URI(urlString);
+		result.append(uri.getScheme()).append(":");
+		result.append("//").append(uri.getAuthority());
+		if (uri.getPath() != null) {
+			result.append(UriUtils.encodePath(uri.getPath(), "UTF-8"));
+		}
+		if (uri.getQuery() != null) {
+			result.append("?").append(UriUtils.encodeQuery(uri.getQuery(), "UTF-8"));
+		}
+		if (uri.getFragment() != null) {
+			result.append("#").append(UriUtils.encodeFragment(uri.getFragment(), "UTF-8"));
+		}
+	} catch (URISyntaxException e) {
+		e.printStackTrace();
+	}
+	return result.toString();
+}
+-----------------------------------------------------------------------------------------------------------
+https://twkeypoint.com.tw/index.php/2022/10/16/台灣新聞通訊社-朋友問「床邊的墊子給狗睡？」/
+
+URI uri = new URI(urlString);
+uri.getScheme()    >  https
+uri.getAuthority() >  twkeypoint.com.tw
+uri.getPath()      >  /index.php/2022/10/16/台灣新聞通訊社-朋友問「床邊的墊子給狗睡？」/
+-----------------------------------------------------------------------------------------------------------

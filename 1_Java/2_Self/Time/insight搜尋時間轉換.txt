@@ -1,0 +1,65 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Ex11 {
+
+    public static void main(String[] args) {
+
+        String str1 = "today";
+        String str2 = "-7d";
+        String str3 = "-15d";
+        String str4 = "-30d";
+        String str5 = "-1m";
+        String str6 = "2020/11/08~2021/09/25";
+        System.out.println(Ex11.calculateTimeScope(str1));
+        System.out.println(Ex11.calculateTimeScope(str2));
+        System.out.println(Ex11.calculateTimeScope(str3));
+        System.out.println(Ex11.calculateTimeScope(str4));
+        System.out.println(Ex11.calculateTimeScope(str5));
+        System.out.println(Ex11.calculateTimeScope(str6));
+
+
+    }
+
+    public static String calculateTimeScope(String dateRange) {
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+        SimpleDateFormat sfYMD = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            if (dateRange.endsWith("d")) {
+                int days = Integer.parseInt(dateRange.replace("d", ""));
+                if (days == -15 || days == -30 || days == -7 || days == -14 || days == -21) {
+                    startDate.add(Calendar.DATE, days);
+                    endDate.add(Calendar.DATE, -1);
+                }
+            } else if (dateRange.endsWith("m")) {
+                int months = Integer.parseInt(dateRange.replace("m", ""));
+                startDate.add(Calendar.MONTH, months);
+                startDate.set(Calendar.DAY_OF_MONTH, 1);
+                endDate.add(Calendar.MONTH, months);
+                endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+            } else if (dateRange.contains("~")) {
+                String[] dateRangeArray = dateRange.split("~");
+                startDate.setTime(sfYMD.parse(dateRangeArray[0]));
+                endDate.setTime(sfYMD.parse(dateRangeArray[1]));
+            } else if (dateRange.endsWith("y") && !dateRange.equals("today")) {
+                int year = Integer.parseInt(dateRange.replace("y", ""));
+                startDate.add(Calendar.YEAR, year);
+                endDate.add(Calendar.DATE, -1);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+        startDate.set(Calendar.SECOND, 0);
+        startDate.set(Calendar.MILLISECOND, 0);
+        endDate.set(Calendar.HOUR_OF_DAY, 23);
+        endDate.set(Calendar.MINUTE, 59);
+        endDate.set(Calendar.SECOND, 59);
+        endDate.set(Calendar.MILLISECOND, 999);
+        String startDateCondition = sfYMD.format(startDate.getTime());
+        String endDateCondition = sfYMD.format(endDate.getTime());
+        return startDateCondition + "~" + endDateCondition;
+    }
+}

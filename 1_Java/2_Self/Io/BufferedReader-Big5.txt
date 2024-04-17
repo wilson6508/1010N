@@ -1,0 +1,18 @@
+private String getApiResponse() {
+        try {
+            String filePath = "C:/report/apiResponse.txt";
+            FileInputStream fis = new FileInputStream(filePath);
+            InputStreamReader isr = new InputStreamReader(fis, "Big5");
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder stringBuffer = new StringBuilder();
+            String str;
+            while ((str = br.readLine()) != null) {
+                stringBuffer.append(str);
+            }
+            br.close();
+            return stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }

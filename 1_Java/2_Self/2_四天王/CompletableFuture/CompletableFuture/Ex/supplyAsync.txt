@@ -1,0 +1,21 @@
+package tet03;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+public class Ex1 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(Ex1::demo);
+        System.out.println(future.get());
+        Thread.sleep(1000);
+        System.out.println("Done");
+
+    }
+
+    public static String demo() {
+        return "QQQ";
+    }
+
+}

@@ -1,0 +1,10 @@
+public static void main(String[] args) {
+	String a = shout("a", 1);
+	System.out.println(a);
+}
+
+private static <T, V> T shout(T t, V v) {
+	System.out.println("t : " + t);
+	System.out.println("v : " + v);
+	return t;
+}

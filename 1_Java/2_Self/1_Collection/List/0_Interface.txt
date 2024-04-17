@@ -1,0 +1,24 @@
+ArrayList, LinkedList, Vertor三者的異同?
+同: 三個類都實現List接口, 存儲的數據: 有序 可重複
+
+增: add(Object obj)
+刪: remove(int index) / remove(Object obj) // list.remove((Integer) 2);
+改: set(int index, Object obj)
+查: get(int index)
+插: add(int index, Object obj)
+長度: size()
+遍歷: 
+Iterator<Integer> iterator = list.iterator();
+while (iterator.hasNext()) {
+	System.out.println(iterator.next());
+}
+
+for (Object i : list) {
+	System.out.println(i);
+}
+
+for (int i = 0; i < list.size(); i++) {
+	System.out.println(list.get(i));
+}
+
+list.forEach(System.out::println);

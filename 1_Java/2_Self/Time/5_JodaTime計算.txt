@@ -1,0 +1,33 @@
+import org.joda.time.Months;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+
+public static String handleServiceLevel(EPAConditionBean epaConditionBean) { //
+    String[] split = epaConditionBean.getSearchInfo().getNecessaryCondition().getTimeRange().split("~");
+    // 範圍13個月內 導向TS10
+    LocalDate ts10Limit = new LocalDate().plusMonths(-12).withDayOfMonth(1);
+    LocalDate queryStart = new LocalDate(split[0].substring(0, 10).replace("/", "-"));
+    if (!queryStart.isBefore(ts10Limit)) {
+        return "ts10";
+    }
+    // 超出13個月 查詢範圍三個月內 導向標準TDS
+    int monthCount = countQueryMonth(split[1].substring(0, 7), split[0].substring(0, 7));
+    if (monthCount <= 3) {
+        return "standard";
+    }
+    // 超出13個月 查詢範圍超過三個月 平均隨機導向分流TDS內部TDS
+    return new Random().nextBoolean() ? "advanced" : "staff";
+}
+------------------------------------------------------------------------------------------------------------------------
+// 取得查詢月份的數量
+public static int countQueryMonth(String s1, String s2) {
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM");
+    DateTime d1 = DateTime.parse(s1, formatter);
+    DateTime d2 = DateTime.parse(s2, formatter);
+    return Math.abs(Months.monthsBetween(d1, d2).getMonths()) + 1;
+}
+------------------------------------------------------------------------------------------------------------------------
+LocalDate localDate = new LocalDate();                              // 2023-10-06
+LocalDate ts10Limit = localDate.plusMonths(-12).withDayOfMonth(1);  // 2022-10-01
+
+int count = InsightUtil.countQueryMonth("2023/10", "2023/11");      // 2

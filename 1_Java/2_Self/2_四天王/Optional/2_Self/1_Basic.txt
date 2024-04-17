@@ -1,0 +1,21 @@
+String name = null;
+Optional<String> optName = Optional.of(name);           // of()：接受非 null 的值
+Optional<String> optName = Optional.ofNullable(name);   // ofNullable()：可以接受 null 的值
+System.out.println(optName.get());
+
+// boolean isPresent()：如果值存在，回傳 true；不存在則回傳 false。
+if (optName.isPresent()) 
+Optional<String> optName = (name == null) ? Optional.empty() : Optional.of(name);
+
+// orElse() 用 isPresent() 確認有無值，有值就直接 get() 返回值；否則就把參數中的值回傳。
+System.out.println(optName.orElse("Name is null."));
+
+// 無值時多做一些事，可以改用 orElseGet 來做
+System.out.println(optName.orElseGet(() -> "WHAT! null!")); 
+
+// 簡化判斷
+int page = myObj.getPage() == null ? 1 : myObj.getPage();
+int page = Optional.ofNullable(myObj.getPage()).orElse(1);
+
+http://blog.tonycube.com/2015/10/java-java8-4-optional.html
+(OrElseThrow)

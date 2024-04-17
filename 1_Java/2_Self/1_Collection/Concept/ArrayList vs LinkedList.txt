@@ -1,0 +1,47 @@
+ArrayList和LinkedList(大陸詳解)
+https://cloud.tencent.com/developer/news/700913
+
+diamond operator
+simicolon
+-------------------------------------------------------------------------------------------
+ArrayList和LinkedList都不是線程安全的
+ArrayList是基於動態陣列的資料結構
+LinkedList是基於雙向連結串列的資料結構（有next和previous）
+
+get & set
+ArrayList隨機訪問比較快O(1)
+LinkedLsit的訪問需要從頭開始移動指標O(n)
+
+add & remove
+LinkedList更加快捷
+因為ArrayList需要移動資料
+
+空間
+ArrayList浪費空間主要在於在list列表的結尾需要預留一定的容量空間
+LinkedList的空間花費則體現在每一個元素消耗的空間比較大
+-------------------------------------------------------------------------------------------
+ArrayList底層採用Object數組存儲
+
+首先ArrayList方法會先調用ensureCapacityInternal去確認當前數組容量能否容納新的元素，
+如果不能則會使用grow方法進行擴容，先將數組大小擴展為原來的1.5倍，
+然後使用Arrays.copy 方法將原來的數組拷貝到新的數組裡。
+
+E get(int index)
+int index(Object o)
+int lastIndexOf(Object o)
+E set(int index, Eelement)
+List<E> subList(int fromlndex, int tolndex)
+-------------------------------------------------------------------------------------------
+LinkedList底層採用雙向列表實現
+
+所以相對於ArrayList而言，LinkedList可以更加高效的插入元素，
+因為它不會涉及到ArrayList擴容。
+但也因為這種數據結構，導致它不具備有隨機訪問的能力。
+
+void addFirst(E e)
+void addLast(E e)
+E getFirst()
+E getLast()
+E removeFirst()
+E removeLast()
+-------------------------------------------------------------------------------------------

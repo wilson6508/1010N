@@ -1,0 +1,26 @@
+https://www.urlencoder.org/
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.regex.Pattern;
+
+public class Ex5 {
+    public static void main(String[] args) {
+        String str = "https://esg.businesstoday.com.tw/article/category/180688/post/202203240007/力挺馬拉松跑友！富邦金控提倡「Run for Green」，40公里換一顆樹";
+        System.out.println(processURL(str));
+    }
+    public static String processURL(String originURL) {
+        StringBuilder url = new StringBuilder();
+        try {
+            for (int i = 0; i < originURL.length(); i++) {
+                String temp = originURL.substring(i, i + 1);
+                boolean isChinese = Pattern.matches("[\u4E00-\u9FA5]", temp);
+                temp = isChinese ? URLEncoder.encode(temp, "UTF-8") : temp;
+                url.append(temp);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return url.toString();
+    }
+}

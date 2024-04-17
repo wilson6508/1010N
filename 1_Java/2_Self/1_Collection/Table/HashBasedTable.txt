@@ -1,0 +1,67 @@
+package com.eland;
+
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Ex1 {
+
+    public static void main(String[] args) {
+
+        Table<Integer, Integer, Integer> table = HashBasedTable.create();
+        table.put(1, 2, 3);
+        table.put(1, 6, 3);
+        table.put(1, 4, 4);
+        table.put(2, 5, 4);
+        System.out.println(table);
+
+        Map<Integer, Integer> column = table.column(5);
+        System.out.println(column);
+
+        Map<Integer, Integer> row = table.row(1);
+        System.out.println(row);
+
+        Integer value = table.get(1, 2);
+        System.out.println(value);
+
+        boolean boo1 = table.containsColumn(3);
+        System.out.println(boo1);
+
+        boolean boo2 = table.containsRow(1);
+        System.out.println(boo2);
+
+        boolean boo3 = table.containsValue(3);
+        System.out.println(boo3);
+
+        boolean boo4 = table.contains(1, 2);
+        System.out.println(boo4);
+
+        Map<Integer, Map<Integer, Integer>> rowMap = table.rowMap();
+        System.out.println(new Gson().toJson(rowMap));
+
+        Set<Integer> rowSet = table.rowKeySet();
+        System.out.println(rowSet);
+
+        Set<Integer> columnSet = table.columnKeySet();
+        System.out.println(columnSet);
+
+        List<Integer> valueList = new ArrayList<>(table.values());
+        System.out.println(valueList);
+
+        System.out.println(table);
+        Integer delete = table.remove(1, 2);
+        System.out.println(table);
+        System.out.println(delete);
+
+        System.out.println(table);
+        table.clear();
+        System.out.println(table);
+
+    }
+
+}

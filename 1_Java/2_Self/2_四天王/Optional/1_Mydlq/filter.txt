@@ -1,0 +1,6 @@
+值存在 && 滿足斷言條件 返回Optional物件
+值不存在 || 不滿足斷言條件 > 返回空Optional
+
+Optional<String> optional = Optional.ofNullable("ABC");
+Optional<String> filter = optional.filter((value) -> value.length() > 5);
+String afterFilter = filter.orElse("error");

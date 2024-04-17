@@ -1,0 +1,20 @@
+﻿String hql = "from com.entity.User where userId=?";
+Query query = session.createQuery(hql);
+query.setString(0, "5");
+User user = (User) query.uniqueResult();
+----------------------------------------------------------------
+String hql = "from com.entity.User where userName =:name";
+Query query = session.createQuery(hql);
+query.setParameter("name", "Jay");
+List<User> list = query.list();
+----------------------------------------------------------------
+分頁
+query.setFirstResult(0); // 從第幾條開始查
+query.setMaxResults(3); // 每頁顯示3條
+----------------------------------------------------------------
+window -> show view -> variable
+F5: 進入方法
+F6: next
+F7: 執行完方法
+F8: 執行到下一個斷點
+----------------------------------------------------------------

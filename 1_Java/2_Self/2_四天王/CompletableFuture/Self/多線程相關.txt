@@ -1,0 +1,21 @@
+Java執行緒池
+https://iter01.com/583950.html
+
+ForkJoinPool入門篇
+https://www.twblogs.net/a/5b9ee2042b71773ebaceb00d
+
+Java 8 CompletableFuture 教程
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/11993/
+
+Conclusions
+https://popcornylu.gitbooks.io/java_multithread/content/conclusions.html
+
+synchronized的用法
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/319743/
+
+JDK8 - CompletableFuture 非同步處理簡介
+https://www.tpisoftware.com/tpu/articleDetails/1484
+
+迴圈併發
+https://www.gushiciku.cn/pl/g8mY/zh-tw
+https://cloud.tencent.com/developer/article/1834779

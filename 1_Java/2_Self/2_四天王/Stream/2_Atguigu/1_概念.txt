@@ -1,0 +1,16 @@
+Stream不儲存元素
+Stream不改變源對象, 返回持有結果的新Stream
+Stream操作是延遲執行, 等到需要結果時才執行
+
+Stream對數據運算 > CPU
+集合存儲數據 > 內存
+
+Stream執行流程
+1. Stream實例化
+2. 一系列中間操作(過濾、映射...)
+3. 終止操作
+
+一旦執行終止操作, 就執行中間操作, 產生結果, 不在被使用
+
+概念
+https://www.youtube.com/watch?v=2jCET8QnQXw

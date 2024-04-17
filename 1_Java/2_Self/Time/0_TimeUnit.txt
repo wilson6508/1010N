@@ -1,0 +1,5 @@
+import java.util.concurrent.TimeUnit;
+
+TimeUnit timeUnit = TimeUnit.MINUTES;
+long seconds = timeUnit.toSeconds(2); // 120
+long millis = timeUnit.toMillis(2);   // 120000

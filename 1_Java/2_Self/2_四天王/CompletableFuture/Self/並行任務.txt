@@ -1,0 +1,34 @@
+@Scheduled(cron = "30 16 14 * * *")
+public void demo() {
+    SearchApiResponseBean statusWait = autoReportTaskService.getTask(0, "xxx");
+    String statusWaitResult = gson.toJson(statusWait.getResult());
+    Type type = new TypeToken<ArrayList<AutoReportTaskBean>>() {}.getType();
+    List<AutoReportTaskBean> statusWaitBeans = gson.fromJson(statusWaitResult, type);
+    int threads = 3; // 要一次做3份報告
+    int notToDoId = Collections.min(statusWaitBeans.stream().map(AutoReportTaskBean::getId).collect(Collectors.toList())) + threads;
+    List<AutoReportTaskBean> toDoBeans = statusWaitBeans.stream().filter(e -> e.getId() < notToDoId).collect(Collectors.toList());
+    for (AutoReportTaskBean bean : toDoBeans) {
+        bean.start();
+    }
+}    
+
+Thread
+https://programming.im.ncnu.edu.tw/J_Chapter9.htm
+
+啟動執行緒
+https://java.4-x.tw/java-15/java-15-2
+
+執行緒池的隔離
+https://iter01.com/616164.html
+
+ForkJoinPool
+https://www.itread01.com/content/1542397563.html
+
+Spring Boot如何優雅的使用多執行緒例項詳解
+https://itw01.com/8MDSUE8.html
+
+線程處理任務無法@Autowired注入bean
+https://www.twblogs.net/a/5e509e69bd9eee2117bf5250
+
+RestTemplate
+https://www.tpisoftware.com/tpu/articleDetails/2383

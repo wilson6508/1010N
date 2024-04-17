@@ -1,0 +1,20 @@
+Double subtraction precision issue
+https://stackoverflow.com/questions/9911016/double-subtraction-precision-issue
+
+How to set Precision for double value
+https://stackoverflow.com/questions/14845937/java-how-to-set-precision-for-double-value
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+// 取得2個double值相減
+public static double getSubtractDouble(double today, double yesterday) {
+    BigDecimal delta = BigDecimal.valueOf(today).subtract(BigDecimal.valueOf(yesterday));
+    return delta.doubleValue();
+}
+
+// 取得2個double值相除
+public static Double getDivideDouble(double delta, double yesterday, int scale) {
+    double temp = delta / yesterday;
+    return BigDecimal.valueOf(temp).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+}

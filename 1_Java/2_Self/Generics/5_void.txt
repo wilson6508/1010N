@@ -1,0 +1,9 @@
+public static void main(String[] args) {
+	shout("a", 1);
+	shout("b", 2);
+}
+
+private static <T, V> void shout(T t, V v) {
+	System.out.println("t : " + t);
+	System.out.println("v : " + v);
+}

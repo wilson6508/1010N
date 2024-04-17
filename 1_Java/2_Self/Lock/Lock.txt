@@ -1,0 +1,9 @@
+synchronized的缺陷，Lock的誕生
+https://zhuanlan.zhihu.com/p/283440181
+https://blog.csdn.net/qq_36963950/article/details/121040935
+
+Java多線程編程中Synchronized關鍵字的使用實例_java synchronized實例
+https://blog.csdn.net/qq_19843217/article/details/131146500
+
+一文秒懂 Java java.util.concurrent.Locks
+https://www.twle.cn/c/yufei/javatm/javatm-basic-locks.html

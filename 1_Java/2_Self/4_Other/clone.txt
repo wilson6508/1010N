@@ -1,0 +1,6 @@
+SearchInformationBean newSearchInfo = null;
+try {
+	newSearchInfo = (SearchInformationBean) searchInformationBean.clone();
+} catch (CloneNotSupportedException e) {
+	e.printStackTrace();
+}

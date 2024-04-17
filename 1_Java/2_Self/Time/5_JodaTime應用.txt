@@ -1,0 +1,41 @@
+// 取得前七天 : from = -7，to = -1，輸出 : 2021/11/18~2021/11/24。
+// 取得後七天 : from =  1，to =  7，輸出 : 2021/11/26~2021/12/02。
+public String getDayRange(int from, int to) {
+	LocalDate today = new LocalDate();
+	LocalDate start = today.plusDays(from);
+	LocalDate end = today.plusDays(to);
+	String range = start.toString() + "~" + end.toString();
+	return range.replace("-", "/");
+}
+----------------------------------------------------------------------------------------
+// 取得前一個月 : 參數代-1，輸出 : 2021/10/01~2021/10/31。
+// 取得下一個月 : 參數代 1，輸出 : 2021/12/01~2021/12/31。
+public String getMonthRange(int plusMinus) {
+	LocalDate today = new LocalDate();
+	LocalDate first = today.plusMonths(plusMinus).withDayOfMonth(1);          // 目標月一號
+	LocalDate nextFirst = today.plusMonths(plusMinus + 1).withDayOfMonth(1);  // 目標月下個月一號
+	LocalDate end = nextFirst.plusDays(-1);                                   // 目標月最後一號
+	String range = first.toString() + "~" + end.toString();
+	return range.replace("-", "/");
+}
+//
+public String getMonth(int plusMinus) {
+	LocalDate first = new LocalDate().withDayOfMonth(1);
+	LocalDate target = first.plusMonths(plusMinus);
+	String month = String.valueOf(target.getMonthOfYear());
+	if (month.length() == 1) {
+		month = "0" + month; 
+	}
+	return target.getYear() + "/" + month;
+}
+----------------------------------------------------------------------------------------
+LocalDate today = new LocalDate();                            // 今天日期
+LocalDate start = today.plusDays(1);                          // 明天日期
+LocalDate nextFirst = today.plusMonths(1).withDayOfMonth(1);  // 下個月一號
+LocalDate end = nextFirst.plusDays(-1);                       // 這個月最後一號
+// 遍歷一段日期區間
+for(LocalDate localDate = start ; localDate.isBefore(end) || localDate.isEqual(end) ; localDate = localDate.plusDays(1)) {
+	localDate.getDayOfWeek();  // 星期幾 int
+	localDate.getDayOfMonth(); // 幾號 int
+	localDate.toString();      // 日期 String
+}

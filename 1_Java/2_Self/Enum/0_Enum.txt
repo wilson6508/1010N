@@ -1,0 +1,42 @@
+public enum DaysOfTheWeek {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY,
+    ;
+}
+
+DaysOfTheWeek day = DaysOfTheWeek.THURSDAY;
+System.out.println(day == DaysOfTheWeek.THURSDAY);
+
+DaysOfTheWeek[] values = DaysOfTheWeek.values();
+for (DaysOfTheWeek value : values) {
+    System.out.println(value);
+}
+--------------------------------------------------------------
+public enum Stock {
+
+    SPY(350),
+    QQQ(260),
+    VTI(180),
+    ;
+
+    final int price;
+
+    Stock(int price) {
+        this.price = price;
+    }
+
+}
+
+int price = Stock.SPY.price;
+System.out.println(price);
+
+Stock[] values = Stock.values();
+for (Stock value : values) {
+    System.out.println(value + ": " + value.price);
+}
+--------------------------------------------------------------

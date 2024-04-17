@@ -1,0 +1,8 @@
+userInfoRepository.findById(7).ifPresent(userInfoEntity -> {
+	String str = insightUtil.generatePromotionCode(5);
+	while (userInfoRepository.findByPromotionCode(str).isPresent()) {
+		str = insightUtil.generatePromotionCode(5);
+	}
+	userInfoEntity.setPromotionCode(str);
+	userInfoRepository.save(userInfoEntity);
+});

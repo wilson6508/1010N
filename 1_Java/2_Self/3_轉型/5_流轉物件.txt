@@ -1,0 +1,23 @@
+joining()
+toList()
+toSet()
+toCollection(): 收集到ArrayList中
+
+轉陣列
+Stream<String> stream = Stream.of("Tom", "Kobe", "David");
+Object[] objArr = stream.toArray(); // [Tom, Kobe, David]
+
+int[] intArr = IntStream.rangeClosed(1, 5).toArray(); // [1, 2, 3, 4, 5]
+int[] intArr = IntStream.range(0, 5).toArray(); // [0, 1, 2, 3, 4]
+
+轉字串
+Stream<String> stream = Stream.of("a","b","c");
+String str = stream.collect(Collectors.joining()); // abc
+
+轉List
+Stream<String> stream = Stream.of("a","b","c");
+List<String> collect = stream.collect(Collectors.toList()); // [a, b, c]
+
+轉Set
+Stream<String> stream = Stream.of("a","a","b","b");
+Set<String> collect = stream.collect(Collectors.toSet()); // [a, b]

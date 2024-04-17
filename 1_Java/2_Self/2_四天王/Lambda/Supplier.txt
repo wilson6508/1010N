@@ -1,0 +1,11 @@
+@FunctionalInterface
+public interface Supplier<T> {
+    T get();
+}
+
+Supplier<String> supplier = () -> {
+    return UUID.randomUUID().toString();
+};
+Supplier<String> supplier = () -> UUID.randomUUID().toString();
+
+supplier.get()

@@ -1,0 +1,9 @@
+執行緒池的隔離
+https://iter01.com/616164.html
+
+Conclusions
+https://popcornylu.gitbooks.io/java_multithread/content/conclusions.html
+
+迴圈併發
+https://www.gushiciku.cn/pl/g8mY/zh-tw
+https://cloud.tencent.com/developer/article/1834779

@@ -1,0 +1,7 @@
+https://vimsky.com/zh-tw/examples/usage/java-string-join-examples.html
+
+String gfg1 = String.join(" < ", "Four", "Five", "Six", "Seven"); 
+System.out.println(gfg1);  // Four < Five < Six < Seven
+
+String gfg2 = String.join("  ", "My", "name", "is", "Niraj", "Pandey"); 
+System.out.println(gfg2);  // My name is Niraj Pandey

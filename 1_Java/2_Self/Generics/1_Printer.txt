@@ -1,0 +1,17 @@
+public class Printer<T, K> {
+    private T first;
+    private K second;
+    public Printer(T first, K second) {
+        this.first = first;
+        this.second = second;
+    }
+    public void print() {
+        System.out.println("first : " + first);
+        System.out.println("second : " + second);
+    }
+}
+
+public static void main(String[] args) {
+	Printer<String, Integer> printer = new Printer<>("aaa", 100);
+	printer.print();
+}

@@ -1,0 +1,2 @@
+Random random = new Random();
+System.out.println(random.nextInt(3));  //隨機0,1,2

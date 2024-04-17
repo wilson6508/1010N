@@ -1,0 +1,25 @@
+
+jsonString轉物件
+
+YourClass yourClassList = new Gson().fromJson(jsonString, YourClass.class);
+
+-----------------------------------------------------------------------------------------
+
+jsonString轉陣列(包多個物件)
+
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+
+Type type = new TypeToken<ArrayList<KeyWordBean>>() {}.getType();
+List<KeyWordBean> keyWordBeanList = gson.fromJson(str, type);
+
+-----------------------------------------------------------------------------------------
+
+jsonString轉陣列(包多個物件) 以下方法還沒使用過
+
+TypeToken channelBarToken = new TypeToken<List<ChannelBarInfo>>(){};
+System.out.println(channelBarToken);
+System.out.println(channelBarToken.getType());
+
+TypeToken channelBarToken = new TypeToken<List<ChannelBarInfo>>(){};
+List<ChannelBarInfo> resultList = gson.fromJson(resultJson, channelBarToken.getType());

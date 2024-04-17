@@ -1,0 +1,5 @@
+動態產生實例
+https://matthung0807.blogspot.com/2018/11/java-classfornamenewinstance.html
+
+Java Reflection（反射）簡單範例
+https://matthung0807.blogspot.com/2018/08/java-reflection.html

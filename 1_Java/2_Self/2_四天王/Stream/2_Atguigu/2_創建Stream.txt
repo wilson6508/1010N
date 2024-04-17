@@ -1,0 +1,23 @@
+List<String> strings = Arrays.asList("aaa", "bbb");
+
+通過集合創建Stream
+Stream<String> stream = strings.stream();               // default Stream<E> stream() 返回順序流
+Stream<String> stringStream = strings.parallelStream(); // default Stream<E> parallelStream() 返回並行流
+
+通過數組創建Stream
+int[] arr = new int[] {1, 2, 3, 4, 5, 6};
+IntStream stream1 = Arrays.stream(arr);
+
+TopLevel t1 = new TopLevel();
+TopLevel t2 = new TopLevel();
+TopLevel[] arr1 = new TopLevel[] { t1, t2 };
+Stream<TopLevel> stream2 = Arrays.stream(arr1);
+
+通過Stream的of()創建Stream
+Stream<Integer> integerStream = Stream.of(1, 2, 3, 4);
+
+實例化
+https://www.youtube.com/watch?v=u_w1zQvYV3I
+
+Java String to InputStream
+https://www.baeldung.com/convert-string-to-input-stream

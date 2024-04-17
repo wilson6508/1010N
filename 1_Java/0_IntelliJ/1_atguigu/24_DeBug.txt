@@ -1,0 +1,9 @@
+移動: 三明治 游標 step_out
+父類方法break
+all break points by pass
+
+字段 眼睛 右鍵access(調用)
+條件斷點 arr[i] % 3 == 0
+空指針斷點
+
+右鍵forceReturn

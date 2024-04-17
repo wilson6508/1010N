@@ -1,0 +1,19 @@
+List<Integer> list = Arrays.asList(10, 20, 8);
+Integer max = Collections.max(list);
+Optional<Integer> max = list.stream().max(Comparator.comparing(a -> a));
+------------------------------------------------------------------------------------------------------
+List<Person> list = new ArrayList<>();
+list.add(new Person("Banana", 40, 4000.0));
+list.add(new Person("Apple", 20, 2000.0));
+list.add(new Person("Cat", 30, 3000.0));
+
+Double maxSalary = Collections.max(list, Comparator.comparing(Person::getSalary)).getSalary();
+Double maxSalary = Collections.max(list, Comparator.comparingDouble(Person::getSalary)).getSalary();
+String maxName = Collections.max(list, Comparator.comparing(Person::getName)).getName();
+------------------------------------------------------------------------------------------------------
+最大最小
+Stream<Double> doubleStream = list.stream().map(Person::getSalary);
+Optional<Double> max = doubleStream.max(Double::compare);
+Optional<Person> min = list.stream().min((p1, p2) -> Double.compare(p1.getSalary(), p2.getSalary()));
+Optional<Person> min = list.stream().min((p1, p2) -> Double.compare(p2.getSalary(), p1.getSalary()));
+------------------------------------------------------------------------------------------------------

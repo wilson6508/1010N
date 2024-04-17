@@ -1,0 +1,31 @@
+    public String compareTwoObject(Object beforeUpdate, Object afterUpdate) {
+        Gson gson = new Gson();
+        if (afterUpdate == null) {
+            return "{"+"\"beforeUpdate\":"+ gson.toJson(beforeUpdate) +","+"\"afterUpdate\":"+ "{}" +"}";
+        }
+        Class<?> clazz = beforeUpdate.getClass();
+        Field[] attributes = beforeUpdate.getClass().getDeclaredFields();
+        Map<String, String> beforeUpdateMap = new LinkedHashMap<>();
+        Map<String, String> afterUpdateMap = new LinkedHashMap<>();
+        try {
+            for (Field field : attributes) {
+                String getAttributes = "get" + field.getName().toUpperCase().charAt(0) + field.getName().substring(1);
+                if (field.getName().startsWith("is")) {
+                    getAttributes = field.getName();
+                }
+                if (field.getName().startsWith("enable")) {
+                    getAttributes = "is" + field.getName().toUpperCase().charAt(0) + field.getName().substring(1);
+                }
+                Method method = clazz.getMethod(getAttributes);
+                Object before = method.invoke(beforeUpdate);
+                Object after = method.invoke(afterUpdate);
+                if (!before.toString().equals(after.toString())) {
+                    beforeUpdateMap.put(field.getName(), before.toString());
+                    afterUpdateMap.put(field.getName(), after.toString());
+                }
+            }
+            return "{"+"\"beforeUpdate\":"+ gson.toJson(beforeUpdateMap) +","+"\"afterUpdate\":"+ gson.toJson(afterUpdateMap) +"}";
+        } catch (Exception e) {
+            return null;
+        }
+    }

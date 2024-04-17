@@ -1,0 +1,30 @@
+boolean check = str1.startsWith(str2);
+boolean check = str1.endsWith(str2);
+boolean check = str1.contains(str2);
+----------------------------------------------------------------------------------
+int idx = str1.indexOf(str2); // -1不存在
+int idx = str1.indexOf(str2, 2)
+int idx = str1.lastIndexOf(str2);
+----------------------------------------------------------------------------------
+str = str.substring(0, index) + "." + str.substring(index);
+----------------------------------------------------------------------------------
+Simple way to repeat a string
+String str = String.join("", Collections.nCopies(2, "ABC")); // "ABCABC"
+https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string
+----------------------------------------------------------------------------------
+public static void main(String[] args) {
+	System.out.println("           IP訪問監控");
+	System.out.println("+-----ip-address-----+--num--+");
+	String str01 = String.format("|%18s  |%5d  |", "abc", 123);
+	String str02 = String.format("|%-18s  |%5d  |", "abc", 123);
+	System.out.println(str01);
+	System.out.println(str02);
+	System.out.println("+--------------------+-------+");
+}
+
+System.out.printf("key:%s value:%d \t test", "ABC", 5); //  \t空格
+System.out.printf("key:%s value:%d \n test", "ABC", 5); //  \n換行
+System.out.printf("平均盤口:%f", 5.3);
+----------------------------------------------------------------------------------
+補0
+https://dotblogs.com.tw/grayyin/2016/04/28/110253

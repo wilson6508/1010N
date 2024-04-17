@@ -1,0 +1,61 @@
+public String generateCode(int codeLength) {
+	String str = "0123456789abcdefghijklmnopqrstuvwxyz";
+	List<String> list = Arrays.asList(str.split(""));
+	Collections.shuffle(list);
+	return String.join("", list.subList(0, codeLength));
+}
+-------------------------------------------------------------------------------------------------------------
+public String generateCode(int codeLength) {
+    String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	String str = "0123456789abcdefghijklmnopqrstuvwxyz";       // DB不用區分大小寫
+    StringBuffer sb = new StringBuffer();
+    Random random = new Random();
+    for (int j = 0; j < codeLength; j++) {
+        int position = random.nextInt(str.length());
+        sb.append(str.charAt(position));
+    }
+    return sb.toString();
+}
+-------------------------------------------------------------------------------------------------------------
+public String generateCode(int codeLength) {
+	List<Integer> list = new ArrayList<>();
+	list.addAll(IntStream.rangeClosed(48, 57).boxed().collect(toList()));   //   阿拉伯數字的 ascii code 為 48~57
+//  list.addAll(IntStream.rangeClosed(65, 90).boxed().collect(toList()));   // 英文字母大寫的 ascii code 為 65~90
+	list.addAll(IntStream.rangeClosed(97, 122).boxed().collect(toList()));  // 英文字母小寫的 ascii code 為 97~122
+	StringBuilder stringBuilder = new StringBuilder();
+	for (int i = 0 ; i < codeLength ; i++) {
+//      int asciiCode = list.get(ThreadLocalRandom.current().nextInt(0, list.size()));
+		int asciiCode = list.get(new Random().nextInt(list.size()));
+		stringBuilder.append(String.valueOf(Character.toChars(asciiCode)));
+	}
+	return stringBuilder.toString();
+}
+-------------------------------------------------------------------------------------------------------------
+import java.util.concurrent.ThreadLocalRandom;
+// nextInt is normally exclusive of the top value,
+// so add 1 to make it inclusive
+int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+-------------------------------------------------------------------------------------------------------------
+public String generateCode(int codeLength) {
+	List<Integer> list = new ArrayList<>();
+	list.addAll(IntStream.rangeClosed(48, 57).boxed().collect(Collectors.toList()));
+	list.addAll(IntStream.rangeClosed(97, 122).boxed().collect(Collectors.toList()));
+	Collections.shuffle(list);
+	return list.subList(0, codeLength).stream().map(asciiCode -> String.valueOf(Character.toChars(asciiCode))).collect(Collectors.joining());
+}
+-------------------------------------------------------------------------------------------------------------
+public static String getRandStr(int length) {
+	StringBuilder sb = new StringBuilder();
+	Random random = new Random();
+	for (int i = 0; i < length; i++) {
+		int rand = random.nextInt(62);
+		if (rand < 10) {
+			sb.append(rand);
+		} else if (rand < 36) {
+			sb.append((char) (rand - 10 + 'a'));
+		} else {
+			sb.append((char) (rand - 36 + 'A'));
+		}
+	}
+	return sb.toString();
+}

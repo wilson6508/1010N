@@ -1,0 +1,45 @@
+    @Scheduled(cron = "30 11 18 * * *")
+    public void demo() {
+
+        int threads = 2; // 一次做2份報告
+        SearchApiResponseBean statusWait = autoReportTaskService.getTask(0, "xxx");
+        List<AutoReportTaskBean> beans = autoReportTaskService.getMultiBeans(threads, statusWait);
+
+        switch (beans.size()) {
+            case 0:
+                break;
+            case 1:
+                asyncTasks.doTaskOne(beans.get(0));
+                break;
+            case 2:
+                asyncTasks.doTaskOne(beans.get(0));
+                asyncTasks.doTaskTwo(beans.get(1));
+                break;
+        }
+
+
+//        if (beans.size() == 0) {
+//            System.out.println("無任務");
+//            return;
+//        }
+//        AutoReportTaskBean noToDo = new AutoReportTaskBean();
+//        noToDo.setId(-1);
+//        List<AutoReportTaskBean> list = new ArrayList<>();
+//        for (int i = 0 ; i < threads ; i++) {
+//            list.add(noToDo);
+//        }
+//        for (int  j = 0 ; j < beans.size() ; j++) {
+//            list.set(j, beans.get(j));
+//        }
+//        asyncTasks.doTaskOne(list.get(0));
+//        asyncTasks.doTaskTwo(list.get(1));
+
+//        CompletableFuture<String> task1 = asyncTasks.doTaskOne(bean1);
+//        CompletableFuture<String> task2 = asyncTasks.doTaskOne(bean2);
+//        CompletableFuture<String> task3 = asyncTasks.doTaskOne(bean3);
+//        CompletableFuture<String> task4 = asyncTasks.doTaskTwo(bean4);
+//        CompletableFuture<String> task5 = asyncTasks.doTaskTwo(bean5);
+//        CompletableFuture<String> task6 = asyncTasks.doTaskTwo(bean6);
+//        CompletableFuture.allOf(task1, task2, task3, task4, task5, task6).join();
+
+    }

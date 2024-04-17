@@ -1,0 +1,19 @@
+package folder1;
+
+import java.io.IOException;
+
+public class Ex2 {
+
+    public static void main(String[] args) throws IOException {
+
+        String str = "5";
+        char c = str.charAt(0);
+
+        if (c < '0' || c > '9') {
+            System.out.println("不是數字");
+        } else {
+            System.out.println("是數字");
+        }
+
+    }
+}

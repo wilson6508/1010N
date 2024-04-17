@@ -1,0 +1,17 @@
+public class Printer<T extends Animal> {
+    private T first;
+    public Printer(T first) {
+        this.first = first;
+    }
+    public T getFirst() {
+        return first;
+    }
+    public void setFirst(T first) {
+        this.first = first;
+    }
+}
+
+public static void main(String[] args) {
+    Printer<Animal> one = new Printer<>(new Animal());
+    Printer<Cat> two = new Printer<>(new Cat());
+}

@@ -1,0 +1,25 @@
+java檔案轉base64
+https://www.itread01.com/p/1458945.html 
+https://www.itread01.com/content/1546921453.html
+https://www.796t.com/article.php?id=187331
+
+將檔案轉為Base64 (採用的)
+public String encryptToBase64(String filePath) {
+	try {
+		byte[] b = Files.readAllBytes(Paths.get(filePath));
+		return Base64.getEncoder().encodeToString(b);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	return null;
+}
+
+將Base64轉為檔案 (還沒用過)
+public String decryptByBase64(String base64, String filePath) {
+	try {
+		Files.write(Paths.get(filePath), Base64.getDecoder().decode(base64),StandardOpenOption.CREATE);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	return "指定路徑下生成檔案成功!";
+}

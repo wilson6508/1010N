@@ -1,0 +1,52 @@
+篩選和切片
+https://www.youtube.com/watch?v=vL23nxrQWuI
+
+List<String> list = Arrays.asList("aaa", "bbb", "ccc", "ddd", "ggg", "ggg");
+list.stream().limit(1).forEach(System.out::println);
+list.stream().skip(2).forEach(System.out::println);
+list.stream().distinct().forEach(System.out::println);
+------------------------------------------------------------------------------------
+映射
+https://www.youtube.com/watch?v=jPjOW6f1_EA
+
+List<String> list = Arrays.asList("aa", "bb", "cc");
+Stream<Character> stream = list.stream().flatMap(Ex0::stringToStream);
+stream.forEach(System.out::println);
+
+// 字串轉流
+public static Stream<Character> stringToStream(String str) {
+	List<Character> list = new ArrayList<>();
+	for (Character c : str.toCharArray()) {
+		list.add(c);
+	}
+	return list.stream();
+}
+------------------------------------------------------------------------------------
+排序
+https://www.youtube.com/watch?v=DlHnbbS3bBY
+    
+List<Person> list = new ArrayList<>();
+list.add(new Person(18, 100.01));
+list.add(new Person(5, 5000.0));
+list.add(new Person(-2, 777.77));
+list.add(new Person(40, 666.2));
+list.add(new Person(88, 555.555));
+list.add(new Person(88, 222.11));
+
+list.stream().sorted(Comparator.comparing(Person::getAge).reversed()).forEach(System.out::println);
+list.stream().sorted(Comparator.comparingInt(Person::getAge)).forEach(System.out::println);
+list.stream().sorted(Comparator.comparingInt(Person::getAge).thenComparingDouble(Person::getSalary)).forEach(System.out::println);
+
+list.stream().sorted((p1, p2) -> {
+	int ageVal = Integer.compare(p1.getAge(), p2.getAge());
+	if (ageVal == 0) {
+		return Double.compare(p1.getSalary(), p2.getSalary());
+	}
+	return ageVal;
+}).forEach(System.out::println);
+
+Person {
+    private Integer age;
+    private Double salary;
+}
+------------------------------------------------------------------------------------

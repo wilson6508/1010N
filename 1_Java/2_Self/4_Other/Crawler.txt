@@ -1,0 +1,17 @@
+JavaScript Fetch API 使用教學
+https://www.oxxostudio.tw/articles/201908/js-fetch.html
+
+RestTemplate傳送HTTP請求
+https://codertw.com/%E4%BC%BA%E6%9C%8D%E5%99%A8/170228/
+
+PTT爬蟲
+https://blog.jiebu-lang.com/java-crawler-learn-1/
+
+Jsoup 資料取法
+https://iter01.com/419973.html
+
+Jsoup 檔案取法
+https://www.1ju.org/jsoup/jsoup-quick-start
+
+403 forbidden error with spring boot API call
+https://stackoverflow.com/questions/45882518/403-forbidden-error-with-spring-boot-api-call

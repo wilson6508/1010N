@@ -1,0 +1,27 @@
+建立
+import org.joda.time.DateTime;
+import java.text.SimpleDateFormat;
+
+DateTime yesterday = DateTime.now().withTime(8, 0, 0, 0).minusDays(1);
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+System.out.println(sdf.format(yesterday.toDate())); // 昨天8點 (2022-09-25 08:00:00)
+----------------------------------------------------------------------------------------------
+比較
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY/MM/dd HH:mm:ss");
+DateTime dateTime = formatter.parseDateTime("2022/03/16 16:16:16");
+dateTime.isBefore(yesterday)
+dateTime.isAfter(yesterday)
+----------------------------------------------------------------------------------------------
+取值
+import org.joda.time.DateTime;
+
+DateTime current = new DateTime();
+int year = current.getYear();
+int month = current.getMonthOfYear();
+int day = current.getDayOfMonth();
+int hour = current.getHourOfDay();
+int minute = current.getMinuteOfHour();
+int second = current.getSecondOfMinute();

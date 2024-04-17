@@ -1,0 +1,12 @@
+http://www.mydlq.club/article/89/
+
+https://stackoverflow.com/questions/27872387/can-a-java-lambda-have-more-than-1-parameter
+Single parameter interface
+Consumer
+Predicate
+Function
+
+Two parameter interface
+BiConsumer
+BiPredicate
+BiFunction

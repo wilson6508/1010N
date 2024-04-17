@@ -1,0 +1,5 @@
+值存在 > 调用 consumer
+值不存在 > 不做任何事情
+
+Optional<String> optional1 = Optional.ofNullable("ABC");
+optional1.ifPresent((value) -> System.out.println("Optional 的值 = " + value));

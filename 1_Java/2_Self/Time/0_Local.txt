@@ -1,0 +1,44 @@
+https://kucw.github.io/blog/2020/6/java-date/
+---------------------------------------------------------------------------------------------------------------------------
+LocalDate // 2020-06-29
+LocalDate localDate = LocalDate.now();
+LocalDate localDate = LocalDate.of(2020, 6, 29);
+LocalDate localDate = LocalDate.parse("2020-06-29");
+---------------------------------------------------------------------------------------------------------------------------
+LocalTime // 16:21:26.937 (0秒會被吃掉)
+LocalTime localTime = LocalTime.now();
+LocalTime localTime = LocalTime.of(14, 2, 0);
+LocalTime localTime = LocalTime.parse("14:00:00"); 
+---------------------------------------------------------------------------------------------------------------------------
+LocalDateTime // 2023-05-31T16:20:30.673
+LocalDateTime localDateTime = LocalDateTime.now();
+LocalDateTime localDateTime = LocalDateTime.of(2020, 6, 29, 14, 0, 0);
+LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+---------------------------------------------------------------------------------------------------------------------------
+DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+ZoneId leavingZone = ZoneId.of("Asia/Taipei");
+ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDateTime.now(), leavingZone);
+---------------------------------------------------------------------------------------------------------------------------
+加減 & 去除T
+Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now().plusDays(-2));
+
+去除T
+DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+String format = LocalDateTime.now().format(dateTimeFormatter);
+
+額外補充
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+String now = sdf.format(System.currentTimeMillis());
+---------------------------------------------------------------------------------------------------------------------------
+加減 & 比較
+
+TimeUnit timeUnit = TimeUnit.MINUTES;
+long duration = 10;
+LocalDateTime plusTenMin = LocalDateTime.now().plusSeconds(timeUnit.toSeconds(duration));
+boolean isAfter = plusTenMin.isAfter(LocalDateTime.now());
+
+String str = "2023-09-25T03:36:07.000+00:00";
+LocalDateTime createTime = LocalDateTime.parse(str.substring(0, 19));
+LocalDateTime plusMinutes = createTime.plusMinutes(20L);
+boolean after = plusMinutes.isAfter(LocalDateTime.now());
+---------------------------------------------------------------------------------------------------------------------------

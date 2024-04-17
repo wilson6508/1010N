@@ -1,0 +1,64 @@
+https://mkyong.com/java8/java-8-how-to-convert-intstream-to-int-or-int/
+https://stackoverflow.com/questions/33992479/java-8-stream-api-to-find-unique-object-matching-a-property-value
+https://stackoverflow.com/questions/18552005/is-there-a-concise-way-to-iterate-over-a-stream-with-indices-in-java-8
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class Ex1 {
+    public static void main(String[] args) {
+        List<Student> names2 = new ArrayList<>();
+
+        Student s1 = new Student("2020/01/01", "BB");
+        Student s2 = new Student("2020/01/02", "AA");
+        Student s3 = new Student("2020/01/03", "AA");
+        Student s4 = new Student("2020/01/04", "BB");
+
+        names2.add(s1);
+        names2.add(s2);
+        names2.add(s3);
+        names2.add(s4);
+
+        Optional<Student> matchingObject = names2.stream().filter(e -> e.getDate().equals("2020/01/03")).findFirst();							   
+        int index = names2.indexOf(matchingObject.orElse(null));
+        System.out.println(index);
+
+        List<Integer> list = IntStream.range(0, names2.size()).filter(i -> names2.get(i).getName().equals("AA")).boxed().collect(Collectors.toList());
+        System.out.println(list);
+
+        OptionalInt x = IntStream.range(0, names2.size()).filter(i -> names2.get(i).getName().equals("AA")).findFirst();
+        System.out.println(x.orElse(0));
+    }
+}
+
+class Student {
+
+    String date;
+    String name;
+
+    public Student(String date, String name) {
+        this.date = date;
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}

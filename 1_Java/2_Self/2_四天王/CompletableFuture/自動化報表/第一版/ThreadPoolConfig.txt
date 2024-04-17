@@ -1,0 +1,52 @@
+package com.eland.config.schedule;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * Created by chienhaoyu on 2021/5/11.
+ */
+@Configuration
+@EnableAsync
+public class ThreadPoolConfig {
+
+    @Bean("AutoReportExecutor")
+    public Executor getAutoReportExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+
+        // 線程池名稱前綴
+        executor.setThreadNamePrefix("AutoReport Executor-");
+
+        // 默認線程數
+        executor.setCorePoolSize(1);
+//        executor.setCorePoolSize(2);
+
+        // 最大線程數
+        executor.setMaxPoolSize(3);
+
+        // 線程任務緩存對列
+        executor.setQueueCapacity(10);
+
+        // 線程保留時間
+        executor.setKeepAliveSeconds(60);
+
+        // 線程池對拒絕任務的處理策略，這裡採用了CallerRunsPolicy策略，當線程池沒有處理能力的時候，該策略會直接在 execute 方法的調用線程中運行被拒絕的任務；如果執行程序已關閉，則會丟棄該任務。
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+
+        // 用來設置線程池關閉的時候等待所有任務都完成再繼續銷毀其他的Bean，這樣異步任務的銷毀就會先於Redis線程池的銷毀。
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+
+        // 線程任務關閉等待時間
+        executor.setAwaitTerminationSeconds(300);
+
+        executor.initialize();
+
+        return executor;
+    }
+
+}

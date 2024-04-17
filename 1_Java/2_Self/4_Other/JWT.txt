@@ -1,0 +1,87 @@
+compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.7'
+runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.7'
+runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.7'
+
+package com.eland;
+
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+public class Test1027 {
+    public static void main(String[] args) {
+        String code = encode("abc", "MD5");
+        String base64Secret = Base64.getEncoder().encodeToString(code.getBytes());
+
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        Header header = Jwts.header();
+        header.setType("JWT");
+        Key signingKey = new SecretKeySpec(base64Secret.getBytes(), signatureAlgorithm.getJcaName());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("account", "Tom");
+        map.put("password", "123");
+        String serviceAccount = "KKK";
+
+        String token = Jwts.builder().setClaims(map)
+                                     .setHeader((Map<String, Object>) header)
+                                     .setSubject(serviceAccount)
+                                     .setIssuedAt(new Date(System.currentTimeMillis()))
+                                     .setExpiration(new Date(System.currentTimeMillis() + getCookieLiveTime()))
+                                     .signWith(signingKey)
+                                     .compact();
+        System.out.println(token);
+    }
+    /**
+     * @param str   傳入的字串
+     * @param encodeType 編碼類型(md5、md2.....
+     * @return 已編碼完成字串
+     */
+    private static String encode(String str, String encodeType) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            // 轉換器
+            MessageDigest messageDigest = MessageDigest.getInstance(encodeType);
+            // 輸入的字串(str)轉換成位元組陣列
+            byte[] inputByteArray = str.getBytes();
+            messageDigest.update(inputByteArray);
+            // 轉換並返回結果，也是位元組陣列，包含16個元素
+            byte[] resultByteArray = messageDigest.digest();
+            for (int i = 0; i < resultByteArray.length; i++) {
+                stringBuilder.append(Integer.toString((resultByteArray[i] & 0xFF) + 0x100, 16).substring(1));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString().toUpperCase();
+    }
+    /**
+     * 取得cookie存活時間 到期時間為每日的23:59:59.99
+     * @return live time
+     */
+    private static int getCookieLiveTime() {
+        Calendar calendar = Calendar.getInstance();
+        long current = calendar.getTimeInMillis();
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        long endTime = calendar.getTimeInMillis();
+        return (int) ((endTime - current) * 1.0);
+    }
+}
+--------------------------------------------------------
+parseJwt(token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+	return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  return JSON.parse(jsonPayload);
+},

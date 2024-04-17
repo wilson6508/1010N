@@ -1,0 +1,19 @@
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+}
+
+Function<String, Integer> function = (String str) -> {
+    return str.contains("a") ? 1 : 0;
+};
+Function<String, Integer> function = (String str) -> str.contains("a") ? 1 : 0;
+
+function.apply("abcd")
+-----------------------------------------------------------------------------------------------------------------------------------------
+public Set<String> getTitleOrContent(int configId, Function<NotifyEntity, String> function) {
+    List<NotifyEntity> list = notifyDao.findByConfigId(configId);
+    return list.stream().map(function).collect(Collectors.toSet());
+}
+
+Set<String> replyContent = getTitleOrContent(configId, NotifyEntity::getContent);
+Set<String> mainTitle = getTitleOrContent(configId, NotifyEntity::getTitle);

@@ -1,0 +1,8 @@
+List To Array
+
+String[] strArr = list.toArray(new String[0]);
+Foo[] fooArr = list.toArray(new Foo[0]);
+or
+Foo[] array = new Foo[list.size()];
+list.toArray(array); // fill the array
+-----------------------------------------------------------------------------------------------

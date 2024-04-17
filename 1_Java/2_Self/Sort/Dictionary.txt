@@ -1,0 +1,7 @@
+temporary variable
+literally 字面上地
+I think that completes the algorithm 
+
+Insertion Sort: https://www.youtube.com/watch?v=0lOnnd50cGI
+Merge Sort: https://www.youtube.com/watch?v=bOk35XmHPKs
+Quick Sort: https://www.youtube.com/watch?v=h8eyY7dIiN4

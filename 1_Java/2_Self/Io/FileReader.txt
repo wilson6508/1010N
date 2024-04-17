@@ -1,0 +1,22 @@
+public String getApiResponse(String fileName) {
+    FileReader fr = null;
+    StringBuilder stringBuffer = new StringBuilder();
+    String filePath = "C:\\report\\apiResponse\\" + fileName;
+    try {
+        fr = new FileReader(filePath);
+        int i;
+        while ((i = fr.read()) != -1) {
+            stringBuffer.append((char) i);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    return stringBuffer.toString();
+}

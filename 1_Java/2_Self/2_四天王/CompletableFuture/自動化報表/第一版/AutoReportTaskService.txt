@@ -1,0 +1,406 @@
+package com.eland.service.autoreport;
+
+import com.eland.config.schedule.ThreadPoolConfig;
+import com.eland.pojo.dto.SearchApiRequestBean;
+import com.eland.pojo.dto.SearchApiRequestBean.*;
+import com.eland.pojo.dto.SearchApiResponseBean;
+import com.eland.pojo.dto.WebApiRequestBean;
+import com.eland.pojo.dto.WebApiResponseBean;
+import com.eland.pojo.info.ApiException;
+import com.eland.pojo.info.TopicModelResult;
+import com.eland.pojo.info.chartdata.MentionLineBean;
+import com.eland.pojo.info.membership.AutoReportTaskBean;
+import com.eland.pojo.info.membership.SourceClusterBean;
+import com.eland.service.api.SearchApiService;
+import com.eland.service.mail.SentMailService;
+import com.eland.util.MemberShipApiUtil;
+import com.eland.util.WebApiUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+
+
+/**
+ * Created by wilsonhuang on 2021/7/3.
+ */
+
+@Service
+public class AutoReportTaskService {
+
+    private final Gson gson = new Gson();
+    @Autowired
+    private SearchApiService searchApiService;
+    @Autowired
+    private MemberShipApiUtil memberShipApiUtil;
+    @Autowired
+    private WebApiUtil webApiUtil;
+    @Autowired
+    private AutoReportService autoReportService;
+    @Autowired
+    private SentMailService sentMailService;
+    @Autowired
+    private AutoReportTaskService autoReportTaskService;
+    @Autowired
+    private ThreadPoolConfig threadPoolConfig;
+
+//    // 1次執行1個任務
+//    public void process(int serviceId, String status) {
+//        AutoReportTaskBean autoReportTaskBean;
+//        do {
+//            autoReportTaskBean = getSingleBean(serviceId, status);
+//            processReport(autoReportTaskBean);
+//        } while (autoReportTaskBean != null);
+//    }
+
+    // 1次執行quantity個任務，ThreadPoolConfig默認線程數改為quantity
+    public void process(int serviceId, String status, int quantity) {
+        List<AutoReportTaskBean> beans = getMultiBeans(serviceId, status, quantity);
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        for (AutoReportTaskBean bean : beans) {
+            futures.add(CompletableFuture.runAsync(() -> processReport(bean), threadPoolConfig.getAutoReportExecutor()));
+        }
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()])).join();
+        if (getSingleBean(serviceId, status) != null) {
+            process(serviceId, status, quantity);
+        }
+    }
+
+    public SearchApiResponseBean getTask(int serviceId, String status) {
+        SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("read_auto_report_task");
+        AutoReportTask autoReportTask = new AutoReportTask();
+        autoReportTask.setServiceId(serviceId);
+        autoReportTask.setStatus(status);
+        searchApiRequestBean.getParameter().setAuto_report_task(autoReportTask);
+        SearchApiResponseBean searchApiResponseBean = searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+        if (searchApiResponseBean != null && searchApiResponseBean.getResponse_info().getError_code() == 0) {
+            return searchApiResponseBean;
+        } else {
+            return null;
+        }
+    }
+
+    public AutoReportTaskBean getSingleBean(int serviceId, String status) {
+        SearchApiResponseBean statusWait = getTask(serviceId, status);
+        if (statusWait == null) {
+            return null;  // MemberShip APi 回傳錯誤
+        }
+        Type type = new TypeToken<ArrayList<AutoReportTaskBean>>() {
+        }.getType();
+        List<AutoReportTaskBean> statusWaitBeans = gson.fromJson(gson.toJson(statusWait.getResult()), type);
+        if (statusWaitBeans.size() == 0) {
+            return null;  // 沒有要執行的task
+        }
+        return Collections.min(statusWaitBeans, Comparator.comparing(AutoReportTaskBean::getId));
+    }
+
+    public List<AutoReportTaskBean> getMultiBeans(int serviceId, String status, int quantity) {
+        SearchApiResponseBean statusWait = getTask(serviceId, status);
+        if (statusWait == null) {
+            return new ArrayList<>();
+        }
+        Type type = new TypeToken<ArrayList<AutoReportTaskBean>>() {
+        }.getType();
+        List<AutoReportTaskBean> statusWaitBeans = gson.fromJson(gson.toJson(statusWait.getResult()), type);
+        if (statusWaitBeans.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<Integer> idList = statusWaitBeans.stream().map(AutoReportTaskBean::getId).sorted().collect(Collectors.toList());
+        if (idList.size() > quantity) {
+            return statusWaitBeans.stream().filter(e -> e.getId() < idList.get(quantity)).collect(Collectors.toList());
+        }
+        return statusWaitBeans;
+    }
+
+    public void processReport(AutoReportTaskBean autoReportTaskBean) {
+        autoReportTaskService.processAutoReportTaskBean(autoReportTaskBean);
+        autoReportTaskService.generateAutoReport(autoReportTaskBean);
+    }
+
+    public void processAutoReportTaskBean(AutoReportTaskBean autoReportTaskBean) {
+        if (autoReportTaskBean == null) {
+            return;
+        }
+        String topicList = autoReportTaskBean.getTopicList();
+        if (topicList.contains(";")) {
+            List<Integer> tempList = new ArrayList<>();
+            String[] tempArray = topicList.split(";");
+            for (String str : tempArray) {
+                tempList.add(Integer.parseInt(str));
+            }
+            List<String> topicIdList = tempList.stream().sorted().map(String::valueOf).collect(toList());
+            autoReportTaskBean.setTopicIdList(topicIdList);
+        } else {
+            autoReportTaskBean.setTopicIdList(Arrays.asList(topicList));
+        }
+        String webApiSearchTime = autoReportTaskBean.getSearchTime().replace("~", " - ");
+        autoReportTaskBean.setWebApiSearchTime(webApiSearchTime);
+        if (autoReportTaskBean.getPreviousSearchTime() != null && autoReportTaskBean.getPreviousSearchTime().contains("~")) {
+            String webApiPreviousSearchTime = autoReportTaskBean.getPreviousSearchTime().replace("~", " - ");
+            autoReportTaskBean.setWebApiPreviousSearchTime(webApiPreviousSearchTime);
+        }
+        List<String> newModelList = memberShipApiUtil.getNewModelList(autoReportTaskBean);
+        autoReportTaskBean.setNewModelList(newModelList);
+        List<String> modelNames = memberShipApiUtil.getModelNames(autoReportTaskBean);
+        autoReportTaskBean.setModelNames(modelNames);
+        queryExtraInfo(autoReportTaskBean);                 // topic_display_name serviceAccount userAccount API
+        querySourceClusterInfo(autoReportTaskBean);         // 來源群集API
+        queryExclusiveInfo(autoReportTaskBean);             // 排除設定API
+        queryAccountSettingInfo(autoReportTaskBean);        // read_account_setting API
+        setStatus(autoReportTaskBean, "processing");
+    }
+
+    public void generateAutoReport(AutoReportTaskBean autoReportTaskBean) {
+
+        if (autoReportTaskBean == null) {
+            return;
+        }
+
+        try {
+            WebApiRequestBean request = webApiUtil.getRequest(autoReportTaskBean, false);
+
+            List<TopicModelResult> topicModelResultList = new ArrayList<>();
+            List<String> topicIdList = autoReportTaskBean.getTopicIdList();
+            List<String> topicDisplayNameList = autoReportTaskBean.getTopicDisplayNameList();
+
+            if (topicDisplayNameList == null || topicIdList.size() != topicDisplayNameList.size()) {
+                setStatus(autoReportTaskBean, "error");
+                return;
+            }
+
+            for (int j = 0; j < topicIdList.size(); j++) {
+                TopicModelResult topicModelResult = new TopicModelResult();
+                topicModelResult.setTopicId(topicIdList.get(j));
+                topicModelResult.setTopicName(topicDisplayNameList.get(j));
+                topicModelResult.setTime(topicDisplayNameList.get(j) + "本段期間(" + autoReportTaskBean.getSearchTime() + ")");
+                String analysisKeywordChoose = "";
+                switch (autoReportTaskBean.getEnableKeywords()) {
+                    case 1:
+                        analysisKeywordChoose = "權重分數";
+                        break;
+                    case 2:
+                        analysisKeywordChoose = "詞頻分數";
+                        break;
+                    case 3:
+                        analysisKeywordChoose = "擴散分數";
+                        break;
+                }
+                topicModelResult.setAnalysisKeywordChoose(analysisKeywordChoose);
+                if (autoReportTaskBean.getNewModelList().contains("statistics_channel")) {
+                    WebApiRequestBean pcRequest = webApiUtil.getPcRequest(request, topicIdList.get(j));
+                    WebApiResponseBean pcResponse = searchApiService.getWebApiResponseBean(pcRequest);
+                    webApiUtil.processPcResponse(pcResponse, topicModelResult);
+                }
+                topicModelResultList.add(topicModelResult);
+            }
+
+            WebApiResponseBean response = autoReportTaskBean.getNewModelList().size() == 0 ? null : searchApiService.getWebApiResponseBean(request);
+            webApiUtil.processResponse(request, response, topicModelResultList);
+
+            if (autoReportTaskBean.getModelNames().contains("S/N 趨勢")) {
+                String source = autoReportTaskBean.getSourceList();
+                if (source.contains("news;")) {
+                    source = source.replace("news;", "");
+                } else if (source.endsWith("news")) {
+                    source = source.replace("news", "");
+                }
+                WebApiRequestBean newsArticleReq = webApiUtil.getSnRequest(request, "news");
+                WebApiResponseBean newsArticle = searchApiService.getWebApiResponseBean(newsArticleReq);
+                webApiUtil.processSnResponse(newsArticle, topicModelResultList, "news");
+
+                WebApiRequestBean socialArticleReq = webApiUtil.getSnRequest(request, source);
+                WebApiResponseBean socialArticle = searchApiService.getWebApiResponseBean(socialArticleReq);
+                webApiUtil.processSnResponse(socialArticle, topicModelResultList, "social");
+            }
+
+            if (autoReportTaskBean.getModelNames().contains("聲量分析")) {
+                for (TopicModelResult temp : topicModelResultList) {
+                    List<MentionLineBean> mentionLineBeanList = temp.getMentionLineBeanList();
+                    mentionLineBeanList = mentionLineBeanList.stream().sorted(Comparator.comparing(MentionLineBean::getDoc_num).reversed()).collect(toList());
+                    int noDataTimes = 0;
+                    for (int m = 0; m < mentionLineBeanList.size(); m++) {
+                        if (temp.getMentionTable().size() == 3 || noDataTimes == 3) {
+                            break;
+                        }
+                        WebApiRequestBean mnTableRequest = webApiUtil.getMnTableRequest(request, temp.getTopicId(), mentionLineBeanList.get(m).getDate());
+                        WebApiResponseBean mnTableResponse = searchApiService.getWebApiResponseBean(mnTableRequest);
+                        if (mnTableResponse != null &&
+                            mnTableResponse.getResponseInfo().getErrorCode().equals("0.0") &&
+                            mnTableResponse.getResult().getPopularThemeResultBeans().size() == 0) {
+                            noDataTimes++;
+                            continue;
+                        }
+                        webApiUtil.processMnTableResponse(mnTableResponse, temp);
+                    }
+                }
+            }
+
+            if (autoReportTaskBean.getWebApiPreviousSearchTime() == null) {
+                autoReportService.addDataToPPT(autoReportTaskBean, topicModelResultList, null);
+                setStatus(autoReportTaskBean, "done");
+            } else {
+                WebApiRequestBean previousRequest = webApiUtil.getRequest(autoReportTaskBean, true);
+                List<TopicModelResult> previousTopicModelResultList = new ArrayList<>();
+                for (int k = 0; k < topicIdList.size(); k++) {
+                    TopicModelResult previousTopicModelResult = new TopicModelResult();
+                    previousTopicModelResult.setTopicId(topicIdList.get(k));
+                    if (autoReportTaskBean.getNewModelList().contains("statistics_channel")) {
+                        WebApiRequestBean pcRequest = webApiUtil.getPcRequest(previousRequest, topicIdList.get(k));
+                        WebApiResponseBean pcResponse = searchApiService.getWebApiResponseBean(pcRequest);
+                        webApiUtil.processPcResponse(pcResponse, previousTopicModelResult);
+                    }
+                    previousTopicModelResult.setTime("(" + autoReportTaskBean.getPreviousSearchTime() + ")");
+                    previousTopicModelResultList.add(previousTopicModelResult);
+                }
+                WebApiResponseBean previousResponse = autoReportTaskBean.getNewModelList().size() == 0 ? null : searchApiService.getWebApiResponseBean(previousRequest);
+                webApiUtil.processResponse(previousRequest, previousResponse, previousTopicModelResultList);
+                autoReportService.addDataToPPT(autoReportTaskBean, topicModelResultList, previousTopicModelResultList);
+                setStatus(autoReportTaskBean, "done");
+            }
+        } catch (ApiException e) {
+            setStatus(autoReportTaskBean, "error");
+            if (autoReportTaskBean.getMailList() != null && !autoReportTaskBean.getMailList().equals("")) {
+                sentMailService.sendReport(autoReportTaskBean, "error", "");
+            }
+            e.webApiError();
+        } catch (Exception e) {
+            setStatus(autoReportTaskBean, "error");
+            if (autoReportTaskBean.getMailList() != null && !autoReportTaskBean.getMailList().equals("")) {
+                sentMailService.sendReport(autoReportTaskBean, "error", "");
+            }
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setStatus(AutoReportTaskBean autoReportTaskBean, String status) {
+        autoReportTaskBean.setStatus(status);
+        AutoReportTask autoReportTask = gson.fromJson(gson.toJson(autoReportTaskBean), AutoReportTask.class);
+        autoReportTask.setCreateTime(autoReportTask.getCreateTime().replace('/', '-'));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        autoReportTask.setUpdateTime(sdf.format(System.currentTimeMillis()));
+        SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("update_auto_report_task");
+        searchApiRequestBean.getParameter().setAuto_report_task(autoReportTask);
+        searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+    }
+
+    public void queryExtraInfo(AutoReportTaskBean autoReportTaskBean) {
+        SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("query_topic_id_display_name");
+        AutoReportInfo autoReportInfo = new AutoReportInfo();
+        autoReportInfo.setUserId(autoReportTaskBean.getUserId());
+        autoReportInfo.setTopicIdList(autoReportTaskBean.getTopicIdList());
+        searchApiRequestBean.getParameter().setAuto_report_info(autoReportInfo);
+        SearchApiResponseBean searchApiResponseBean = searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+        int error_code = searchApiResponseBean.getResponse_info().getError_code();
+        if (error_code == 0) {
+            AutoReportInfo result = gson.fromJson(gson.toJson(searchApiResponseBean.getResult()), AutoReportInfo.class);
+            autoReportTaskBean.setTopicDisplayNameList(result.getTopicDisplayNameList());
+            autoReportTaskBean.setServiceAccount(result.getServiceAccount());
+            autoReportTaskBean.setUserAccount(result.getUserAccount());
+        } else {
+            autoReportTaskBean.setTopicDisplayNameList(new ArrayList<>());
+            autoReportTaskBean.setServiceAccount("MemberShip API error");
+            autoReportTaskBean.setUserAccount("MemberShip API error");
+        }
+    }
+
+    private void querySourceClusterInfo(AutoReportTaskBean autoReportTaskBean) {
+        if (autoReportTaskBean.getSourceClusterList().equals("") || autoReportTaskBean.getSourceClusterList() == null) {
+            autoReportTaskBean.setSourceClusterDisplayName(new LinkedHashSet<>());
+        } else {
+            List<Integer> sourceClusterIds = new ArrayList<>();
+            if (autoReportTaskBean.getSourceClusterList().contains(";")) {
+                List<String> temp = Arrays.asList(autoReportTaskBean.getSourceClusterList().split(";"));
+                sourceClusterIds = temp.stream().map(Integer::parseInt).collect(toList());
+            } else {
+                sourceClusterIds.add(Integer.parseInt(autoReportTaskBean.getSourceClusterList()));
+            }
+            SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("read_source_cluster");
+            SourceClusterSearch sourceClusterSearch = new SourceClusterSearch();
+            sourceClusterSearch.setServiceId(-1);
+            sourceClusterSearch.setClusterId(sourceClusterIds);
+            searchApiRequestBean.getParameter().setSource_cluster_search(sourceClusterSearch);
+            SearchApiResponseBean searchApiResponseBean = searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+
+            int error_code = searchApiResponseBean.getResponse_info().getError_code();
+            if (error_code == 0) {
+                Set<String> websites = new LinkedHashSet<>();
+                Set<String> channel = new LinkedHashSet<>();
+                Set<String> sourceClusterDisplayName = new LinkedHashSet<>();
+                Type type = new TypeToken<ArrayList<SourceClusterBean>>() {
+                }.getType();
+                String jsonString = gson.toJson(searchApiResponseBean.getResult());
+                List<SourceClusterBean> sourceClusterBeanList = gson.fromJson(jsonString, type);
+                sourceClusterBeanList.forEach(bean -> {
+                    bean.getSourceClusterMappings().forEach(item -> {
+                        switch (item.getType()) {
+                            case 0:
+                                websites.add(item.getSourceId());
+                                sourceClusterDisplayName.add(item.getSourceName());
+                                break;
+                            case 1:
+                                channel.add(item.getSourceId());
+                                sourceClusterDisplayName.add(item.getSourceName());
+                                break;
+                        }
+                    });
+                });
+                autoReportTaskBean.setWebsites(websites);
+                autoReportTaskBean.setChannel(channel);
+                autoReportTaskBean.setSourceClusterDisplayName(sourceClusterDisplayName);
+            } else {
+                autoReportTaskBean.setTopicDisplayNameList(new ArrayList<>());
+                autoReportTaskBean.setServiceAccount("MemberShip API error");
+                autoReportTaskBean.setUserAccount("MemberShip API error");
+            }
+        }
+    }
+
+    private void queryExclusiveInfo(AutoReportTaskBean autoReportTaskBean) {
+        SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("read_blacklist");
+        BlackListSearch blackListSearch = new BlackListSearch();
+        blackListSearch.setServiceId(autoReportTaskBean.getServiceId());
+        blackListSearch.setType(-1);
+        blackListSearch.setUserId(autoReportTaskBean.getUserId());
+        searchApiRequestBean.getParameter().setBlacklist(blackListSearch);
+        SearchApiResponseBean searchApiResponseBean = searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+        int error_code = searchApiResponseBean.getResponse_info().getError_code();
+        if (error_code == 0) {
+            String jsonString = gson.toJson(searchApiResponseBean.getResult());
+            WebApiRequestBean.ExcludeBean excludeBean = gson.fromJson(jsonString, WebApiRequestBean.ExcludeBean.class);
+            autoReportTaskBean.setExcludeBean(excludeBean);
+        } else {
+            autoReportTaskBean.setTopicDisplayNameList(new ArrayList<>());
+            autoReportTaskBean.setServiceAccount("MemberShip API error");
+            autoReportTaskBean.setUserAccount("MemberShip API error");
+        }
+    }
+
+    private void queryAccountSettingInfo(AutoReportTaskBean autoReportTaskBean) {
+        SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean("read_account_setting");
+        AccountSettingBean accountSettingBean = new AccountSettingBean();
+        accountSettingBean.setServiceId(autoReportTaskBean.getServiceId());
+        accountSettingBean.setUserId(autoReportTaskBean.getUserId());
+        searchApiRequestBean.getParameter().setAccount_setting_bean(accountSettingBean);
+        SearchApiResponseBean searchApiResponseBean = searchApiService.queryStandardInsightMembership(searchApiRequestBean);
+        int error_code = searchApiResponseBean.getResponse_info().getError_code();
+        if (error_code == 0) {
+            String jsonString = gson.toJson(searchApiResponseBean.getResult());
+            WebApiRequestBean.AccountSettingBean bean = gson.fromJson(jsonString, WebApiRequestBean.AccountSettingBean.class);
+            autoReportTaskBean.setAccountSettingBean(bean);
+        } else {
+            autoReportTaskBean.setTopicDisplayNameList(new ArrayList<>());
+            autoReportTaskBean.setServiceAccount("MemberShip API error");
+            autoReportTaskBean.setUserAccount("MemberShip API error");
+        }
+    }
+
+}

@@ -1,0 +1,5 @@
+List<CompletableFuture<Void>> futures = beans.stream()
+                                             .map(bean -> CompletableFuture.runAsync(() -> autoReportTaskService.processReport(bean)))
+                                             .collect(Collectors.toList());
+
+CompletableFuture<Void> allFutures = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));

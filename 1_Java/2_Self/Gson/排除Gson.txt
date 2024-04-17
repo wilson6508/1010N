@@ -1,0 +1,53 @@
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class Ex11 {
+
+    public static void main(String[] args) {
+
+        Gson gson = Ex11.getExclusionGson();
+
+        MyObj obj = new MyObj();
+        System.out.println(gson.toJson(obj));
+
+        Bean bean = new Bean();
+        System.out.println(gson.toJson(bean));
+
+    }
+
+    public static Gson getExclusionGson() {
+
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return f.getName().contains("age");                 // 過濾掉欄位名包含"age"
+//                        return f.getAnnotation(Exclusion.class) != null;  // 過濾掉欄位Annotation為Exclusion的
+                    }
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return clazz.getName().contains("Bean"); 	    // 過濾掉類名包含 Bean的類
+                        // return false;                         	    // 目前理解為不過濾class
+                    }
+                })
+                .create();
+
+        return gson;
+    }
+
+}
+
+class MyObj {
+    public int x;
+    public int y;
+    public int age;
+}
+
+class Bean {
+    public int x;
+    public int y;
+    public int age;
+}
+

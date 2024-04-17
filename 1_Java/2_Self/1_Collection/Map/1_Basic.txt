@@ -1,0 +1,43 @@
+TreeMap<String,Integer> m1 = new TreeMap<>();
+HashMap<String,Integer> m1 = new HashMap<>();  //HashMap有自己獨特的排列方式
+HashMap<String,Integer> m1 = new LinkedHashMap<>();
+m1.put("A",600);
+m1.put("B",700);
+m1.put("C",800);
+System.out.println(m1);	
+---------------------------------------------------------------------------------
+Map<String, String> myMap = new HashMap<String, String>() {{
+        put("a", "b");
+        put("c", "d");
+    }};
+---------------------------------------------------------------------------------
+myMap.forEach((k, v) -> System.out.println(k + "為" + v));
+
+for (Map.Entry<String, Integer> m : m1.entrySet()) {
+    System.out.println(m.getKey());
+    System.out.println(m.getValue());
+}		
+
+for(String key : m1.keySet()) {
+    System.out.println(key);
+	System.out.println(m1.get(key));
+	System.out.printf("key:%s value:%d\n",str,m.get(str));
+}
+// Set<String> set = m1.keySet();
+
+for (int x : m1.values()) {
+    System.out.println(x);
+}
+// List<Integer> list = new ArrayList<>(m1.values());
+---------------------------------------------------------------------------------
+boolean boo = m1.isEmpty();
+boolean boo = m1.containsKey("f");
+boolean boo = m1.containsValue(700);
+
+int x = m1.size();
+m1.remove("A");
+m1.clear(); // 刪除所有映射
+
+HashMap<String,Integer> m2 = new LinkedHashMap<>();
+m2.put("D", 900);
+m2.putAll(m1);

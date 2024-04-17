@@ -1,0 +1,69 @@
+介面基礎
+https://matthung0807.blogspot.com/2018/09/java-8-javautilfunction-functional.html
+(flatMap count max min sequential parallel)
+https://blog.tonycube.com/2015/10/java-java8-3-stream.html
+---------------------------------------------------------------------------------------------------------------------------
+String modelList = String.join(";", List<String>物件);
+
+定位符號、前置字元、後置字元
+String result = productList.stream().map(p -> p.name).collect(Collectors.joining(",", "[", "]")); 
+---------------------------------------------------------------------------------------------------------------------------
+基礎
+List<String> names = Stream.of("Tony", "Tom", "Jonn").collect(Collectors.toList());
+List<String> names = Arrays.asList("Tony", "Tom", "Jonn");
+Set<String> names = Stream.of("Tony", "Tony", "Tony", "Tom", "Jonn").collect(Collectors.toSet());
+System.out.println(names.toString());  //[Tony, Tom, Jonn]
+---------------------------------------------------------------------------------------------------------------------------
+-filter-
+List<String> names2 = Stream.of("Tony", "Tom", "John", "Andy").filter(name -> name.startsWith("T")).collect(toList());
+
+-map-
+PersonList = list.stream().map(e -> new Person(name, age)).collect(toList());
+List<String> names2 = Stream.of("tony", "tom", "john").map(name -> name.toUpperCase()).collect(toList());
+List<String> names2 = Stream.of("tony", "tom", "john").map(String::toUpperCase).collect(toList());
+
+-peek(不想替換元素)-
+https://www.cnblogs.com/flydean/p/java-8-stream-peek.html
+Stream<User> userStream = Stream.of(new User("Alice"), new User("Bob"), new User("Chuck"));
+userStream.peek(u -> u.setName(u.getName().toLowerCase())).forEach(System.out::println);
+
+-count-
+List<String> listVal = Arrays.asList("Joe", "Paul", "Alice", "Tom");
+long c = listVal.stream().filter(x -> x.length() > 3).count();
+
+-flatMap-
+https://mycollegenotebook.medium.com/java-stream-%E7%AD%86%E8%A8%98-%E4%B8%8A-34df0e282fc8
+List<Integer> list1 = Arrays.asList(10, 20);
+List<Integer> list2 = Arrays.asList(15, 30);
+Stream.of(list1, list2).flatMap(list -> list.stream()).forEach(s -> System.out.print(s + " "));
+
+List<String> wordList = Arrays.asList("Hello", "World");
+wordList.stream().flatMap(word -> Arrays.stream(word.split(""))).distinct().forEach(System.out::println);
+
+-lambda-
+List<String> nL = Arrays.asList("Jim", "John", "Jeff");
+Function<String, String> funVal = s -> "Hello : ".concat(s) +" ";
+nL.stream().map(funVal).forEach(System.out::print);
+---------------------------------------------------------------------------------------------------------------------------
+sorted
+
+PersonList = list.stream().sorted(Comparator.comparing(Person::getAge).reversed()).collect(toList());
+
+List<Integer> sortedAsc = Stream.of(120,24,59,63,11,74).sorted().collect(toList());
+System.out.println("sorted asc: " + sortedAsc);
+
+List<Integer> sortedDesc = Stream.of(120,24,59,63,11,74).sorted((n1,n2) -> n2.compareTo(n1)).collect(toList());
+System.out.println("sorted desc: " + sortedDesc);
+
+List<Integer> sortedDesc = Stream.of(120,24,59,63,11,74).sorted(Comparator.reverseOrder()).collect(toList());
+System.out.println("sorted desc: " + sortedDesc);
+
+List<Emp> emp = Arrays.asList(new Emp("John", "Smith"), new Emp("Peter", "Sam"), new Emp("Thomas", "Wale"));
+emp.stream().sorted(Comparator.comparing(Emp::getfName).reversed().thenComparing(Emp::getlName)).collect(Collectors.toList());
+
+List<NbaGame> totals = nbaGames.stream().sorted(Comparator.comparing(e -> {
+	double one = Double.parseDouble(e.getBlueTotals());
+	double two = Double.parseDouble(e.getGreenTotals());
+	return -Math.abs(one-two);
+})).collect(toList());
+---------------------------------------------------------------------------------------------------------------------------

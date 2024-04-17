@@ -1,0 +1,53 @@
+package test01;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.*;
+
+public class Ex1 {
+    private static final Gson gson = new Gson();
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<>();
+        list.add(new Student("LeBron", 40));
+        list.add(new Student("LeBron", 50));
+        list.add(new Student("Kobe", 40));
+        list.add(new Student("Kobe", 30));
+        list.add(new Student("AAA", 50));
+        list.add(new Student("AAA", 30));
+
+        Map<String, Long> map = list.stream().collect(groupingBy(Student::getName, summingLong(Student::getAge)));
+        System.out.println(gson.toJson(map));       // {"AAA":80,"Kobe":70,"LeBron":90}
+
+        Map<String, Integer> finalMap = new LinkedHashMap<>();
+        map.entrySet().stream()
+           .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+           .forEachOrdered(e -> finalMap.put(e.getKey(), Math.toIntExact(e.getValue())));
+        System.out.println(gson.toJson(finalMap));  // {"LeBron":90,"AAA":80,"Kobe":70}
+    }
+}
+
+class Student {
+    private String name;
+    private int age;
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+}

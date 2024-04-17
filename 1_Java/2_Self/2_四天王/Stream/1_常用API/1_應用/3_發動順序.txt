@@ -1,0 +1,24 @@
+allMatch 有1個不符合就停
+
+List<String> colors = Arrays.asList("red", "green", "yellow");
+Predicate<String> test = str -> {
+	System.out.println(str);
+	return str.contains("red");
+};
+colors.stream().filter(e -> e.length() > 3).allMatch(test);
+
+green
+-------------------------------------------------------------------------------------------------
+findFirst 找到就停
+
+List<String> list = Arrays.asList("apple", "bird", "cat");
+Predicate<String> predicate = str -> {
+	System.out.println(str);
+	return str.contains("bird");
+};
+list.stream().filter(predicate).findFirst().ifPresent(e -> System.out.println("done"));
+
+apple
+bird
+done
+-------------------------------------------------------------------------------------------------

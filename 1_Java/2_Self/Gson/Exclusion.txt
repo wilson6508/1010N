@@ -1,0 +1,17 @@
+package com.eland.config;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Created by yshong on 2020/7/24.
+ * 排除Gson內容的interface
+ * 可直接使用@Exclusion排除不想被納入Gson的變數
+ */
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
+public @interface Exclusion {
+}

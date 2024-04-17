@@ -1,0 +1,11 @@
+Java Resource類代碼示例
+https://vimsky.com/zh-tw/examples/detail/java-class-org.springframework.core.io.Resource.html
+
+理解根目錄
+https://www.cnblogs.com/myseries/p/10572449.html
+
+springboot獲取專案的絕對路徑和根目錄
+https://www.796t.com/article.php?id=61563
+
+深入解析Java絕對路徑與相對路徑
+https://iter01.com/38324.html

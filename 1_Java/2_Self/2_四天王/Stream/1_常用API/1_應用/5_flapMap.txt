@@ -1,0 +1,29 @@
+public class Son {
+    private int age;
+}
+
+public class Father {
+    private List<Son> sonList;
+}
+
+public static void main(String[] args) {
+    Son s1 = new Son(1);
+    Son s2 = new Son(2);
+    Son s3 = new Son(3);
+    Son s4 = new Son(4);
+    Son s5 = new Son(5);
+    Son s6 = new Son(6);
+    Father f1 = new Father(Arrays.asList(s1, s5, s6));
+    Father f2 = new Father(Arrays.asList(s2, s3, s4));
+    List<Father> list = Arrays.asList(f1, f2);
+
+    List<Son> collect = list.stream()
+            .map(Father::getSonList)
+            .flatMap(List::stream) // Collection::stream
+            .sorted(Comparator.comparing(Son::getAge).reversed())
+            .limit(3)
+            .skip(1)
+            .collect(Collectors.toList());
+
+    System.out.println(new Gson().toJson(collect)); // [{"age":5},{"age":4}]
+}

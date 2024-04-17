@@ -1,0 +1,53 @@
+create
+
+List<String> places = Collections.singletonList("SSS");
+List<String> colors = Arrays.asList("#ec5145", "#f18a2f", "#85bf29");
+List<String> myList = new ArrayList<>(Arrays.asList(str.split(",")));
+List<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+List<String> list = new ArrayList<String>() {{
+	add("A");
+	add("B");
+	System.out.println(777);
+	add("C");
+}};
+-----------------------------------------------------------------------------------------------
+add
+
+List<VwUserProfileEntity> queryList = new ArrayList<>();							
+queryList.add(VwUserProfileEntity 物件);
+queryList.add(2, VwUserProfileEntity 物件);
+queryList.addAll(List<VwUserProfileEntity> 物件);
+-----------------------------------------------------------------------------------------------
+set
+
+List<String> list = new ArrayList<>();
+list.add("AAA");
+list.add("BBB");
+list.add("CCC");
+list.set(1, "YYY" );
+-----------------------------------------------------------------------------------------------
+remove
+
+list.remove(obj);
+list.remove(index);
+remove()方法陷阱
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/455963/
+-----------------------------------------------------------------------------------------------
+subList
+
+List<String> list = Arrays.asList("AAA", "BBB", "CCC", "DDD");
+List<String> temp = list.subList(0, 2); // [AAA, BBB]
+-----------------------------------------------------------------------------------------------
+sort
+
+Collections.sort(queryNewsList, (s1, s2) -> -s1.getId().compareTo(s2.getId()));
+-----------------------------------------------------------------------------------------------
+java ArrayList push, pop, shift and unshift
+
+https://stackoverflow.com/questions/8452672/java-howto-arraylist-push-pop-shift-and-unshift
+-----------------------------------------------------------------------------------------------
+List<String> list = Arrays.asList("Banana", "Apple", "Cat");
+String min = Collections.min(list);
+
+int idx = list.indexOf(min);
+-------------------------------------------------------------------------------------------------------

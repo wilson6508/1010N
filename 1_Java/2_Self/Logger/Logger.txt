@@ -1,0 +1,9 @@
+import java.util.logging.Logger;
+public class Ex1 {
+    private final static Logger logger = Logger.getLogger(Ex1.class.getName());
+    public static void main(String[] args) throws Exception {
+        logger.severe("AAA");
+        logger.warning("BBB");
+        logger.info("CCC");
+    }
+}

@@ -1,0 +1,23 @@
+https://stackoverflow.max-everyday.com/2017/09/java-string-split/
+
+String str = "aaa:bbb:ccc:ddd";
+String[] tokens = str.split(":");
+for (String token:tokens) {
+  System.out.println(token);
+}
+
+String str = "aaa:bbb-ccc_ddd";
+String[] tokens = str.split(":|-|_");
+for (String token:tokens) {
+  System.out.println(token);
+}
+
+String str = "aaa-bbb-ccc.ddd";
+String[] tokens = str.split("-|\\.");
+for (String token:tokens) {
+  System.out.println(token);
+}
+
+String str = "220.133.208.141";
+String[] arr = str.split(",");
+System.out.println(arr[0]);

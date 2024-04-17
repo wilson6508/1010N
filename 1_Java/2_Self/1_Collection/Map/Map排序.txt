@@ -1,0 +1,21 @@
+import java.util.*;
+import java.util.Map.Entry;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+方法1
+Map<String, Integer> map = new HashMap<>();
+List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+list = list.stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(toList());
+
+方法2
+Map<String, Integer> map = new HashMap<>();
+List<Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+list.sort(Entry.comparingByValue());
+Collections.reverse(list);
+
+方法3
+Map<String, Integer> map = new HashMap<>();
+Map<String, Integer> result = map.entrySet().stream()
+		                                    .sorted(Collections.reverseOrder(Entry.comparingByValue()))
+		                                    .collect(toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));

@@ -1,0 +1,14 @@
+1個id > 對1個entity
+public Map<Integer, ConfigEntity> readConfig(Set<Integer> idSet) {
+    List<ConfigEntity> list = ConfigDao.findByIdIn(idSet);
+    return list.stream().collect(Collectors.toMap(ConfigEntity::getId, entity -> entity));
+}
+
+1個configId > 對多個entity
+public Map<Integer, List<ConfigEntity>> readTimeConfig(Set<Integer> configIdSet) {
+    List<ConfigEntity> list = ConfigDao.findByConfigIdIn(configIdSet);
+    return list.stream().collect(Collectors.groupingBy(ConfigEntity::getConfigId));
+}
+
+更強的分組
+https://www.cnblogs.com/henuyuxiang/p/14989223.html

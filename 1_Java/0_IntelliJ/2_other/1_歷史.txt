@@ -1,0 +1,11 @@
+查看書籤
+alt + 2
+
+commit msg
+shift shift git
+
+最近改動的檔案
+ctrl + e
+
+歷史剪貼簿
+ctrl shift v

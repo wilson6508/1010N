@@ -1,0 +1,34 @@
+Calendar cal=Calendar.getInstance();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+String str = sdf.format(cal.getTime());
+System.out.println(str);
+----------------------------------------------------------------------------------
+Calendar cal=Calendar.getInstance();
+cal.add(Calendar.MONTH, -1);
+cal.add(Calendar.DAY_OF_WEEK, 3);
+cal.add(Calendar.MINUTE, 3);
+----------------------------------------------------------------------------------
+Calendar rightNow = Calendar.getInstance();
+int year = rightNow.get(Calendar.YEAR);
+int month = rightNow.get(Calendar.MONTH) + 1;
+int day = rightNow.get(Calendar.DAY_OF_MONTH);
+int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+int minute = rightNow.get(Calendar.MINUTE);
+int second = rightNow.get(Calendar.SECOND);
+----------------------------------------------------------------------------------
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public static void main(String[] args) {
+    Calendar cal = setSpecificTime(2003, 11, 10, 20, 0, 0);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    System.out.println(sdf.format(cal.getTime()));		
+    System.out.println(cal.getTimeInMillis());
+}
+
+public static Calendar setSpecificTime(int Y, int M, int D, int H, int m, int S) {
+    Calendar c = Calendar.getInstance();	// 毫秒未改  所以毫秒為產生物件當下的時間
+    c.set(Y, --M, D, H, m, S); 				// 傳進來的實際月份要減 1  
+    return c;
+}
+----------------------------------------------------------------------------------

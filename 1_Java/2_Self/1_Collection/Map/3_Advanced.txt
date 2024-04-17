@@ -1,0 +1,73 @@
+computeIfAbsent
+
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.computeIfAbsent("abc", k -> k.length());
+// {abc=3}
+
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("abc", 1);
+hashMap.computeIfAbsent("abc", k -> k.length());
+// {abc=1}
+------------------------------------------------------------------------------
+if (!cache.containsKey(id)) {
+    Book book = query(id);
+    cache.put(id, book);
+    return book;
+}
+return cache.get(id);
+可以簡化為
+return cache.computeIfAbsent(id, key -> query(key));
+------------------------------------------------------------------------------
+計數
+String[] arr = {"apple", "apple", "banana"};
+
+原始版本
+Map<String, Integer> counts = new HashMap<>();
+for (String s : arr) {
+    if (!counts.containsKey(s)) {
+        counts.put(s, 1);
+    } else {
+        counts.put(s, counts.get(s) + 1);
+    }
+}
+
+putIfAbsent
+Map<String, Integer> counts = new HashMap<>();
+for (String s : arr) {
+    counts.putIfAbsent(s, 0);
+    counts.put(s, counts.get(s) + 1);
+}
+
+compute
+Map<String, Integer> counts = new HashMap<>();
+for (String s : arr) {
+    counts.compute(s, (k, v) -> (v == null) ? 1 : v + 1);
+}
+
+computeIfAbsent computeIfPresent
+Map<String, Integer> counts = new HashMap<>();
+for (String s : arr) {
+    counts.computeIfAbsent(s, k -> 0);
+    counts.computeIfPresent(s, (k, v) -> v + 1);
+}
+------------------------------------------------------------------------------
+效能最好 4 >= 3 > 2 > 1 (ChatGPT判斷)
+
+不要再用1了
+2調用了2次get
+3跟4都可以用
+自行判斷可能用3好一點 感覺4也調用了2次get
+
+The first code snippet is the least efficient 
+because it uses the containsKey method to check if a key exists in the hashmap
+
+The second code snippet is slightly better than the first
+because it uses the putIfAbsent method to insert a key
+with a default value of 0 if it doesn't exist,
+but it still requires a separate get and put call to update the count.
+
+This fourth approach is the most efficient because 
+it avoids unnecessary null checks and uses only one method call per key.
+The computeIfAbsent() method ensures that the key is present in the map 
+and sets its value to zero if it's not already present.
+The computeIfPresent() method increments the count by one for each existing key.

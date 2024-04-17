@@ -1,0 +1,19 @@
+https://vimsky.com/zh-tw/examples/usage/hashmap-compute-method-in-java-with-examples.html
+
+compute：計算並更新值
+
+Map<String, String> map = new HashMap<>(); 
+map.put("Name", "Aman"); 
+map.put("Address", "Kolkata"); 
+System.out.println("Map: " + map);
+map.compute("Name", (key, val) -> val.concat(" Singh")); 
+map.compute("Address", (key, val) -> val.concat(" West-Bengal"));
+System.out.println("New Map: " + map);
+
+Map<String, Integer> map = new HashMap<>(); 
+map.put("Key1", 12); 
+map.put("Key2", 15); 
+System.out.println("Map: " + map); 
+map.compute("Key1", (key, val) -> (val == null) ? 1 : val + 1); 
+map.compute("Key2", (key, val) -> (val == null) ? 1 : val + 5); 
+System.out.println("New Map: " + map); 

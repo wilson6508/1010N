@@ -1,0 +1,28 @@
+package folder1;
+
+import java.io.IOException;
+
+public class Ex2 {
+
+    public static void main(String[] args) throws IOException {
+
+        String regex = "a(c\\dc){2}a";
+
+        String str01 = "ac1cc2ca";
+
+        if (str01.matches(regex)) {
+            System.out.println("符合");
+        } else {
+            System.out.println("不符合");
+        }
+
+        String str02 = "ac1ca";
+
+        if (str02.matches(regex)) {
+            System.out.println("符合");
+        } else {
+            System.out.println("不符合");
+        }
+
+    }
+}

@@ -1,0 +1,18 @@
+public static void main(String[] args) {
+	List<Integer> list = Arrays.asList(1,3,5,7);
+	// printObjList(list); Compilation Error
+	printGenericsList(list);
+	printList(list);
+}
+
+private static void printObjList(List<Object> list) {
+	System.out.println(list);
+}
+
+private static <T> void printGenericsList(List<T> list) {
+	System.out.println(list);
+}
+
+private static void printList(List<?> list) { // (List<? extends Animal> list)
+	System.out.println(list);
+}

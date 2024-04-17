@@ -1,0 +1,42 @@
+http://pclevin.blogspot.com/2015/01/java-joda-time.html
+https://www.joda.org/joda-time/apidocs/org/joda/time/LocalDate.html
+
+compile group: 'joda-time', name: 'joda-time', version: '2.10.10'
+
+package com.eland;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+
+import java.sql.Timestamp;
+
+public class Test1027 {
+    public static void main(String[] args) {
+        // String 物件
+        String s001 = "2021-10-27 14:40:05.000";
+        System.out.println(s001);
+
+        // String 轉 Timestamp
+        Timestamp t001 = Timestamp.valueOf(s001);
+        System.out.println(t001);
+
+        // Timestamp 轉 jodaTime LocalDateTime
+        LocalDateTime l001 = LocalDateTime.fromDateFields(t001);
+        System.out.println(l001);
+
+        // Timestamp 轉 jodaTime DateTime
+        DateTime d001 = new DateTime(t001.getTime());
+        System.out.println(d001);
+
+        // jodaTime DateTime 物件
+        DateTime d002 = new DateTime();
+        System.out.println(d002);
+
+        // jodaTime DateTime 轉 Timestamp
+        Timestamp t002 = new Timestamp(d002.getMillis());
+        System.out.println(t002);
+		
+		// String 轉 LocalDate
+		LocalDate localDate = new LocalDate("2021-05-01");
+    }
+}

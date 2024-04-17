@@ -1,0 +1,76 @@
+SearchApiRequestBean searchApiRequestBean = searchApiService.getQueryBean(SearchApiService.ModuleType.PG_REPORT_CONFIG.getModule());
+searchApiRequestBean.getParameter().setPg_report_config(reportConfig);
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+public SearchApiRequestBean getQueryBean(String modelName) {
+	SearchApiRequestBean searchApiRequestBean = new SearchApiRequestBean();
+
+	ModelBean modelBean = new ModelBean();
+	ParameterBean parameterBean = new ParameterBean();
+
+	modelBean.setModel_name(modelName);
+
+	searchApiRequestBean.setModel(modelBean);
+	searchApiRequestBean.setParameter(parameterBean);
+
+	return searchApiRequestBean;
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+public class SearchApiRequestBean {
+    private ModelBean model;
+    private ParameterBean parameter;
+
+    public ModelBean getModel() {
+        return model;
+    }
+
+    public void setModel(ModelBean model) {
+        this.model = model;
+    }
+
+    public ParameterBean getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(ParameterBean parameter) {
+        this.parameter = parameter;
+    }
+
+    public static class ModelBean {
+
+        private String model_name;
+
+        public String getModel_name() {
+            return model_name;
+        }
+
+        public void setModel_name(String model_name) {
+            this.model_name = model_name;
+        }
+    }
+
+    public static class ParameterBean {
+    
+        private PgReportConfig pg_report_config;
+        private PgReportResult pg_report_result;
+
+        public PgReportConfig getPg_report_config() {
+            return pg_report_config;
+        }
+
+        public void setPg_report_config(PgReportConfig pg_report_config) {
+            this.pg_report_config = pg_report_config;
+        }
+
+        public PgReportResult getPg_report_result() {
+            return pg_report_result;
+        }
+
+        public void setPg_report_result(PgReportResult pg_report_result) {
+            this.pg_report_result = pg_report_result;
+        }
+    }
+}

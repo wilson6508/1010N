@@ -1,0 +1,11 @@
+try {
+	String command = "C:/Program Files/Git/usr/bin/bash.exe";
+	String file = "C:/Users/wilsonhuang/Desktop/lotry/normal.sh";
+	// String command = "/bin/bash";
+	// String file = "/path/to/test.sh";
+	ProcessBuilder pb = new ProcessBuilder(command, file);
+	Process p = pb.start();
+	p.waitFor();
+} catch (Exception e) {
+	e.printStackTrace();
+}

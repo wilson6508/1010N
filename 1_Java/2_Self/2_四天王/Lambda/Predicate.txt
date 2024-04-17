@@ -1,0 +1,15 @@
+@FunctionalInterface
+public interface Predicate<T> {
+    boolean test(T t);
+}
+
+Predicate<String> validation = (String secret) -> { return "123456".equals(secret); };
+Predicate<String> validation = "123456"::equals;
+
+System.out.println(validation.test("123"));
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+private static final HashMap<String, Predicate<NotifyConfigSettingInfo>> T_MRT_MAP = new HashMap<>();
+static {
+    T_MRT_MAP.put("maxRecord", (NotifyConfigSettingInfo info) -> info.getMaxRecord() > 500);
+    T_MRT_MAP.put("dataTimeSetting", (NotifyConfigSettingInfo info) -> info.getDataTimeSetting() > 0);
+}

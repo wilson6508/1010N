@@ -1,0 +1,16 @@
+Gson gson = new Gson();
+String resultString = gson.toJson(responseBean);
+
+if (!resultString.contains("asLoggerTableName")) {
+    return;
+}
+
+JsonObject jsonObject = gson.fromJson(resultString, JsonObject.class).get("data").getAsJsonObject();
+HashMap<String, String> asLoggerData = gson.fromJson(jsonObject.get("asLoggerData").toString(), HashMap.class);
+String frontEndData = jsonObject.get("frontEndData").toString();
+
+JsonArray jsonArray = new Gson().fromJson(saveShareResultEntity.getSearchTopic(), JsonArray.class);
+String searchTopic = "";
+for (int i = 0; i < jsonArray.size() ; i++) {
+    searchTopic += jsonArray.get(i).getAsJsonObject().get("topic").getAsString() + ";";
+}

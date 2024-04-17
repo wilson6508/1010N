@@ -1,0 +1,15 @@
+// 數組
+String[] strArray = new String[] {"a","b"};
+Stream<String> stream = Arrays.stream(strArray);
+
+// List
+List<String> list = new ArrayList<>();
+Stream<String> stream = list.stream();
+
+// Set
+Set<String> set = new HashSet<>();
+Stream<String> stream = set.stream();
+
+// Map
+Map<String, Integer> map = new HashMap<>();
+Stream<Map.Entry<String, Integer>> stream = map.entrySet().stream();

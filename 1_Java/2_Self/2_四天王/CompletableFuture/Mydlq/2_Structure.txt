@@ -1,0 +1,11 @@
+CompletableFuture
+1. 開啟任務
+    (a) runAsync: 從commonPool獲取1個子線程 無返回值
+    (b) supplyAsync: 從commonPool獲取1個子線程 有返回值
+2. 處理任務
+    (1) 串行任務
+    (2) 並行任務
+3. 任務結束
+4. 查看任務狀態
+5. 設置任務結果
+6. 任務異常處理

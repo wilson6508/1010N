@@ -1,0 +1,34 @@
+package tet03;
+
+import java.util.concurrent.CompletableFuture;
+
+public class Ex2 {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                System.out.println("A-Start");
+                Thread.sleep(750);
+                System.out.println("A-Done");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                System.out.println("B-Start");
+                Thread.sleep(500);
+                System.out.println("B-Done");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        System.out.println("C-Start");
+        Thread.sleep(1000);
+        System.out.println("C-Done");
+    }
+
+}

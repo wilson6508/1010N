@@ -1,0 +1,47 @@
+package test01;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
+public class Ex5 {
+    public static void main(String[] args) {
+        System.out.println(getTxtContent());
+    }
+    public static String getTxtContent() {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader br = null;
+        try {
+            FileInputStream fs = new FileInputStream("C:\\report\\apiResponse\\test0406.txt");
+            InputStreamReader is = new InputStreamReader(fs, StandardCharsets.UTF_8);
+            br = new BufferedReader(is);
+            String str;
+            while ((str = br.readLine()) != null) {
+                stringBuilder.append(str).append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return stringBuilder.toString();
+    }
+}
+
+
+
+
+
+
+
+
+
+

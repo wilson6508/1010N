@@ -1,0 +1,18 @@
+https://blog.csdn.net/IO_Field/article/details/54971679
+-------------------------------------------------------------------------------------------------
+Optional<Integer> reduce = Stream.of(1, 2, 3, 4).reduce((acc, item) -> {
+	System.out.println("acc: " + acc + " item: " + item);
+	acc += item;
+	System.out.println("------------------");
+	return acc;
+});
+System.out.println(reduce.get());
+-------------------------------------------------------------------------------------------------
+Integer reduce = Stream.of(1, 2, 3, 4).reduce(0, (acc, item) -> {
+	System.out.println("acc: " + acc + " item: " + item);
+	acc += item;
+	System.out.println("------------------");
+	return acc;
+});
+System.out.println(reduce);
+-------------------------------------------------------------------------------------------------

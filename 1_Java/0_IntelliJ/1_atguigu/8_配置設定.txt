@@ -1,0 +1,29 @@
+設定編碼
+File > Settings > Editor > File Encodings > 3個UTF-8 (V)Transparent
+File > Settings > Editor > General > Console > 1個UTF-8
+
+設定自動import
+File > Settings > Editor > General > Auto Import > (V)Add unambiguous imports ... (V)Optimize imports ...
+
+設定自動編譯(暫時不勾)
+File > Build, Execution, Deployment > Compiler > (V)Build project automatically (V)Compile independent modules in parallel
+
+設定允許滾輪
+File > Settings > Editor > General > (V)Change font size with Ctrl+Mouse Wheel in
+
+取消隱藏多tabs
+File > Settings > Editor > General > Editor Tabs > ( )Show tabs in one row
+
+設定Class說明
+File > Settings > Editor > File and Code Templates > Includes
+/**
+ * ClassName: ${NAME}
+ * Package: ${PACKAGE_NAME}
+ * Author: ${USER}
+ * Create: ${DATE} - ${TIME}
+ * Version: v1.0
+ * Description: 
+ */
+-----------------------------------------------------------------------------------------------------------
+Power Save Mode 不要勾
+取消Shift Shift > File > Advanced Settings > 輸入double > (V)Disable double modifier key shortcuts

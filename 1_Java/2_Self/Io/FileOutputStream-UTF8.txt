@@ -1,0 +1,30 @@
+package test01;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+public class Ex5 {
+    public static void main(String[] args) {
+        BufferedWriter bw = null;
+        try {
+            File file = new File("C:\\report\\apiResponse\\test0406.txt");
+            FileOutputStream fs = new FileOutputStream(file, true);
+            OutputStreamWriter os = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
+            bw = new BufferedWriter(os);
+            bw.append("input sentence 1 ");
+            bw.newLine();
+            bw.append("input sentence 2 ");
+            bw.flush(); // 全部寫入緩存中的內容
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,34 @@
+https://www.itread01.com/content/1548094694.html
+
+package test01;
+
+import java.lang.reflect.Field;
+
+public class Ex5 {
+
+    public static void main(String[] args) {
+
+        Student student = new Student();
+        student.setName("Tom");
+        Class<?> cls = student.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        // Field[] fields = User.class.getDeclaredFields();
+
+        for (Field field : fields) {
+            try {
+//                System.out.println(field.getName());
+                field.setAccessible(true);
+                Object obj = field.get(student);
+                if (obj instanceof String) {
+                    System.out.println(obj);
+                } else {
+                    System.out.println("not String");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+}

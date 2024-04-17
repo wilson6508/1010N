@@ -1,0 +1,23 @@
+String str1="JAVA";
+String str2="JAVA";
+String str3=""+str1;
+		
+System.out.println(str1==str2);			      // true
+System.out.println(str1.equals(str3));	      // true
+System.out.println(str1.compareTo(str3));     // 0
+		
+System.out.println(str1==str3);			      // false
+System.out.println(str1.equals(str3+"K"));	  // false
+System.out.println(str1.compareTo(str3+"K")); // -1
+
+String str1 = "a";
+String str2 = "b";
+System.out.println(str1.compareTo(str1));     // 0
+System.out.println(str1.compareTo(str2));     // -1
+System.out.println(str2.compareTo(str1));     // 1
+
+Str1.compareTo(Str2);
+其返回的是一個int型別值。
+若Str1等於引數字串Str2字串,則返回0;
+若該Str1按字典順序小於引數字串Str2,則返回值小於0;
+若Str1按字典順序大於引數字串Str2,則返回值大於0。

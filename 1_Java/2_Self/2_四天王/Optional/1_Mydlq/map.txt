@@ -1,0 +1,13 @@
+調用映射取得返回值
+值存在 > 返回Optional物件
+值不存在 > 返回空Optional
+
+Map<String, String> userMap = new HashMap<>();
+userMap.put("name1", "Tom");
+userMap.put("name2", null);
+Optional<String> optional = Optional.of(userMap).map(value -> value.get("name1"));
+String userName = optional.orElse("noUser");
+
+Person person = new Person("Tom", 18);
+Optional<User> optional = Optional.ofNullable(person);
+String name = optional.map(User::getName).orElse("未填寫");

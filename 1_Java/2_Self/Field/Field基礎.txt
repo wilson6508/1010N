@@ -1,0 +1,67 @@
+package test01;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+public class Ex2 {
+
+    public static void main(String[] args) {
+
+        Student student = new Student();
+        student.setName("Tom");
+        student.setAge(18);
+        student.setGender("male");
+        Ex2.test(student);
+
+    }
+
+
+    public static void test(Object object) {
+        Class<?> clazz = object.getClass();
+        // System.out.println(clazz);  // class test01.Student
+        Field[] attributes = clazz.getDeclaredFields();
+        for (Field field : attributes) {
+            // System.out.println(field);
+            // System.out.println(field.getName());
+            String getAttributes = "get" + field.getName().toUpperCase().charAt(0) + field.getName().substring(1);
+            // System.out.println(getAttributes);
+            try {
+                Method method = clazz.getMethod(getAttributes);
+                Object content = method.invoke(object);
+                System.out.println(content.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+class Student {
+    private String name;
+    private int age;
+    private String gender;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+}

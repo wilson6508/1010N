@@ -1,0 +1,24 @@
+自分の夢をしっかり言葉をできる。
+mutable
+memory address
+close parentheses()
+curly braces()
+angle brackets<>
+brackets[]
+
+So this array can hold four elements inside of it.
+
+Arraylists do not have a fixed size.
+
+Arraylists will dynamically either expand or contract their size automatically.
+
+An array can hold basically anything .
+It can hold a primitive data type like an int a long a boolean and it can also hold objects like string.
+
+An arraylist can only hold objects.
+
+Arraylist has implemented the tostring method.
+
+List<String> list = Arrays.asList("AAA", "BBB");
+ArrayList<String> arrayList = new ArrayList<>(list);
+arrayList.set(0, "CCC");

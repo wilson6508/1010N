@@ -1,0 +1,47 @@
+public class ItemInfo{
+    private String id;
+    private String itemID;
+    private String uploadTime;
+}
+
+List<ItemInfo> itemList;
+List<ItemInfo> oldItemList;
+
+itemList中存在，oldItemList中不存在的
+List<ItemInfo> temp01 = itemList.stream().filter(item -> 
+	!oldItemList.stream().map(ItemInfo::getItemID).collect(Collectors.toList()).contains(item.getItemID())
+).collect(Collectors.toList());
+
+oldItemList中存在，itemList中不存在的
+List<ItemInfo> temp02 = oldItemList.stream().filter(item -> 
+	!itemList.stream().map(ItemInfo::getItemID).collect(Collectors.toList()).contains(item.getItemID())
+).collect(Collectors.toList());
+
+itemList和oldItemList都有的
+List<ItemInfo> temp03 = itemList.stream().filter(item -> 
+	oldItemList.stream().map(ItemInfo::getItemID).collect(Collectors.toList()).contains(item.getItemID())
+).collect(Collectors.toList());
+
+
+public static void main(String[] args) {
+	List<String> list01 = Arrays.asList("AAA", "BBB", "CCC", "DDD", "AAA");
+	List<String> list02 = Arrays.asList("AAA", "BBB", "CCC", "EEE", "BBB");
+
+	List<String> list03 = new ArrayList<>(new LinkedHashSet<>(list01)); // [AAA, BBB, CCC, DDD]
+	List<String> list04 = new ArrayList<>(new LinkedHashSet<>(list02)); // [AAA, BBB, CCC, EEE]
+
+//  list03中存在 list04中不存在的
+	List<String> temp01 = list03.stream().filter(e -> !list04.contains(e)).collect(toList());
+	System.out.println(temp01);  // [DDD]
+
+//  list04中存在 list03中不存在的
+	List<String> temp02 = list04.stream().filter(e -> !list03.contains(e)).collect(toList());
+	System.out.println(temp02);  // [EEE]
+
+//  list03中存在 list04中也存在的
+	List<String> temp = list03.stream().filter(list04::contains).collect(toList());
+	System.out.println(temp);    // [AAA, BBB, CCC]
+
+	list03.retainAll(list04);
+	System.out.println(list03);  // [AAA, BBB, CCC]
+}

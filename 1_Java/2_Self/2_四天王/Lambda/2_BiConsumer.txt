@@ -1,0 +1,22 @@
+BiConsumer<Person, byte[]> biConsumer = (person, arr) -> {
+    person.setHeight(arr[0]);
+    person.setWeight(arr[1]);
+};
+
+biConsumer.accept(person, new byte[]{1, 2, 3});
+---------------------------------------------------------------------------------------------------------------------------------------
+public void saveTitleOrContent(Set<String> data, int configId, String contentType, BiConsumer<NotifyEntity, String> biConsumer) {
+    List<NotifyEntity> collect = data.stream().map(str -> {
+        NotifyEntity entity = new NotifyEntity();
+        entity.setConfigId(configId);
+        entity.setContentType(contentType);
+        biConsumer.accept(entity, str);
+        return entity;
+    }).collect(Collectors.toList());
+    notifytDao.saveAll(collect);
+}
+
+saveTitleOrContent(newReply, configId, "0", NotifyEntity::setContent);
+saveTitleOrContent(newMain, configId, "1", NotifyEntity::setTitle);
+
+BiConsumer<NotifyEntity, String> biConsumer = ((entity, str) -> entity.setTitle(str));

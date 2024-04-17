@@ -1,0 +1,48 @@
+匹配
+boolean allMatch = list.stream().allMatch(p -> p.getAge() > 30);    // every
+Boolean anyMatch = list.stream().anyMatch(p -> p.getAge() > 30);    // some
+Boolean noneMatch = list.stream().noneMatch(p -> p.getAge() > 100); // 沒有匹配
+
+查找
+Optional<Person> first = list.stream().findFirst();
+Optional<Person> any = list.parallelStream().findAny(); // ?沒用
+long count = list.stream().filter(p -> p.getSalary() < 4000).count();
+
+總和
+// Optional<Double> sum = doubleStream.reduce((d1, d2) -> d1 + d2);
+Optional<Double> sum = doubleStream.reduce(Double::sum);
+
+https://www.youtube.com/watch?v=yjiiB2d4Dic
+--------------------------------------------------------------------------------------------------------
+總和
+List<Integer> list = IntStream.rangeClosed(1, 10).boxed().collect(toList());
+Integer sum = list.stream().reduce(-55, Integer::sum);
+
+List<Integer> integers = Arrays.asList(5, 14, 2, 3);
+Integer reduce = integers.stream().reduce(0, (acc, item) -> {
+	System.out.println(acc + "," + item);
+	if (item % 2 != 0) {
+		return acc;
+	}
+	return acc + item;
+});
+
+https://www.youtube.com/watch?v=oSWwc-O0xUc
+--------------------------------------------------------------------------------------------------------
+收集
+list.stream().filter(p -> p.getAge() > 25).collect(Collectors.toSet());
+
+public static String generateCode(int codeLength) {
+	List<Integer> list = new ArrayList<>();
+	list.addAll(IntStream.rangeClosed(48, 57).boxed().collect(toList()));
+	list.addAll(IntStream.rangeClosed(97, 122).boxed().collect(toList()));
+	return Stream.generate(() ->  {
+		int asciiCode = list.get(new Random().nextInt(list.size()));
+		return String.valueOf(Character.toChars(asciiCode));
+	}).limit(codeLength).collect(Collectors.joining(""));
+}
+
+https://www.youtube.com/watch?v=o1wJWA_R9i8
+--------------------------------------------------------------------------------------------------------
+Optional
+https://www.youtube.com/watch?v=MYXoEU3RkG0&list=PLmOn9nNkQxJH0qBIrtV6otI0Ep4o2q67A&index=683&ab_channel=%E5%B0%9A%E7%A1%85%E8%B0%B7IT%E5%9F%B9%E8%AE%AD%E5%AD%A6%E6%A0%A1

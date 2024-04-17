@@ -1,0 +1,20 @@
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+}
+
+Consumer<String> consumer = (String message) -> {
+    System.out.println("發送消息內容:" + message);
+};
+Consumer<String> consumer = (String message) -> System.out.println("發送消息內容" + message);
+
+consumer.accept("測試消息");
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+private static final Consumer<ScheduleDownloadWorkEntity>[] CONSUMER_ARR = new Consumer[5];
+static {
+    CONSUMER_ARR[0] = (ScheduleDownloadWorkEntity entity) -> entity.setOne(ProjectConst.STR_O);
+    CONSUMER_ARR[1] = (ScheduleDownloadWorkEntity entity) -> entity.setTwo(ProjectConst.STR_O);
+    CONSUMER_ARR[2] = (ScheduleDownloadWorkEntity entity) -> entity.setThree(ProjectConst.STR_O);
+    CONSUMER_ARR[3] = (ScheduleDownloadWorkEntity entity) -> entity.setFour(ProjectConst.STR_O);
+    CONSUMER_ARR[4] = (ScheduleDownloadWorkEntity entity) -> entity.setFive(ProjectConst.STR_O);
+}

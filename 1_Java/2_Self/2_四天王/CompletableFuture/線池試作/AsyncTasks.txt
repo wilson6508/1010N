@@ -1,0 +1,40 @@
+package com.eland.service.autoreport;
+
+import com.eland.pojo.info.membership.AutoReportTaskBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.CompletableFuture;
+
+@Component
+public class AsyncTasks {
+
+    @Autowired
+    private AutoReportTaskService autoReportTaskService;
+
+//    @Async("taskExecutor1")
+//    public CompletableFuture<String> doTaskOne(AutoReportTaskBean autoReportTaskBean) {
+//        System.out.println(autoReportTaskBean.getReportName());
+//        return CompletableFuture.completedFuture("任務完成");
+//    }
+//
+//    @Async("taskExecutor2")
+//    public CompletableFuture<String> doTaskTwo(AutoReportTaskBean autoReportTaskBean) {
+//        System.out.println(autoReportTaskBean.getReportName());
+//        return CompletableFuture.completedFuture("任務完成");
+//    }
+
+    @Async("taskExecutor1")
+    public void doTaskOne(AutoReportTaskBean autoReportTaskBean) {
+        autoReportTaskService.processAutoReportTaskBean(autoReportTaskBean);
+        autoReportTaskService.generateAutoReport(autoReportTaskBean);
+    }
+
+    @Async("taskExecutor2")
+    public void doTaskTwo(AutoReportTaskBean autoReportTaskBean) {
+        autoReportTaskService.processAutoReportTaskBean(autoReportTaskBean);
+        autoReportTaskService.generateAutoReport(autoReportTaskBean);
+    }
+
+}

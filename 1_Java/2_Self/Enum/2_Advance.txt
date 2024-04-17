@@ -1,0 +1,67 @@
+    @PostConstruct
+    public void init() {
+        keywordsTypeRepository.findAll().forEach((item) -> {
+            for (KeywordsType keywordsType : KeywordsType.values()) {
+                if (keywordsType.getType().equals(item.getType())) {
+                    keywordsType.setId(item.getId());
+                    keywordsType.setDescription(item.getDescription());
+                }
+            }
+        });
+
+        logger.info("InIt Keywords-Type.");
+    }
+	
+	
+	public enum KeywordsType {
+
+        TOPIC("topic"),
+        DIMENSION("dimension"),
+        BOOK_TOPIC("book_topic"),
+        TRIAL_TOPIC("trial_topic"),
+        COMMON_DIMENSION("common_dimension"),
+        ;
+
+        private int id;
+        private String type;
+        private String description;
+
+        KeywordsType(String type) {
+            this.type = type;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public static KeywordsType findById(int id) {
+            KeywordsType result = null;
+            for (KeywordsType type : values()) {
+                if (type.getId() == id) {
+                    result = type;
+                    break;
+                }
+            }
+            return result;
+        }
+    }

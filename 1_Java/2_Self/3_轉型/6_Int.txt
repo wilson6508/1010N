@@ -1,0 +1,7 @@
+System.out.println("向上取整:"      + (int) Math.ceil(96.1));   //  97
+
+System.out.println("向下取整"       + (int) Math.floor(96.8));  //  96
+
+System.out.println("四舍五入取整:"  +       Math.round(96.1));  //  96
+
+System.out.println("四舍五入取整:"  +       Math.round(96.8));  //  97

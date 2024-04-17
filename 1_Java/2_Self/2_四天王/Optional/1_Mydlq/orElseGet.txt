@@ -1,0 +1,9 @@
+值存在 > 返回值
+值不存在 > 觸發other，並返回other的结果
+
+Optional<String> optional1 = Optional.ofNullable(null);
+Object object1 = optional1.orElseGet(() -> {
+    String defaultVal = "执行逻辑和生成的默认值";
+    return defaultVal;
+});
+System.out.println("输出的值为：" + object1);

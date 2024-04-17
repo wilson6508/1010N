@@ -1,0 +1,11 @@
+View > Tool Windows > Database
+
+Refresh: 重新連接DB(同步數據)
+Properties: 
+Deactivate: 停用DB
+Edit Date: 顯示數據
+Go to DDL: 查看schema
+
+資料庫(stock_dev) > 滑鼠右鍵 > new Query Console (寫sql語句)
+資料表(company) > 滑鼠右鍵 > Diagrams > Show Visualization (join的結構)
+資料表(company) > 滑鼠右鍵 > Generate Persistence Mapping (產生entity)

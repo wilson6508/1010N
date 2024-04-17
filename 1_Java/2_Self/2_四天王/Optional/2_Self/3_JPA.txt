@@ -1,0 +1,12 @@
+Optional<UserInfoEntity> findByAccount(String account);
+Optional<PromotionInfoEntity> promotionInfo = promotionInfoRepository.findByPromotionCode(promotionCode);
+
+int insertId = promotionInfoRepository.insertPromotionInfo(userId, promotionCode, queryJson, createTime, expiredTime);
+resultString = promotionInfoRepository.findById(insertId).get().getPromotionCode();
+
+UserAuthEntity userAuthEntity = userAuthRepository.findByUserId(userId).orElse(null);
+
+boolean isPresent()：如果值存在，回傳 true；不存在則回傳 false。
+if (userInfoRepository.findByAccount(opviewUUID).isPresent())
+if (promotionInfo.isPresent()) {
+while (promotionInfoRepository.findByPromotionCode(promotionCode).isPresent()) {

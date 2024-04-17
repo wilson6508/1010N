@@ -1,0 +1,7 @@
+int[] arr = {38, 27, 43, 3, 9, 82, 10, 55};
+int[] copyArr= new int[arr.length];
+System.arraycopy(arr, 0, copyArr, 0, arr.length);
+來源 來源idx 複製對象 複製對象idx 複製幾個
+-----------------------------------------------------------------
+int[] arr = {38, 27, 43, 3, 9, 82, 10, 55};
+int[] copyArr = Arrays.copyOfRange(arr, 0, arr.length);

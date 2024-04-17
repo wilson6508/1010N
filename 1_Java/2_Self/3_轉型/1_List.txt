@@ -1,0 +1,18 @@
+Array To List
+
+List<String> result = Arrays.asList(String[] arr);
+
+int[] temp = {1, 2, 3, 4, 5};
+List<Integer> list = Arrays.stream(temp).boxed().collect(Collectors.toList());
+-----------------------------------------------------------------------------------------------
+List To List
+
+List<String> temp = Arrays.asList("AA", "AA");
+List<String> list = new ArrayList<>(temp);
+-----------------------------------------------------------------------------------------------
+Set To List
+
+Set<String> set = new HashSet<>();
+set.add("AA");
+List<String> list = new ArrayList<>(set);
+-----------------------------------------------------------------------------------------------

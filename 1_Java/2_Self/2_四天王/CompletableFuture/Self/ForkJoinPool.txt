@@ -1,0 +1,11 @@
+import java.util.concurrent.ForkJoinPool;
+
+// ForkJoinPool pool = new ForkJoinPool(parallelism);
+
+// 其中 parallelism 是並行處理的執行緒，預設是is處理器的個數。
+// 1) execute() 方法: 期望非同步執行，呼叫它的fork方法將任務分割到多執行緒中。
+// 2) invoke() 方法: 當代獲取結果，在pool呼叫invoke方法。
+// 3) submit() 方法: 返回一個 Future物件，你可以使用該future物件檢查檢查執行狀態並在執行完成後獲取結果
+
+ForkJoinPool forkJoinPool = new ForkJoinPool(2);
+forkJoinPool.execute(() -> System.out.println(777));

@@ -1,0 +1,11 @@
+mappingList.stream()
+           .filter(item -> item.getClusterId() == clusterItem.getId())
+		   .collect(Collectors.toList())
+		   .forEach((mappingItem) -> {
+				SourceClusterMapping temp = new SourceClusterMapping();
+				temp.setId(mappingItem.getId());
+				temp.setType(mappingItem.getType());
+				temp.setSourceId(mappingItem.getSourceId());
+				temp.setSourceName(mappingItem.getDisplayName());
+				resultItem.getSourceClusterMappings().add(temp);
+            });

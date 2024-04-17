@@ -1,0 +1,64 @@
+package test01;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+
+public class Ex1 {
+    private static final Gson gson = new Gson();
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<>();
+        list.add(new Student("Kobe", 40, true));
+        list.add(new Student("LeBron", 40, false));
+        list.add(new Student("AAA", 40, true));
+        list.add(new Student("LeBron", 33, false));
+        list.add(new Student("Kobe", 33, true));
+        Map<String, List<Student>> map01 = list.stream().collect(groupingBy(Student::getName));
+        System.out.println(gson.toJson(map01));
+        Map<Integer, List<Student>> map02 = list.stream().collect(groupingBy(Student::getAge));
+        System.out.println(gson.toJson(map02));
+        Map<Boolean, List<Student>> map03 = list.stream().collect(groupingBy(Student::isGender));
+        System.out.println(gson.toJson(map03));
+		
+		map01.forEach((key, value) -> System.out.println(key + ", " + gson.toJson(value)));
+    }
+}
+
+class Student {
+    private String name;
+    private int age;
+    private boolean gender;
+    public Student(String name, int age, boolean gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+}

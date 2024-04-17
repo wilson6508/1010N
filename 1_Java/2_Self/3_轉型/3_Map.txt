@@ -1,0 +1,33 @@
+Java8 中使用Stream 讓List 轉 Map使用總結
+https://iter01.com/603853.html
+
+------------------------------------------------------------------------------------------------------------------------
+import static java.util.stream.Collectors.toMap;
+
+List<Student> list = new ArrayList<>();
+Student s1 = new Student("Tom", 40);
+Student s2 = new Student("Mary", 50);
+list.add(s1);
+list.add(s2);
+
+Map<String, Integer> map01 = list.stream().collect(toMap(Student::getName, Student::getAge));
+System.out.println(map01); // {Tom=40, Mary=50}
+
+Map<String, Integer> map02 = list.stream().collect(toMap(e -> e.getName() + "X", e -> e.getAge() + 1));
+System.out.println(map02); // {TomX=41, MaryX=51}
+------------------------------------------------------------------------------------------------------------------------
+Java8 Collectors.toMap的坑
+https://www.itread01.com/content/1544340809.html
+
+Collect stream of EntrySet to LinkedHashMap
+https://stackoverflow.com/questions/52975256/collect-stream-of-entryset-to-linkedhashmap	
+
+Map<String, Object> result 
+= resources.entrySet()
+		   .stream()
+		   .filter(e -> keys.contains(e.getKey()))
+		   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+		   
+return this.subjects.entrySet().stream()
+       .collect(Collectors.toMap(e -> getArtistryCopy(e.getKey()), Map.Entry::getValue, (val1, val2) -> yourMergeResultHere, LinkedHashMap::new));		   
+------------------------------------------------------------------------------------------------------------------------

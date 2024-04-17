@@ -1,0 +1,30 @@
+1. 創建
+import java.sql.Date;
+Date date = new Date(System.currentTimeMillis());
+Date date = Date.valueOf("2020-01-01");
+--------------------------------------------------------------------------------------
+2. 加減
+Date date = Date.valueOf("2020-01-01");
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(date);
+calendar.add(Calendar.YEAR, -2);
+calendar.add(Calendar.MONTH, 1);
+calendar.add(Calendar.DAY_OF_MONTH, 1);
+date.setTime(calendar.getTime().getTime());
+System.out.println(date.toString());
+-------------------------------------------------------------------------
+3. 比較
+Date d1 = Date.valueOf("2020-01-01");
+Date d2 = Date.valueOf("2020-01-01");
+System.out.println(d1.equals(d2)); // true
+System.out.println(d1.before(d2)); // false
+System.out.println(d1.after(d2));  // false
+--------------------------------------------------------------------------------------
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+try {
+    Date parsed = sdf.parse("2021-07-15");
+    transactionRecordEntity.setTransactionDate(new java.sql.Date(parsed.getTime()));
+} catch (ParseException e) {
+    e.printStackTrace();
+}
+--------------------------------------------------------------------------------------

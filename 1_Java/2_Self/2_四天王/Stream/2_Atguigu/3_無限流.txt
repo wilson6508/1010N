@@ -1,0 +1,11 @@
+無限流迭代  limit中間操作  forEach終止操作
+Stream.iterate(0, t -> t + 2).limit(10).forEach(System.out::println);
+
+無限流生成
+Stream.generate(Math::random).limit(10).forEach(System.out::println);
+
+Stream.generate(() -> new Random().nextInt(5)).limit(10);      // 0,1,2,3,4
+Stream.generate(() -> new Random().nextInt(5) + 1).limit(10);  // 1,2,3,4,5
+
+new Random().nextBoolean()
+https://blog.csdn.net/qq_31635851/article/details/111162954
