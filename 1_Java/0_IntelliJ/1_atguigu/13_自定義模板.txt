@@ -1,0 +1,12 @@
+系統預設(不能改)
+Postfix Completion
+--------------------------------------------------------------
+系統預設(能改)
+Live Templates
+
+Add Template Group -> CustomerDefine -> Add Template
+soutg console物件JSON
+System.out.println(new Gson().toJson($END$));
+System.out.println(new Gson().toJson($VAR1$));
+define Java
+--------------------------------------------------------------
