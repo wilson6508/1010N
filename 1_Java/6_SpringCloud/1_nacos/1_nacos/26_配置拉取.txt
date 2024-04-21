@@ -1,0 +1,5 @@
+單server: 
+項目啟動 > 讀取application.yml > 創建spring容器 > 加載bean
+
+nacos:
+項目啟動 > 讀取bootstrap.yml > 讀取nacos配置文件 > 讀取application.yml > 創建spring容器 > 加載bean

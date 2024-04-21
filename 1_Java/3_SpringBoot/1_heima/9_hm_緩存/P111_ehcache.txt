@@ -1,0 +1,38 @@
+https://www.bilibili.com/video/BV15b4y1a7yG/?p=111
+<dependency>
+    <groupId>net.sf.ehcache</groupId>
+    <artifactId>ehcache</artifactId>
+</dependency>
+spring.cache.type=ehcache
+
+ehcache.xml (resources資料夾下)
+<ehcache>
+    <diskStore path="D:\ehcache" />
+
+    <defaultCache 
+           eternal="false"
+           diskPersistent="false"
+           maxElementsInMemory="1000"
+           overflowToDisk="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
+           memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="smsCode"
+           eternal="false"
+           diskPersistent="false"
+           maxElementsInMemory="1000"
+           overflowToDisk="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
+           memoryStoreEvictionPolicy="LRU" />
+
+</ehcache>
+
+eternal: 緩存是否永久保存
+diskPersistent: 硬碟持久化
+maxElementsInMemory: 能存多少個元素
+overflowToDisk: 如果超過maxElementsInMemory 是否寫入硬碟
+
+LRU: Least Recently Used
+LFU: Least Frequently Used

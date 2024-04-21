@@ -1,0 +1,29 @@
+全局配置yaml
+feign:
+  client:
+    config:
+      default:
+        logger-level: FULL
+
+局部配置yaml
+feign:
+  client:
+    config:
+      helloService:
+        logger-level: FULL
+------------------------------------------------------------------------------------------
+全局配置代碼
+@EnableFeignClients(defaultConfiguration = DefaultFeignConfiguration.class)
+
+局部配置代碼
+@FeignClient(value = "userservice", configuration = DefaultFeignConfiguration.class)
+
+import feign.Logger;
+import org.springframework.context.annotation.Bean;
+public class DefaultFeignConfiguration {
+    @Bean
+    public Logger.Level logLevel() {
+        return Logger.Level.BASIC;
+    }
+}
+------------------------------------------------------------------------------------------

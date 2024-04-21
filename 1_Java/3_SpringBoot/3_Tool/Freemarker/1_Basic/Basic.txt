@@ -1,0 +1,27 @@
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-freemarker</artifactId>
+</dependency>
+---------------------------------------------------------------------------------------------------------------------------------------------
+https://morosedog.gitlab.io/springboot-20190415-springboot27/
+https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.templating
+
+spring:
+  main:
+    banner-mode: off
+  freemarker:
+    suffix: .html
+---------------------------------------------------------------------------------------------------------------------------------------------
+@Resource
+private FreeMarkerConfigurer freeMarkerConfigurer;
+
+@GetMapping("/demo")
+public String demo() throws IOException, TemplateException {
+    Configuration configuration = freeMarkerConfigurer.getConfiguration();
+    Template template = configuration.getTemplate("Test.html");
+    Map<String, Object> model = new HashMap<>();
+    model.put("userName", "Tom");
+    String str = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+    return str;
+}
+---------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,11 @@
+﻿@Bean
+public CommandLineRunner run(TestService testService) {
+    return (args -> {
+        System.out.println("666");
+        testService.demo3();
+        System.out.println("777");
+    });
+}
+
+ConfigurableApplicationContext run = SpringApplication.run(Application.class, args); // IOC容器
+InsertTask bean = run.getBean(InsertTask.class);

@@ -1,0 +1,12 @@
+spring.io > SpringBoot > LEARN > Reference Doc. > Application Properties
+--------------------------------------------------------------------------------
+server.port=8081
+
+spring.main.banner-mode=off
+spring.banner.image.location=logo.png (resources/ )
+
+// debug info error
+logging.level.root=info
+logging.level.com.itheima=warn
+--------------------------------------------------------------------------------
+application.properties > application.yml > application.yaml

@@ -1,0 +1,25 @@
+// 建立連接
+ConnectionFactory factory = new ConnectionFactory();
+Connection connection = factory.newConnection();
+// 建立channel
+Channel channel = connection.createChannel();
+// 創建對列
+String queueName = "simple.queue";
+channel.queueDeclare(queueName, false, false, false, null);
+// 發送消息
+String message = "hello, rabbitmq!";
+channel.basicPublish("", queueName, null, message.getBytes());
+//
+channel.close();
+connection.close();
+--------------------------------------------------------------------------------------------------------------------
+// 訂閱消息
+channel.basicConsume(queueName, true, new DefaultConsumer(channel) {
+    @Override
+    public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+        // 處理消息
+        String message = new String(body);
+        System.out.println("接收到消息：【" + message + "】");
+    }
+});
+System.out.println("等待接收消息。。。。");

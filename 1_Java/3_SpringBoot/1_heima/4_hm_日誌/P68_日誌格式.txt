@@ -1,0 +1,5 @@
+logging:
+  pattern:
+    console: "%d %clr(%5p) --- [%16t] %clr(%-40.40c){cyan} : %m %n"
+
+(p:等級 t:thread c:class m:msg -:左對齊 .:截取 cyan:青色)

@@ -1,0 +1,10 @@
+MySQL > MongoDb > Redis
+
+用戶資訊 (永久性儲存 修改頻率低)
+MySQL
+
+遊戲裝備道具
+MongoDb
+
+直播人數
+MongoDb Redis

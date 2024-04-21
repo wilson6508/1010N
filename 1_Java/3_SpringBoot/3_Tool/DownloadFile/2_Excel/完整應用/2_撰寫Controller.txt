@@ -1,0 +1,53 @@
+package com.controller;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
+@RestController
+public class CrawlerApiResponse {
+
+    @RequestMapping(value = "/fileDownloadResponse", method = {RequestMethod.POST, RequestMethod.GET})
+    public ResponseEntity<Object> fileDownloadResponseBean() {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        String fileName = "attachment;filename=success.xlsx";
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet eng = workbook.createSheet("English");
+            Row engZero = eng.createRow(0);
+            Row engOne = eng.createRow(1);
+            engZero.createCell(0).setCellValue("A1");
+            engZero.createCell(1).setCellValue("B1");
+            engOne.createCell(0).setCellValue(123);
+            engOne.createCell(1).setCellValue(4.56);
+            eng.setDefaultColumnWidth(20);
+            Sheet chi = workbook.createSheet("中文");
+            chi.createRow(0).createCell(0).setCellValue("中文");
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (Exception e) {
+            fileName = "attachment;filename=error.xlsx";
+            e.printStackTrace();
+        }
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", fileName)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                .body(inputStreamResource);
+
+    }
+
+}

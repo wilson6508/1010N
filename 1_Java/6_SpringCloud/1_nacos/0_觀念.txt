@@ -1,0 +1,16 @@
+nacos-server
+    服務註冊
+    管理設定檔
+
+gateway
+    路由到微服務
+    路由斷言
+    過濾器
+    cors
+feign-api
+    發http請求的聲明式接口
+    沒有啟動類 為dependency
+    httpclient連線池
+order-service
+
+user-service

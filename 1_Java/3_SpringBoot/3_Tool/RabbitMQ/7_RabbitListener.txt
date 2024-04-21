@@ -1,0 +1,35 @@
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+
+@EnableRabbit
+@SpringBootApplication
+public class Springboot02AmqpApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(Springboot02AmqpApplication.class, args);
+    }
+}
+--------------------------------------------------------------------------
+void contextLoads() {
+    rabbitTemplate.convertAndSend("exchange.fanout", "", new Book("三國演義", "羅貫中"));
+}
+--------------------------------------------------------------------------
+import com.atguigu.amqp.bean.Book;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookService {
+
+    @RabbitListener(queues = {"atguigu.news"})
+    public void receive(Book book) {
+        System.out.println(book.getBookName());
+        System.out.println(book.getAuthor());
+    }
+
+    @RabbitListener(queues = {"atguigu.emps"})
+    public void receive(Message message) {
+        System.out.println(message.getBody());
+        System.out.println(message.getMessageProperties());
+    }
+
+}

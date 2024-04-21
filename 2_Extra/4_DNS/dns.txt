@@ -1,0 +1,23 @@
+DNS Domain System: Responsible for translating domain names into IP addresses.
+Domain Name System Database (Records the mapping between domain names and IP addresses; browsers use DNS to find IP addresses).
+Checking browser cache.
+Checking operating system cache (C:\Windows\System32\drivers\etc\hosts).
+Checking router cache.
+Checking ISP DNS cache (Internet Service Provider).
+Checking root domain name servers (root name servers).
+Once the IP address is obtained, the browser will send a connection request to the server.
+
+Use regular expressions to validate parameters input by users.
+If there are any keywords that match SQL syntax, replace them with legitimate characters or equivalents.
+
+Parameterized queries are the most secure way to prevent SQL Injection in the vast majority of cases.
+In fact, it can be considered the only truly secure solution.
+The principle behind it involves using placeholders in database queries.
+
+It's important to emphasize that even in the worst-case scenario where SQL injection occurs, 
+there's a fundamental principle to follow:
+Your system should never have connected to the database using the superuser's credentials
+when it went live!!
+By avoiding the use of superuser credentials, even in the event of a breach,
+the damage would be limited. If, on the other hand,
+ superuser credentials were used, the consequences could be far more devastating!

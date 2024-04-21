@@ -1,0 +1,18 @@
+windows安装nginx
+https://cloud.tencent.com/developer/article/1888447
+https://juejin.cn/post/6844903908226138120
+
+nginx -s reload
+
+啟動nginx
+start nginx
+
+確認是否啟動
+http://localhost:80
+tasklist /fi "imagename eq nginx.exe"
+
+關閉nginx (關掉cmd窗口並不能結束nginx進程)
+nginx -s stop (快速關閉nginx)
+nginx -s quit (完整關閉nginx 保留日誌)
+
+ProxyPass時 路徑參數也會跟著打到 要反向代理的伺服器

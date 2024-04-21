@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.eland'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+clean{}
+bootJar { archiveName 'ScheduleDownload.jar' }
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// springboot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// database
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+	// tool
+	implementation 'com.google.code.gson:gson'
+	implementation 'commons-io:commons-io:2.13.0'
+	implementation 'org.apache.poi:poi:4.0.1'
+	implementation 'org.apache.poi:poi-ooxml:4.0.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}

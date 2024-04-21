@@ -1,0 +1,8 @@
+配置文件
+https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties
+
+starters
+https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters
+
+Maven範例
+https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.first-application.pom

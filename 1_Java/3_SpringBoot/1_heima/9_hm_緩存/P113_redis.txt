@@ -1,0 +1,17 @@
+redis-cli
+flushdb
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+spring:
+  redis:
+    host: 192.168.93.100
+    port: 6379
+    password: 123321
+  cache:
+    type: redis
+    redis:
+        time-to-live: 10s

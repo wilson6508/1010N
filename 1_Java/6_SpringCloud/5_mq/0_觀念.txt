@@ -1,0 +1,28 @@
+Producer > Exchange > Queue > Consumer
+
+Producer
+負責丟訊息到Queue中
+若有定義Exchange 則丟給Exchange
+
+Exchange
+用來決定Producer給的資料要給哪個Queue
+fanout: 一次丟給全部負責的Queue
+direct: 直接丟給指定的Queue
+topic: 類似regular expression 設定binding規則 丟給符合的Queue
+headers: 透過傳送資料的header 來特別指定所要的Queue
+
+Queue
+以名字為id
+負責存放所需要的資料
+跟資料結構的Queue一樣 有先進先出(FIFO)特性
+
+Consumer
+負責接收來自Queue的訊息
+-------------------------------------------------------------------------------------
+FanoutExchange:
+    Producer發消息給FanoutExchange
+    FanoutExchange把消息轉傳到與它綁定的所有queue
+
+DirectExchange:
+    Producer發消息給DirectExchange並指定routingKey
+    DirectExchange把消息轉傳到與它綁定 且routingKey與bindingKey相同的所有queue

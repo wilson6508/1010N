@@ -1,0 +1,25 @@
+    // 取得模板 PPT
+    public XMLSlideShow fetchModelPPT() {
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            Path temp = Files.createTempFile("temp1234", ".pptx");
+            Files.copy(classloader.getResourceAsStream("autoCustomReportTemplate.pptx"), temp, StandardCopyOption.REPLACE_EXISTING);
+            FileInputStream fileInputStream = new FileInputStream(temp.toFile());
+            return new XMLSlideShow(fileInputStream);
+        } catch (IOException e) {
+            System.out.println("取得模板PPT發生錯誤：" + e);
+            return null;
+        }
+    }
+
+    public static String getWordCloudJsPath() {
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            Path temp = Files.createTempFile("temp1234", ".js");
+            Files.copy(classloader.getResourceAsStream("wordCloud.js"), temp, StandardCopyOption.REPLACE_EXISTING);
+            return temp.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }

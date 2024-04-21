@@ -1,0 +1,26 @@
+Java POI 以Xlsx Excel 為實務範例
+https://four-bots.com/?p=1407
+
+使用Apache POI更新Excel檔案
+https://www.796t.com/post/MmY2MWc=.html
+
+使用Java通過POI讀取EXCEL中的資料
+https://iter01.com/540242.html
+
+Java讀取Excel資料：基於Apache POI（一）
+https://www.itread01.com/content/1546456201.html
+
+【JAVA】如何使用Spring Boot讀取Excel檔案
+https://www.796t.com/post/YW1vMDQ=.html
+
+SpringBoot讀取excel表格
+https://www.796t.com/article.php?id=142343
+
+spring boot 使用POI匯出資料到Excel表格
+https://www.itread01.com/content/1577293625.html
+
+Spring Boot项目中读取创建Excel文件
+https://blog.csdn.net/weixin_43845227/article/details/115142913
+
+Java讀取多種檔案格式的檔案
+https://www.itread01.com/content/1547514575.html

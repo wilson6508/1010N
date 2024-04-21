@@ -1,0 +1,44 @@
+APP -- Cache -- Db
+緩存是一種介於 數據永久儲存介質 與 數據應用之間 的臨時儲存介質
+使用緩存可以有效減少 低速數據讀取的次數(磁盤io)
+-------------------------------------------------------------------------------------
+@Cacheable是基於AOP代理類 同類調用不走代理(同類調用不起作用)
+同一个类中调用同類方法 没有使用ioc容器中的对象调用方法 注解没有被扫描 使用ioc容器的方法 注解才会被扫描
+
+@EnableCaching
+Service {
+    @Autowired 
+    CodeUtils codeUtils;
+    @CachePut(value = "smsCode", key = "#tele")  // 放緩存
+    public String sendCode(String tele) {
+        return codeUtils.getCode(tele);
+    }
+    public boolean checkCode(String tele, String code) {
+        String cacheCode = getCache(tele);
+        return cacheCode.equals(code);
+    }
+}
+
+@Component
+@EnableCaching
+CodeUtils {
+    public String getCode(String tele) {
+        int hash = tele.hashCode();
+        long millis = System.currentTimeMillis();
+        long temp = hash ^ millis;
+        temp = Math.abs(temp);
+        long code = temp % 1000000;
+        return String.format("%06d", code);
+    }
+    @Cacheable(value = "smsCode", key = "#tele") // 放緩存 取緩存
+    public String getCache(String tele) {
+        return null;
+    }
+}
+-------------------------------------------------------------------------------------
+String s = "123456789";
+String substring = s.substring(s.length() - 3); // 末3碼
+
+int code = 324;
+String str = String.format("%06d", code); // 000324
+-------------------------------------------------------------------------------------

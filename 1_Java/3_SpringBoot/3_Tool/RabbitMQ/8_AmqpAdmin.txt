@@ -1,0 +1,11 @@
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+
+amqpAdmin.declareExchange(new DirectExchange("amqpAdmin.exchange"));
+
+amqpAdmin.declareQueue(new Queue("amqpAdmin.queue", true));
+
+Binding binding = new Binding("amqpAdmin.queue", Binding.DestinationType.QUEUE, "amqpAdmin.exchange", "amqpKey", null);
+amqpAdmin.declareBinding(binding);

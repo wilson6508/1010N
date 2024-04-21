@@ -1,0 +1,25 @@
+https://stackoverflow.com/questions/52207233/hibernate-saves-retrieves-date-minus-day-if-application-uses-another-timezone-th
+
+compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
+implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+--------------------------------------------------------------------------------------------
+public boolean getIsEnable() {
+	return isEnable;
+}
+
+public void setIsEnable(boolean enable) {
+	isEnable = enable;
+}
+
+public byte getIsCustom() {
+	return isCustom;
+}
+
+public void setIsCustom(byte isCustom) {
+	this.isCustom = isCustom;
+}
+--------------------------------------------------------------------------------------------
+url = 'jdbc:mysql://10.20.20.232:3306/wh_query?serverTimezone=Asia/Taipei'
+url = 'jdbc:mariadb://10.20.20.2:3306/opv_report_dev?serverTimezone=Asia/Taipei'
+url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+--------------------------------------------------------------------------------------------

@@ -1,0 +1,11 @@
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 1 # 任務調度線程池大小 默認1
+      thread-name-prefix: ssm
+      shutdown:
+        await-termination: false # 線程池關閉等待所有任務完成
+        await-termination-period: 10s # 調度線程關閉前最大等待時間 確保一定關閉
+
+目前測試沒啥用 應該都不會配(2023/03/05註記)

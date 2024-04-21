@@ -1,0 +1,34 @@
+Tab > Exchanges
+
+------------------------------------
+
+exchange.direct
+Publish message
+
+Routing key: atguigu
+Payload: direct.exchange.msg.helloworld
+Publish message
+
+------------------------------------
+
+exchange.fanout
+Publish message
+
+Routing key: atguigu.news
+Payload: fanout.msg.haha
+Publish message
+
+------------------------------------
+
+exchange.topic
+Publish message
+
+Routing key: atguigu.news
+Payload: atguigu.news.哈哈哈
+Publish message
+
+Routing key: hello.news
+Payload: 測試訊息
+Publish message
+
+------------------------------------

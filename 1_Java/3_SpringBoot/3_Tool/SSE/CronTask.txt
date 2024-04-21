@@ -1,0 +1,17 @@
+import org.springframework.scheduling.config.CronTask;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.support.CronTrigger;
+
+private void registerTask(Runnable action, String expression) {
+	CronTask task = new CronTask(action, new CronTrigger(expression));
+	ScheduledTaskRegistrar taskRegistrar = new ScheduledTaskRegistrar();
+	taskRegistrar.addCronTask(task);
+	taskRegistrar.afterPropertiesSet();
+}
+
+registerTask(() -> announcementList.remove(content), endTime);
+registerTask(() -> {
+	announcementList.add(content);
+	subscribeService.sendEventToUsers(-1, new EventInfo("announcement", announcementList));
+}, startTime);
+

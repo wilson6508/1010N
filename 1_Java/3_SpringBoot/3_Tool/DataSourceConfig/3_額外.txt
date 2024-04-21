@@ -1,0 +1,24 @@
+server:
+  port: 5005
+spring:
+  datasource:
+    dynamic:
+      primary: stock
+      strict: true
+      datasource:
+        stock:
+          url: jdbc:mysql://localhost:3306/stock_dev
+          username: root
+          password: 1234
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+apiurl:
+  test: 'www.yahoo.com'
+-------------------------------------------------------------------------
+<dependency>
+    <groupId>com.baomidou</groupId>
+    <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+    <version>3.5.1</version>
+</dependency>

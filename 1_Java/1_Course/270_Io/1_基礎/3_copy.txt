@@ -1,0 +1,9 @@
+FileInputStream fis = new FileInputStream("D:\\atguigu\\test.mp4");
+FileOutputStream fos = new FileOutputStream("day03-code\\copy.mp4");
+int b;
+while ((b = fis.read()) != -1) {
+    fos.write(b);
+}
+// 先開的最後關
+fos.close();
+fis.close();

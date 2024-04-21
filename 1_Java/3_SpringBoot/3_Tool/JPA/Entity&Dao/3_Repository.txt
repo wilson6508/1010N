@@ -1,0 +1,39 @@
+import com.eland.pojo.entity.insight.AutoReportTaskEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface AutoReportTaskRepository extends JpaRepository<AutoReportTaskEntity, Long> {
+
+    Optional<AutoReportTaskEntity> findById(int id);
+
+    Optional<List<AutoReportTaskEntity>> findByStatus(String status);
+
+    @Transactional
+    void deleteById(int taskId);
+}
+=====================================================================================================
+@Transactional
+void deleteByExpiredTimeBefore(Timestamp currentTime);
+
+@Transactional
+List<AutoReportScheduleConfigEntity> deleteAllByServiceId(int serviceId);
+
+@Transactional
+void deleteByScheduleIdIn(List<Integer> scheduleIdList);
+------------------------------------------------------------------------------------------------------
+在Spring Boot中使用JpaRepository的deleteById(ID id)方法刪除數據時，
+要使用existsById(ID id)方法判斷數據是否存在。
+刪除一個id不存在的數據會拋出org.springframework.dao.EmptyResultDataAccessException異常
+在使用其他方法時，例如：deleteAllByName(name)，不進行判斷也可以刪除，不會拋出異常。
+
+@Modifying
+@Transactional
+void deleteByExpiredTimeBefore(Timestamp currentTime);
+
+@Query 注解用於使用 JPQL 執行數據庫操作
+如果數據庫操作是修改數據而非查詢數據，則需要再額外使用 @Modifying
+注解提示 JPA 該操作是修改操作。
+------------------------------------------------------------------------------------------------------

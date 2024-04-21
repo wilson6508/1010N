@@ -1,0 +1,11 @@
+建造實體類(entity)
+建造數據層(ctrl + F12 看繼承到的方法)
+單元測試
+
+業務層
+interface
+impl
+單元測試
+
+表現層(Restful)
+postman測試

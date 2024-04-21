@@ -1,0 +1,72 @@
+import org.springframework.http.MediaType;
+
+@Controller
+@RequestMapping("/insight")
+public class InsightManager {
+    @GetMapping(value = "/subscribe/{module}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public String subscribe(@PathVariable("module") String module) {
+        if (!module.equals("")) {
+            return "forward:/" + module;
+        }
+        throw new ParamNotFoundException("無此module");
+    }
+}
+-------------------------------------------------------------------------------------------------
+@RestController
+public class SubscribeController {
+
+    @Autowired
+    SubscribeService subscribeService;
+
+    @RequestMapping(value = "/event", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribeEvent(HttpServletRequest request) {
+        return subscribeService.subscribeEvent(request);
+    }
+
+}
+-------------------------------------------------------------------------------------------------
+@Service
+public class SubscribeService {
+
+    public static final Map<String, SseEmitter> connectionMap = new ConcurrentHashMap<>();
+
+    public SseEmitter subscribeEvent(HttpServletRequest request) {
+        UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
+        String key = new Timestamp(System.currentTimeMillis()).toString() + UUID.randomUUID() + userInfo.getUserId();
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE); // new SseEmitter(3600_000L);
+        connectionMap.put(key, sseEmitter);
+        sseEmitter.onCompletion(() -> {
+            synchronized (key) {
+                connectionMap.remove(key);
+            }
+        });
+        sseEmitter.onTimeout(sseEmitter::complete);
+        sseEmitter.onError((e) -> sseEmitter.complete());
+        return sseEmitter;
+    }
+
+    public synchronized void sendEventToUsers(Integer userId, EventInfo eventInfo) {
+        Set<String> abortKeys = new HashSet<>();
+        Set<String> keySet = connectionMap.keySet();
+        if (userId != -1) {
+            keySet = connectionMap.keySet().stream().filter(key -> key.endsWith(String.valueOf(userId))).collect(Collectors.toSet());
+        }
+        for (String key : keySet) {
+            try {
+                connectionMap.get(key).send(SseEmitter.event().data(eventInfo));
+                // connectionMap.get(key).send(SseEmitter.event().id(key).data(obj));
+            } catch (ClientAbortException ignored) {
+                abortKeys.add(key);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        connectionMap.keySet().removeAll(abortKeys);
+    }
+
+    @Scheduled(cron = "0 0/5 * * * ?")
+    public void clearConnectionMap() {
+        sendEventToUsers(-1, EventInfo.builder().type("clear").build());
+    }
+
+}

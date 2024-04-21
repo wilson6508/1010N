@@ -1,0 +1,8 @@
+Q: 不要寫select * ?
+
+1. 增加查詢分析器的解析成本
+2. 無用欄位增加網路消耗 尤其是text類型欄位
+3. 即便有設定索引 因為用全欄位 優化器可能還是會走全表掃描
+
+EXPLAIN SELECT * FROM book WHERE type LIKE '%o%';
+SHOW WARNINGS;

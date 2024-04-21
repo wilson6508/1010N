@@ -1,0 +1,31 @@
+以@Scheduled發送通知可能會遇到的問題 (Calling [asyncError()])
+https://stackoverflow.com/questions/53605197/calling-asyncerror-is-not-valid-for-a-request-with-async-state-must-dispatc
+
+Gradle Spring Boot 專案要如何更換tomcat版本
+https://stackoverflow.com/questions/41260015/spring-boot-use-different-tomcat-version
+https://github.com/snicoll-scratches/test-gradle-tomcat80/blob/main/build.gradle
+
+SpringBoot中@EventListener注解的使用
+https://segmentfault.com/a/1190000039097608
+
+SpringBoot动态定时任务
+https://juejin.cn/post/7041096691717505038#heading-13
+https://www.361shipin.com/blog/1508119598770188290
+https://kknews.cc/zh-tw/code/3q39o23.html
+
+SpringBoot动态定时任务主要
+https://stackoverflow.com/questions/56938152/how-to-schedule-a-cron-job-in-spring-boot-without-using-scheduled-annotation (採用)
+https://www.it145.com/9/107290.html
+https://dzone.com/articles/multiple-cron-task-with-spring-boot-scheduler
+https://blog.csdn.net/weixin_43901865/article/details/120366591
+https://www.cnblogs.com/sxdcgaq8080/p/15947167.html
+https://cloud.tencent.com/developer/article/1675688
+https://www.796t.com/p/806092.html
+https://www.gushiciku.cn/pl/gZbk/zh-tw
+https://gitee.com/zxhTom/crontab/blob/master/src/main/java/com/github/zxhtom/crontab/schedule/DemoTask.java
+https://www.it145.com/9/72115.html
+https://tw511.com/a/01/27919.html (可複製)
+https://hk.java366.com/blog/detail/2bb89b1f38544c74ab9d18763add3372 (可複製)
+
+
+logging.level.org.apache.coyote.http11=ERROR

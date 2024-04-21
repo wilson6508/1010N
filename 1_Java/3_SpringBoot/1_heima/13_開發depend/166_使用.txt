@@ -1,0 +1,9 @@
+tools:
+  ip:
+    cycle: 5
+    cycle-reset: false
+    model: detail
+----------------------------------------------------------
+import cn.itcast.service.IpCountService;
+@Autowired
+private IpCountService ipCountService;

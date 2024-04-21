@@ -1,0 +1,26 @@
+靜態方法中 沒有this關鍵字
+靜態方法中 只能訪問靜態 不能訪問非靜態的東西(普通變量 普通方法)
+
+public class Student {
+    String name;
+    int age;
+    static String teacherName;
+
+    // 普通的方法
+    // this是jvm賦值
+    // this是調用者的地址值
+    public void show(Student this) {
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(teacherName);
+        study();
+    }
+
+    public void study(Student this) {
+        System.out.println("study");
+    }
+
+    public static void method() {
+        System.out.println("靜態方法");
+    }
+}

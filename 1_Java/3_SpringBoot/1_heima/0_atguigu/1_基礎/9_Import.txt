@@ -1,0 +1,18 @@
+import ch.qos.logback.core.db.DBHelper;
+import com.bean.User;
+
+// 給容器中自動創建這2個類型的組件, 默認組件的名字是全類名
+@Import({User.class, DBHelper.class})
+@Configuration
+public class MyConfig {}
+
+String[] beanNamesForType = run.getBeanNamesForType(User.class);
+for (String s : beanNamesForType) {
+	System.out.println(s);
+}
+DBHelper bean = run.getBean(DBHelper.class);
+System.out.println(bean);
+
+// com.bean.User
+// user01
+// ch.qos.logback.core.db.DBHelper@21a1f6aa

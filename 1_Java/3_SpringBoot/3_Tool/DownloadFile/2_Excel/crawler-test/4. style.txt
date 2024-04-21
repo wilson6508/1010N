@@ -1,0 +1,61 @@
+package com;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+
+public class Test {
+    public static void main(String[] args) {
+
+        // 要寫入的資料
+        Object[][] data = {
+                {"English", 79, "中文字", 12.25},
+                {"test", 1203, "測試測試", 3.14},
+        };
+
+        // 將資料放入Excel
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+        XSSFSheet sheet = xssfWorkbook.createSheet("第一頁");
+        Font font = xssfWorkbook.createFont();
+        font.setColor(IndexedColors.BLUE.getIndex());                           // 顏色
+        font.setBold(true);                                                     // 粗體
+        CellStyle style = xssfWorkbook.createCellStyle();
+        style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());     // 填滿顏色
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setFont(font);                                                    // 設定字體
+        style.setAlignment(HorizontalAlignment.CENTER);                         // 水平置中
+        style.setVerticalAlignment(VerticalAlignment.CENTER);                   // 垂直置中
+
+        for (int row = 0; row < data.length; row++) {
+            XSSFRow sheetRow = sheet.createRow(row);
+            int col = 0;
+            for (Object obj : data[row]) {
+                XSSFCell cell = sheetRow.createCell(col++);
+                if (obj instanceof String) {
+                    cell.setCellValue(obj.toString());
+                } else if (obj instanceof Integer) {
+                    cell.setCellValue(Integer.parseInt(obj.toString()));
+                } else if (obj instanceof Double) {
+                    cell.setCellValue(Double.parseDouble(obj.toString()));
+                }
+                cell.setCellStyle(style);
+            }
+        }
+
+        // 輸出檔案
+        try {
+            FileOutputStream fileOut = new FileOutputStream("C:\\report\\apiResponse\\test0406.xlsx");
+            xssfWorkbook.write(fileOut);
+            xssfWorkbook.close();
+            fileOut.flush();
+            fileOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}

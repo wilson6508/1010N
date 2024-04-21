@@ -1,0 +1,13 @@
+臨時實例: 用心跳檢測
+非臨時實例: Nacos主動檢測
+
+spring:
+  application:
+    name: orderservice
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        ephemeral: false
+
+是否是臨時實例

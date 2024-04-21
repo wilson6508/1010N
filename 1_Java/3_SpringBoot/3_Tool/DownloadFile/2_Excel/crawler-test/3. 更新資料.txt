@@ -1,0 +1,30 @@
+package com;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class Test {
+    public static void main(String[] args) {
+        try {
+            // 讀取檔案 更新檔案
+            FileInputStream inputFile = new FileInputStream("C:\\report\\apiResponse\\test0406.xlsx");
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputFile);
+            XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+            XSSFCell cell = sheet.getRow(0).getCell(0);
+            cell.setCellValue("Pass");
+            inputFile.close();
+            // 輸入檔案
+            FileOutputStream outputFile =new FileOutputStream("C:\\report\\apiResponse\\test0406.xlsx");
+            xssfWorkbook.write(outputFile);
+            xssfWorkbook.close();
+            outputFile.flush();
+            outputFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

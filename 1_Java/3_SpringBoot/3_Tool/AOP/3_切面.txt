@@ -1,0 +1,66 @@
+﻿https://matthung0807.blogspot.com/2018/02/spring-aop.html
+https://matthung0807.blogspot.com/2019/02/spring-aop-classmethod.html
+https://matthung0807.blogspot.com/2018/02/spring-aop-aspectrequest-session.html
+https://matthung0807.blogspot.com/2020/06/spring-aop-get-method-advice-annotation.html
+https://matthung0807.blogspot.com/2020/06/spring-aop-log-annotated-method.html
+
+@AfterReturning(pointcut="execution(* com.spring_cookbook.controllers.*.*(..))", returning="returnValue") 
+public void logReturnValue(JoinPoint joinPoint, ...)
+
+https://stackoverflow.com/questions/18469703/log-the-return-value-of-a-method-using-spring-aop
+https://howtodoinjava.com/spring-aop/aspectj-after-returning-annotation-example/
+
+-----------------------------------------------------------------------------------------------------------------
+private final String str = 
+    "execution(* com.eland.service.insight.ClusterService.*(..)) || " +
+    "execution(* com.eland.service.insight.SourceClusterService.*(..)) || " +
+    "execution(* com.eland.service.insight.ExclusionClusterService.*(..)) || " +
+    "execution(* com.eland.service.insight.ExclusionDefaultClusterService.*(..)) || " +
+    "execution(* com.eland.service.insight.AuthorClusterService.*(..))";
+
+@Before(str)
+@AfterReturning(pointcut = str, returning = "responseObject")
+-----------------------------------------------------------------------------------------------------------------
+@Pointcut("execution(* com.eland.controller.InsightApiResponseController.insightApiResponseBean(..))")
+public void test() {}
+
+@Before("test()")  // 在com.eland.controller.InsightApiResponseController 的 insightApiResponseBean() 之前做
+public void beforeTestMethod(JoinPoint joinPoint) {
+    System.out.println("before");
+}
+
+@After("test()")  // 在com.eland.controller.InsightApiResponseController 的 insightApiResponseBean() 之後做
+public void afterTestMethod() {
+    System.out.println("after");
+}
+-----------------------------------------------------------------------------------------------------------------
+// 在com.eland.controller.InsightApiResponseController 的 insightApiResponseBean() 之前做
+@Before("execution(* com.eland.controller.InsightApiResponseController.insightApiResponseBean(..))")
+public void insertAsLog(JoinPoint joinPoint) {
+
+    HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+    InsightApiResponseBean responseBean = (InsightApiResponseBean) request.getAttribute("response");
+
+    String resultString = new Gson().toJson(responseBean.getData());
+    if (!resultString.contains("asLoggerTableName")) {
+        return;
+    }
+
+    Map map = (Map) responseBean.getData();
+    loggerService.createAsLogger(map.get("asLoggerTableName").toString(), map.get("asLoggerData"));
+    responseBean.setData(map.get("frontEndData"));
+
+}
+-----------------------------------------------------------------------------------------------------------------
+// 在 com.eland.service.trend 資料夾的檔案  之後做
+@After("execution(* com.eland.service.trend..*.*(..))")
+public void test(JoinPoint joinPoint) {
+    System.out.println(joinPoint.getSignature().getName());
+}
+-----------------------------------------------------------------------------------------------------------------
+System.out.println(joinPoint.getSignature().getName());					// insightApiResponseBean
+System.out.println(joinPoint.getSignature().getName().toString());      // insightApiResponseBean
+
+System.out.println(joinPoint.getSignature());							// ResponseEntity com.eland.controller.InsightApiResponseController.insightApiResponseBean(HttpServletRequest)
+System.out.println(joinPoint.getSignature().toString());                // ResponseEntity com.eland.controller.InsightApiResponseController.insightApiResponseBean(HttpServletRequest)
+-----------------------------------------------------------------------------------------------------------------

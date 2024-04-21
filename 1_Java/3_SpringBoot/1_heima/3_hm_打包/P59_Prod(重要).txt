@@ -1,0 +1,16 @@
+層級: 低到高
+resources/application.yml
+resources/config/application.yml
+jar檔所在資料夾/application.yml
+jar檔所在資料夾/config/application.yml
+------------------------------------------------
+層級: 低到高
+classpath: application.yml
+classpath: config/application.yml
+file: application.yml
+file: config/application.yml
+------------------------------------------------
+採用疊加並覆蓋
+
+優先順序
+https://tw511.com/a/01/26225.html#_820

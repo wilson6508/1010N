@@ -1,0 +1,34 @@
+@Resource: 根據名稱注入 若發生異常(找不到) 再根據類型去找bean注入
+@Autowired: 根據類型注入 若發生異常(不唯一) 再根據名稱去找bean注入
+@Qualifier: 和@Autowired搭配使用 當一個Type有多個Bean時 指定Bean的名稱
+
+---------------------------------------------------------------------------------------------------------
+UserServiceOldImpl implements UserService
+UserServiceNewImpl implements UserService
+
+在TestController 需要注入1個UserService(實現類) > 發現了2個這種類型的bean > 改找名稱 > 找不到
+@Autowired 
+UserService userService;
+
+解法1) 使用@Primay注解 > 指定優先注入的對象
+解法2) 使用@Qualifier > 指定注入的對象
+@Service("newUserService")
+@Qualifier("newUserService")
+解法3)
+@Autowired
+UserService userServiceNewImpl;
+---------------------------------------------------------------------------------------------------------
+UserServiceOldImpl implements UserService
+UserServiceNewImpl implements UserService
+
+在TestController 需要注入1個UserService(實現類) > 找不到名稱 > 改找類型 > 卻發現了2個這種類型的bean
+@Resource
+UserService userService;
+
+解法1)
+@Resource(name = "userServiceOldImpl")
+UserService userService;
+解法2)
+@Resource
+UserService userServiceNewImpl;
+---------------------------------------------------------------------------------------------------------

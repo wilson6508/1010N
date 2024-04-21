@@ -1,0 +1,2 @@
+https://polinwei.com/spring-boot-send-email-via-gmail/
+https://sites.google.com/im.fju.edu.tw/web/spring-framework-web/spring-mail

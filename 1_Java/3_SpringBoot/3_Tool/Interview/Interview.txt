@@ -1,0 +1,172 @@
+https://iter01.com/633248.html
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/713655/
+https://sa123.cc/1d8o0p6nxlhcg4bug6l1.html
+https://www.gushiciku.cn/pl/gqb5/zh-tw
+
+1. SpringBoot有哪幾種讀取配置的方式
+@PropertySource
+@Value
+@Environment
+@ConfigurationProperties
+
+2. springBoot核心配置檔案是什麼
+bootstrap(.yml或.properties):(結合SpringCloud時)由ApplicationContext父類載入的，比applicaton優先載入，配置在應用程式上下文的引導階段生效。
+application(.yml或.properties): 由ApplicatonContext載入，用於SpringBoot專案的自動化配置。
+
+3. 如何監視所有SpringBoot微服務
+SpringBootActuator提供了一個WebUI，使我們能夠視覺化多個應用程式的度量。
+
+4. SpringBoot的starter是什麼
+基於Spring已有功能來實現的。首先它提供了一個自動化配置類，一般命名為 XXXAutoConfiguration，
+在這個配置類中通過條件註解來決定一個配置是否生效（條件註解就是 Spring 中原本就有的）
+很多第三方框架，我們只需要引入依賴就可以直接使用了。
+作為一個開發者，我不需要再擔心這些依賴項和它們的相容版本。
+
+5. YAML配置的優勢在哪裡
+可讀的資料序列化語言
+優點: 簡潔 配置有序 支持數組, 缺點不支持@PropertySource
+
+6. 微服務中如何實現session共享
+常見的方案就是SpringSession + Redis來實現session共享。
+將所有微服務的 session 統一保存在 Redis 上，當各個微服務對 session 有相關的讀寫操作時，都去操作 Redis 上的 session
+
+7. SpringBoot 如何實現熱部署 
+引入 devtools 依賴即可，當編譯文件發生變化時，SpringBoot就會自動重啟。
+在Eclipse中，用戶按下保存按鍵，就會自動編譯進而重啟SpringBoot，
+IDEA中由於是自動保存的，自動保存時並未編譯，所以需要開發者按下Ctrl+F9進行編譯，編譯完成後，項目就自動重啟了。
+如果只是頁面模板發生變化，Java類並未發生變化，此時可以不用重啟 SpringBoot，使用 LiveReload 插件就可以輕鬆實現熱部署。
+
+8. SpringBoot 中如何實現定時任務
+定時任務也是一個常見的需求，SpringBoot中對於定時任務的支持主要還是來自 Spring 框架。
+在SpringBoot中使用定時任務主要有兩種不同的方式，
+一個就是使用 Spring 中的 @Scheduled 註解，另一個則是使用第三方框架 Quartz。
+
+9. 前後端分離，如何維護接口文檔
+在SpringBoot中，這個問題常見的解決方案是Swagger，
+使用Swagger我們可以快速生成一個接口文檔網站，接口一旦發生變化，文檔就會自動更新
+https://mp.weixin.qq.com/s/iTsTqEeqT9K84S091ycdog
+https://ithelp.ithome.com.tw/articles/10247180
+https://b0212066.pixnet.net/blog/post/215996424-swagger-2%E4%BD%BF%E7%94%A8%E7%AD%86%E8%A8%98
+https://morosedog.gitlab.io/springboot-20190319-springboot9/
+https://stackoverflow.com/questions/72357737/i-am-getting-this-error-failed-to-start-bean-documentationpluginsbootstrapper
+
+
+10. SpringBoot打成的jar和普通的jar有什麼區別 
+SpringBoot項目最終打包成的jar是可執行jar, 這種jar可以直接通過 java -jar xxx.jar 命令來運行，
+這種 jar 不可以作為普通的 jar 被其他項目依賴，即使依賴了也無法使用其中的類。
+Spring Boot 的 jar 無法被其他項目依賴，主要還是他和普通 jar 的結構不同。
+普通的 jar 包，解壓後直接就是包名，包裡就是我們的代碼，
+而 Spring Boot 打包成的可執行 jar 解壓後，在 \BOOT-INF\classes 目錄下才是我們的代碼，因此無法被直接引用。
+如果非要引用，可以在 pom.xml 文件中增加配置，將 Spring Boot 項目打包成兩個 jar ，一個可執行，一個可引用。
+
+11.SpringBoot是否可以使用 XML 配置
+SpringBoot推薦使用 Java 配置而非 XML 配置，
+但是 Spring Boot 中也可以使用 XML 配置，通過 @ImportResource 註解可以引入一個 XML 配置。
+
+12. 什麼是 Spring Data
+Spring Data 是 Spring 的一個子項目。用於簡化數據庫訪問，支持NoSQL 和 關係數據存儲。
+其主要目標是使數據庫的訪問變得方便快捷。具有如下特點：
+SpringData 項目支持 NoSQL 存儲：
+MongoDB （文檔數據庫）
+Neo4j（圖形數據庫）
+Redis（鍵/值存儲）
+Hbase（列族數據庫）
+
+SpringData 項目所支持的關係數據存儲技術：
+JDBC
+JPA 致力於減少數據訪問層 (DAO) 的開發量.
+開發者唯一要做的，就是聲明持久層的接口，其他都交給 Spring Data JPA 來幫你完成！
+Spring Data JPA 通過規範方法的名字，根據符合規範的名字來確定方法需要實現什麼樣的邏輯。
+
+(
+    透過 @EnableJpaRepositories import JpaRepositoriesRegistrar
+    JpaRepositoriesRegistrar 繼承於 RepositoryBeanDefinitionRegistrarSupport
+    RepositoryBeanDefinitionRegistrarSupport 的 registerBeanDefinitions 向 spring 註冊 JpaRepositoryFactoryBean
+    JpaRepositoryFactoryBean.afterPropertiesSet() 會調用 RepositoryFactorySupport.getRepository()
+    JpaRepositoryFactory 繼承 RepositoryFactorySupport 並且預設的 repository 為 SimpleJpaRepository
+    所以繼承 JpaRepository 的 class 不需要實作就可以完成 CRUD 的功能。
+
+    findByName
+    在問題一的 RepositoryFactorySupport.getRepository() 中會調用 QueryExecutorMethodInterceptor，此攔截器就是拿來判斷 method 的類型。
+    findByName() 的類型是自定義的查詢，所以會跑到 SingleEntityExecution()
+    繼續往下追會發現底層使用 hibernate 的 CriteriaQueryImpl 來拼湊出 sql。
+)
+
+13. Spring Boot 支援哪些日誌框架？推薦和預設的日誌框架是哪個？
+Spring Boot 支援 Java Util Logging, Log4j2, Lockback 作為日誌框架，
+如果使用 Starters 啟動器，Spring Boot 將使用 Logback 作為預設日誌框架.
+
+14. 執行 Spring Boot 有哪幾種方式？
+打包用命令或者放到容器中執行
+用 Maven/ Gradle 外掛執行
+直接執行 main 方法執行
+
+15. Spring Boot 需要獨立的容器執行嗎？
+可以不需要，內建了 Tomcat/ Jetty 等容器。
+
+16. 開啟 Spring Boot 特性有哪幾種方式？
+繼承spring-boot-starter-parent專案
+匯入spring-boot-dependencies專案依賴
+
+17. Spring Boot 的核心註解是哪個？它主要由哪幾個註解組成的？
+啟動類上面的註解是@SpringBootApplication，它也是 Spring Boot 的核心註解，主要組合包含了以下 3 個註解：
+@ComponentScan：Spring元件掃描。
+@SpringBootConfiguration：組合了 @Configuration 註解，實現配置檔案的功能。
+@EnableAutoConfiguration：開啟自動配置的功能，也可以關閉某個自動配置的選項，如關閉資料來源自動配置功能：
+// @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })。
+
+18. JPA 和 Hibernate 有哪些區別？
+JPA 是一個規範或者介面 Hibernate 是 JPA 的一個實現
+當我們使用 JPA 的時候，我們使用 javax.persistence 包中的註釋和介面時，不需要使用 hibernate 的匯入包。
+
+19. RequestMapping 和 GetMapping 的不同之處在哪裡？
+RequestMapping 具有類屬性的，可以進行 GET,POST,PUT 或者其它的註釋中具有的請求方法。
+GetMapping 是 GET 請求方法中的一個特例。它只是 ResquestMapping 的一個延伸，目的是為了提高畫質晰度。
+
+20. springboot自動配置的原理
+在spring程式main方法中 新增@SpringBootApplication或者@EnableAutoConfiguration
+會自動去maven中讀取每個starter中的spring.factories檔案 該檔案裡配置了所有需要被建立spring容器中的bean
+
+21. Spring Boot中的監視器是什麼？
+Spring boot actuator是spring啟動框架中的重要功能之一。
+Spring boot監視器可幫助您訪問生產環境中正在執行的應用程式的當前狀態。
+有幾個指標必須在生產環境中進行檢查和監控。
+即使一些外部應用程式可能正在使用這些服務來向相關人員觸發警報訊息。
+監視器模組公開了一組可直接作為HTTP URL訪問的
+
+22. 如何在 Spring Boot 啟動的時候執行一些特定的程式碼？
+可以實現介面 ApplicationRunner 或者 CommandLineRunner，這兩個介面實現方式一樣，它們都只提供了一個 run 方法
+
+23. 如何啟用某個環境的配置
+java -Xms1024m -Xmx2048m -jar -Dfile.encoding=UTF-8 crawler-1.0.jar --- spring.profiles.active=dev
+java -Xms1024m -Xmx2048m -jar -Dfile.encoding=UTF-8 crawler-1.0.jar --- server.port=8888
+
+24. 針對請求訪問的幾個組合註解
+@PatchMapping
+@PostMapping
+@GetMapping
+@PutMapping
+@DeleteMapping
+
+25. 什麼是 Spring Profiles
+dev prod
+
+================================================================================================================================
+
+1. 表示層(Application logic)：也就是Controller，應該負責接收前端的請求（request），並請Service處理，最後將資料回傳（response）。
+2. 業務邏輯層(Business logic)：又稱作Service，會被Controller呼叫。它負責根據請求來進行資料處理，並回傳結果。也可能被其他Service呼叫。
+3. 資料持久層(DB interactions)：擔任與資料庫溝通的媒介，會被Service呼叫。常透過「資料存取物件」（data access object，DAO）來實現。
+
+@RestController： 用來接收請求與回傳資料的表示層。
+@Service：		  代表這是一個業務邏輯層，進行資料處理
+@Repository：	  代表這是一個資料持久層，負責對資料庫進行存取。
+@Configuration：  專門讀取應用程式設定值的類別。
+@Component：      不太好歸類的類型，中文意思「元件」。
+@Bean：      	  標記在方法上，其回傳值將被建立成元件。該方法通常被宣告在Configuration類別中。好處是能自行進行元件的建構。
+@ComponentScan：  定義需要掃描的package。當啟動類別沒有在所有bean的最上層，就需要加上此標記指定要掃描的package。
+
+
+@RequestMapping： 藉由參數來定義回傳的資料格式為JSON。
+@RequestBody：	  將前台傳過來的固定格式資料（例：JSON）封裝為對應的 JavaBean 物件。
+@ResponseBody：   該方法的返回结果直接寫入HTTP Response Body中。
+@PostMapping：    傳入資源路徑，即可配置一個POST請求的API。當前端呼叫時，後端便會自動執行這個「trendApiSearch」方法。

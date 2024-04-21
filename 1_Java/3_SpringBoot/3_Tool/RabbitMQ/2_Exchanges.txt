@@ -1,0 +1,17 @@
+Tab > Exchanges
+Add a new exchange
+
+Name: exchange.direct
+Type: direct
+Durability: Duriable
+Add exchange
+
+Name: exchange.fanout
+Type: fanout
+Durability: Duriable
+Add exchange
+
+Name: exchange.topic
+Type: topic
+Durability: Duriable
+Add exchange

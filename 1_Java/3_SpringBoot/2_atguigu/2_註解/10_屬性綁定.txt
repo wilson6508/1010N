@@ -1,0 +1,19 @@
+@ConfigurationProperties(prefix = "pig")
+public class Pig {}
+
+@Bean
+public Pig pig () { return new Pig(); }
+-------------------------------------------------------------------------------
+@ConfigurationProperties(prefix = "pig")
+public class Pig {}
+
+@EnableConfigurationProperties(Pig.class) // 用於導入第3方組件 進行屬性綁定
+@SpringBootApplication
+public class Boot302DemoApplication {
+    public static void main(String[] args) {
+        var ioc = SpringApplication.run(Boot302DemoApplication.class, args);
+        Pig bean = ioc.getBean(Pig.class);
+        System.out.println(bean);
+    }
+}
+-------------------------------------------------------------------------------

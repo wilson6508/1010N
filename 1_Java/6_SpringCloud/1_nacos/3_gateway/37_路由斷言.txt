@@ -1,0 +1,5 @@
+https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-after-route-predicate-factory
+
+predicates:
+    - Path=/user/**
+    - Before=2037-01-20T17:42:47.789+08:00[Asia/Shanghai]

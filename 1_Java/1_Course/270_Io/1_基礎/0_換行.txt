@@ -1,0 +1,5 @@
+windows: \r\n
+linux:   \n
+max:     \r
+
+在Java可以只寫\r或\n --> 底層會自動補全

@@ -1,0 +1,13 @@
+Program arguments: --server.port=8081 --a=b
+
+public static void main(String[] args) {
+    System.out.println(Arrays.toString(args));
+    SpringApplication.run(Application.class, args);
+}
+
+自訂參
+String[] self = {"--server.port=8081"};
+SpringApplication.run(Application.class, self);
+
+不傳參(隔絕外部參數)
+SpringApplication.run(Application.class);

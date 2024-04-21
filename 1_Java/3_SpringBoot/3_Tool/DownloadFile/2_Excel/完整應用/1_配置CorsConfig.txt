@@ -1,0 +1,54 @@
+https://www.tpisoftware.com/tpu/articleDetails/1415
+
+package com.configurer;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class GlobalCorsConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")                      		   // 映射路徑
+                        .allowedOrigins("http://localhost:8080")           // 允許跨網域請求的來源
+                        .allowCredentials(true)                            // 允許跨域攜帶cookie資訊，預設跨網域請求是不攜帶cookie資訊的。
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")    // 允許使用那些請求方式
+                        .allowedHeaders("/*")                              // 允許哪些Header
+                        .exposedHeaders("Header1", "Content-Disposition"); // 可獲取哪些Header（因為跨網域預設不能取得全部Header資訊）
+            }
+        };
+    }
+
+}
+================================================= 擇一 ==============================================================
+package com.configurer;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+public class GlobalCorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+		config.addAllowedOrigin("http://localhost:8080");  // 允許跨網域請求的來源
+        config.setAllowCredentials(true);                  // 允許跨域攜帶cookie資訊，預設跨網域請求是不攜帶cookie資訊的。
+        config.addAllowedHeader("*");                      // 允許哪些Header                  
+        config.addAllowedMethod("POST");                   // 允許使用那些請求方式
+        config.addExposedHeader("Content-Disposition");    // 可獲取哪些Header（因為跨網域預設不能取得全部Header資訊）
+        source.registerCorsConfiguration("/**", config);   // 映射路徑
+        return new CorsFilter(source);
+    }
+
+}

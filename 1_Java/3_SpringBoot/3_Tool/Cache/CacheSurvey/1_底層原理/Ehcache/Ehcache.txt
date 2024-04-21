@@ -1,0 +1,63 @@
+build.gradle
+dependencies {
+    implementation 'net.sf.ehcache:ehcache:2.10.9.2'
+    implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.3'
+}
+----------------------------------------------------------------------------------------
+application.properties
+spring.cache.type=ehcache
+spring.cache.ehcache.config=classpath:/ehcache.xml
+----------------------------------------------------------------------------------------
+ehcache.xml (resources資料夾下)
+<ehcache>
+    <diskStore path="d:\\ehcache" />
+    <cache name="epaCache"
+           maxElementsInMemory="0"
+           overflowToDisk="true"
+           eternal="true"
+           diskPersistent="true" />
+</ehcache>
+----------------------------------------------------------------------------------------
+@Cacheable(value = "epaCache", key = "#a0.user_information.user_account + '-' + #a0.model_information.model_name.get(0)")
+public SearchResponseDTO query(SearchRequestDTO epaRequestDTO) {
+    return this.query(epaRequestDTO, insightProperties.getSearchApiUrl(), insightProperties.getTimeout());
+}
+
+前台:
+1. 搜尋一次文章列表模組
+2. 相同條件再次搜尋
+3. 到熱門作者頁面
+4. 搜尋一次熱門作者模組
+5. 相同條件再次搜尋
+
+關閉EPA-WebServer
+
+前台:
+1. 搜尋一次文章列表模組
+2. 到熱門作者頁面
+3. 搜尋一次熱門作者模組
+----------------------------------------------------------------------------------------
+
+優:
+可實現將緩存存放在硬碟中的機制
+
+缺:
+要設定較多配置
+緩存存放的資料夾於VM設定相對位置有難度
+欲緩存的物件及其field皆須 implements Serializable
+
+https://juejin.cn/post/6844903863821025293
+https://www.ehcache.org/documentation/2.8/get-started/storage-options.html
+
+@Autowired
+BeanFactory beanFactory;
+
+@GetMapping(value = "/helloWorld")
+public String insightApiRequest() {
+    CacheManager cacheManager = beanFactory.getBean(CacheManager.class);
+    Cache cache = cacheManager.getCache("epaCache");
+    Map<Object, Element> all = cache.getAll(Arrays.asList("268-list", "268-kol"));
+    return "hello world";
+}
+
+EhCacheCacheConfiguration

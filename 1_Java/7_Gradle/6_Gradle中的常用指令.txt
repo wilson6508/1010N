@@ -1,0 +1,16 @@
+清空build資料夾
+gradle clean
+
+編譯src/main/
+gradle classes
+
+執行測試代碼 生成測試報告
+gradle test
+
+構建項目
+gradle build = gradle classes + gradle test
+
+跳過測試類
+gradle build -x test
+--------------------------------------------------
+以上要在build.gradle所在的資料夾執行

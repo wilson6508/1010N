@@ -1,0 +1,2 @@
+資料夾複製1個乾淨的module > 刪到只剩src跟pom > 改pom的<artifactId><name><description>
+要開發新module > 複製上方的資料夾 > 改資料夾名 > 改pom的<artifactId><name><description>

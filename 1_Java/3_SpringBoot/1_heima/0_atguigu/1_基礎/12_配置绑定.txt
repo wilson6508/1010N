@@ -1,0 +1,37 @@
+法1. @EnableConfigurationProperties + @ConfigurationProperties
+法2. @Component + @ConfigurationProperties
+----------------------------------------------------------------------
+application.properties
+mycar.brand=BVD
+mycar.price=100000
+----------------------------------------------------------------------
+@Configuration
+@EnableConfigurationProperties(Car.class)
+// 開啟Car配置綁定
+// 把Car組件自動註冊到容器中
+public class MyConfig {}
+
+@ConfigurationProperties(prefix = "mycar")
+public class Car {
+    private String brand;
+    private Integer price;
+}
+----------------------------------------------------------------------
+@RestController
+public class HelloController {
+    @Autowired
+    Car car;
+
+    @RequestMapping("/car")
+    public Car car() {
+        return car;
+    }
+}
+----------------------------------------------------------------------
+@Component
+@ConfigurationProperties(prefix = "mycar")
+public class Car {
+    private String brand;
+    private Integer price;
+}
+----------------------------------------------------------------------

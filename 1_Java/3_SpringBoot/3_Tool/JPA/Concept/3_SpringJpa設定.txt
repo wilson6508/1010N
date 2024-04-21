@@ -1,0 +1,11 @@
+# 顯示SQL語句
+spring.jpa.show-sql=true 
+
+spring.jpa.hibernate.ddl-auto > 會根據你所創建的 Entity 來自動建立資料表
+spring.jpa.hibernate.ddl-auto:
+    none: 無動作
+    create: 每次載入Hibernate時 > 刪除上次生成的資料表 > 再根據Model類別重新生成資料表
+    craete-drop: 每次載入Hibernate時 > 根據Model類別生成資料表 > 但sessionFactory一關閉就自動刪除資料表
+    validate: 每次載入Hibernate時 > 驗證建立資料表 > 只會和資料庫中的資料表進行比較 > 不會建立新的資料表 > 但會插入新值
+    update : 第一次載入Hibernate時 > 根據Model類別生成資料表 > 之後載入Hibernate時 > 根據Model類別更新資料表 
+    即使資料表結構改變 > 但不會刪除以前的欄位 > 要注意的是 > 當部署到伺服器後 > 不會馬上建立資料表 > 要等第一次應用時才會建立

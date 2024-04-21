@@ -1,0 +1,57 @@
+Tab > Exchanges
+
+------------------------------------
+
+exchange.direct
+
+To queue: atguigu
+Routing key: atguigu
+Bind
+To queue: atguigu.news
+Routing key: atguigu.news
+Bind
+To queue: atguigu.emps
+Routing key: atguigu.emps
+Bind
+To queue: gulixueyuan.news
+Routing key: gulixueyuan.news
+Bind
+
+-------------------------------------
+
+exchange.fanout
+
+To queue: atguigu
+Routing key: atguigu
+Bind
+To queue: atguigu.news
+Routing key: atguigu.news
+Bind
+To queue: atguigu.emps
+Routing key: atguigu.emps
+Bind
+To queue: gulixueyuan.news
+Routing key: gulixueyuan.news
+Bind
+
+-------------------------------------
+
+exchange.topic
+
+To queue: atguigu
+Routing key: atguigu.#
+Bind
+To queue: atguigu.news
+Routing key: atguigu.#
+Bind
+To queue: atguigu.emps
+Routing key: atguigu.#
+Bind
+To queue: atguigu.news
+Routing key: *.news
+Bind
+To queue: gulixueyuan.news
+Routing key: *.news
+Bind
+
+-------------------------------------

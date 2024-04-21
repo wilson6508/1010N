@@ -1,0 +1,13 @@
+@Async 
+放在類上或者介面上，所有的方法都變成非同步執行了
+
+單一方法非同步
+@EnableAsync
+public class InsightLogAOP {
+
+	@Async
+	public void insertAsLog(JoinPoint joinPoint, Object responseObject) {
+	
+	}
+	
+}

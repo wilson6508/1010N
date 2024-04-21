@@ -1,0 +1,33 @@
+downloadPng(url, params) {
+  return new Promise((resolve, reject) => {
+	axios
+	  .post(url, params, {
+		responseType: "arraybuffer",
+	  })
+	  .then((response) => {
+		resolve(response);
+	  })
+	  .catch((error) => {
+		reject(error);
+	  });
+  });
+},
+
+async demo() {
+  const apiUrl = "http://localhost:8088/download";
+  const postBody = {
+	moduleName: "test_test_one",
+	parameter: "abc",
+  };
+  const response = await this.downloadPng(apiUrl, postBody);
+  // const cd = response.headers["content-disposition"];
+  // console.log(cd);
+  const blob = new Blob([response.data]);
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "front.png");
+  document.body.appendChild(link);
+  link.click();
+  window.URL.revokeObjectURL(url);
+},

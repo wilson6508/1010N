@@ -1,0 +1,8 @@
+@ComponentScan({"com.bean", "com.config"})
+--------------------------------------------------------------
+public class DogFactoryBean implements FactoryBean<Dog> {}
+
+@Bean
+public DogFactoryBean dog() {
+    return new DogFactoryBean();
+}

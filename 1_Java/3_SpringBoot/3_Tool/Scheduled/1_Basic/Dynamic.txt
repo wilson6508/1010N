@@ -1,0 +1,11 @@
+public ScheduledTaskRegistrar registerTask(Runnable action, String expression) {
+	CronTask task = new CronTask(action, new CronTrigger(expression));
+	ScheduledTaskRegistrar taskRegistrar = new ScheduledTaskRegistrar();
+	taskRegistrar.addCronTask(task);
+	taskRegistrar.afterPropertiesSet();
+	return taskRegistrar;
+}
+
+public void destroy(ScheduledTaskRegistrar taskRegistrar) {
+	taskRegistrar.destroy();
+}

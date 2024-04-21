@@ -1,0 +1,16 @@
+@Bean("userHaHa")
+方法名
+
+@Import(FastsqlException.class)
+全類名
+---------------------------------------------------------------------------
+public static void main(String[] args) {
+    var ioc = SpringApplication.run(Boot302DemoApplication.class, args);
+    for (String name : ioc.getBeanDefinitionNames()) {
+        System.out.println(name);
+    }
+    String[] forType = ioc.getBeanNamesForType(HelloController.class);
+    for (String s : forType) {
+        System.out.println(s);
+    }
+}

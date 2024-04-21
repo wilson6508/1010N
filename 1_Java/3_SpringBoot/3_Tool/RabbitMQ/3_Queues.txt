@@ -1,0 +1,18 @@
+Tab > Queues
+Add a new queue
+
+Name: atguigu
+Durability: Duriable
+Add queue
+
+Name: atguigu.news
+Durability: Duriable
+Add queue
+
+Name: atguigu.emps
+Durability: Duriable
+Add queue
+
+Name: gulixueyuan.news
+Durability: Duriable
+Add queue

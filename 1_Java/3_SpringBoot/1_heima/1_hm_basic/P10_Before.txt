@@ -1,0 +1,27 @@
+https://spring.io/projects/spring-boot
+https://start.spring.io/
+
+https://docs.spring.io/spring-boot/docs/2.5.4/reference/html/index.html
+https://docs.spring.io/spring-boot/docs/2.5.4/reference/htmlsingle
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle
+
+import module
+compare file
+--------------------------------------------------------------------------
+File > Settings > Editor > File Types > Ignored Files and Folders
+
+.mvn
+HELP.md
+mvnw
+mvnw.cmd
+*.iml
+
+.gitignore
+gradlew
+gradlew.bat
+settings.gradle
+--------------------------------------------------------------------------
+parent: 指定常用依賴的版本 避免衝突
+starter: 引入相關依賴

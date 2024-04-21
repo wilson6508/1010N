@@ -1,0 +1,2 @@
+ctx.register(Cat.class);
+ctx.registerBean("cat_name", Cat.class, 0)

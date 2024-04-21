@@ -1,0 +1,14 @@
+win8
+cd c:\Windows\System32
+
+查詢端口
+netstat -ano
+netstat -ano | findstr "8080"
+(最後1個column為PID)
+
+查詢進程
+tasklist
+tasklist | findstr "261052"
+
+殺死進程
+taskkill -f -pid "261052"

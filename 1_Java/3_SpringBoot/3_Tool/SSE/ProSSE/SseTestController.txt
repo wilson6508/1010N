@@ -1,0 +1,18 @@
+@RestController
+@RequestMapping("sse")
+public class SseTestController {
+
+    @Autowired
+    private SseService sseService;
+
+    @RequestMapping("start")
+    public SseEmitter start(@RequestParam String clientId) {
+        return sseService.start(clientId);
+    }
+
+    @RequestMapping("/end")
+    public String close(String clientId) {
+        return sseService.close(clientId);
+    }
+
+}

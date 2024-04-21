@@ -1,0 +1,56 @@
+https://kucw.github.io/blog/2020/2/spring-unit-test-mockito/
+
+Mockito 是一種 Java mock 框架
+主要就是用來做 mock 測試的
+可以模擬任何 Spring 管理的 bean、模擬方法的返回值、模擬拋出異常…等
+從而可以校驗出這個 mock 對象是否有被正確的順序調用
+以及按照期望的參數被調用
+---------------------------------------------------------------------------
+Mockito.when( 對象.方法名() ).thenReturn( 自定義結果 )
+
+一樣採取3A測試原則：
+Arrange 初始化目標物件、相依物件、方法參數、預期結果
+Act 呼叫目標物件的方法
+Assert 驗證是否符合預期
+---------------------------------------------------------------------------
+以下要用Mockito實作創建一個假的Dao對象
+替換掉真實的Dao對象
+模擬Dao的返回的數據結果
+而不是真正去調用Dao操作資料庫
+來快速測試當前想要測試的Service
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+---------------------------------------------------------------------------
+@SpringBootTest
+public class TestTodoService {
+    @Autowired
+    TodoService todoService;
+    @MockBean // 創造一個假的對象 替換真實的Dao
+    TodoDao todoDao;
+
+    @Test
+    public void testGetTodos () {
+
+        // [Arrange] 預期資料
+        List<Todo> expectedTodosList = new ArrayList();
+        Todo todo = new Todo();
+        todo.setId(1);
+        todo.setTask("洗衣服");
+        todo.setStatus(1);
+        expectedTodosList.add(todo);
+
+        // 定義模擬呼叫todoDao.findAll() 要回傳的預設結果
+        Mockito.when(todoDao.findAll()).thenReturn(expectedTodosList);
+
+        // [Act]操作todoService.getTodos();
+        Iterable<Todo> actualTodoList = todoService.getTodos();
+
+        // [Assert] 預期與實際的資料
+        Assertions.assertEquals(expectedTodosList, actualTodoList);
+
+    }
+ }

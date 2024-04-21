@@ -1,0 +1,5 @@
+Java注解之Retention Documented Target介绍
+https://blog.csdn.net/limj625/article/details/70242773
+
+spring-boot動態注入interface並實現定義的方法
+https://blog.csdn.net/u012182853/article/details/121857637

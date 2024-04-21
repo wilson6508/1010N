@@ -1,0 +1,48 @@
+Thymeleaf 是一個XML/HTML5模板引擎，
+能夠應用轉換於模板檔案，
+以顯示應用程式產生的資料，
+撰寫Thymeleaf就像是在寫HTML。
+--------------------------------------------------------------------
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+--------------------------------------------------------------------
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/ # 設定去templates資料夾找html檔案
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+--------------------------------------------------------------------
+// hello.html
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text="${hello}"></h1>
+    <span>Hello World！</span>
+</body>
+</html>
+--------------------------------------------------------------------
+標註 @Controller > 此類別為一個視圖解析器
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+@Controller
+public class appController {
+    @GetMapping("/hello")
+    public String hello(Model model) {
+        model.addAttribute("hello", "Hello World!!!"); // （變數名稱，變數值)
+        return "hello";
+    }
+}
+--------------------------------------------------------------------

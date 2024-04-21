@@ -1,0 +1,31 @@
+import org.junit.jupiter.api.*;
+import org.springframework.boot.test.context.SpringBootTest;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+public class JUnit5Test {
+
+    @RepeatedTest(5)
+    @DisplayName("test2")
+    void test2() {
+        System.out.println(2);
+    }
+
+    // 不進行測試
+    @Disabled
+    @DisplayName("test2")
+    @Test
+    void test2() {
+        System.out.println(2);
+    }
+
+    // 方法超時 > 異常
+    @Timeout(value = 500, unit = TimeUnit.MILLISECONDS)
+    @Test
+    void timeOut() throws InterruptedException {
+        Thread.sleep(600);
+    }
+
+}

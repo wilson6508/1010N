@@ -1,0 +1,6 @@
+https://github.com/OpenFeign/feign
+
+String apiUrl = "http://userservice/user/" + order.getUserId();
+User user = restTemplate.getForObject(apiUrl, User.class);
+
+feign集成負載均衡

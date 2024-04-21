@@ -1,0 +1,16 @@
+https://medium.com/@k1.0/annotation-%E6%B7%BA%E8%AB%87-java-reflection-%E8%88%87%E5%AF%A6%E4%BD%9C-7506aa82b3e2
+
+@Target
+想要標記在哪一些元素類別上(ElementType.TYPE)
+(TYPE包括了Class, Interface, Enum)
+用ElementType.TYPE宣告 > 加在Class上
+
+@Retention: 
+保留策略(RetentionPolicy.RUNTIME)
+(SOURCE, CLASS(default), RUNTIME)
+SOURCE: 所使用的Annotation在compile後會被丟掉
+一般若是進行一些業務邏輯的處理時 則都會宣告ElementType.RUNTIME
+
+@interface
+@interface是一個給Annotation互動的介面
+所有Annotation在宣告時都需要使用@interface

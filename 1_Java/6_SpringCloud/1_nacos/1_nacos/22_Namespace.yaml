@@ -1,0 +1,15 @@
+# Nacos環境隔離
+# 每個namespace都有唯一id
+# 不同namespace下的服務不可見
+
+spring:
+  application:
+    name: orderservice
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        cluster-name: HZ
+        namespace: 927905b8-bfc8-4a36-a560-0c49e3090358
+
+# 使用Nacos Server新增命名空間

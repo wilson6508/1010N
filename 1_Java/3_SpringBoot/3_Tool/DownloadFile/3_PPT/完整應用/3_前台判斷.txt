@@ -1,0 +1,36 @@
+downloadExcel(url, params) {
+  return new Promise((resolve, reject) => {
+	axios
+	  .post(url, params, {
+		responseType: "blob",
+	  })
+	  .then((response) => {
+		const fileName = response.headers["content-disposition"].split("=").at(-1);
+		resolve({ fileName: fileName, data: response.data  });
+	  })
+	  .catch((error) => {
+		reject(error);
+	  });
+  });
+},
+
+async demo() {
+  const apiUrl = "http://localhost:3031/downloadPPT";
+  const postBody = {
+	moduleName: "test_test_one",
+	parameter: "abc",
+  };
+  const { fileName, data } = await this.downloadExcel(apiUrl, postBody);
+  if (fileName === "success.pptx") {
+	const blob = new Blob([data]);
+	const url = window.URL.createObjectURL(blob);
+	const link = document.createElement("a");
+	link.href = url;
+	link.setAttribute("download", "front.pptx");
+	document.body.appendChild(link);
+	link.click();
+	window.URL.revokeObjectURL(url);
+  } else {
+	console.log(fileName);
+  }
+},

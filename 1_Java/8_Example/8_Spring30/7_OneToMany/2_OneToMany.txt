@@ -1,0 +1,72 @@
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table
+@Data
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
+    private String name;
+
+    @Column(insertable = false, columnDefinition = "int default 1")
+    private Integer gender = 1;
+
+    @Column
+    private String password;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user") // 一對多關聯至TODO entity 的user上
+    @EqualsAndHashCode.Exclude
+    private Set<Todo> todos;
+
+}
+------------------------------------------------------------------------
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table
+@Data
+public class Todo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
+    private String task = "";
+
+    @Column(insertable = false, columnDefinition = "int default 1")
+    private Integer status = 1;
+
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    private Date createTime = new Date();
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private Date updateTime = new Date();
+
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name="user_id")
+    private User user;
+
+}
+
+Insert into USER (GENDER, NAME) values (1, 'caili');
+INSERT INTO TODO (TASK, STATUS, UPDATE_TIME, CREATE_TIME, USER_ID) values ('寫鐵人賽', 1, '2020-09-09 17:00', '2020-09-09 17:00', 1);

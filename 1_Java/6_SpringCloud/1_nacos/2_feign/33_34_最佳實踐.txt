@@ -1,0 +1,20 @@
+public interface UserAPI {
+    @GetMapping("/user/{id}")
+    User findById(@PathVariable("id") Long id);
+}
+
+@FeignClient("userservice")
+public interface UserClient extends UserAPI {}
+
+@RestController
+public class UserController implements UserAPI {
+    // method parameter mapping is not inherited 所以要寫@PathVariable
+    public User findById(@PathVariable("id") Long id) {
+        ...
+    }
+}
+------------------------------------------------------------------------
+@FeignClient不在主程序包掃描範圍
+
+@EnableFeignClients(clients = {UserClient.class})
+@EnableFeignClients(basePackages = "cn.itcast.feign.clients")

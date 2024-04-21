@@ -1,0 +1,54 @@
+package cn.itcast.mq.config;
+
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class FanoutConfig {
+
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange("itcast.fanout");
+    }
+
+    @Bean
+    public Queue fanoutQueue01() {
+        return new Queue("fanout.queue01");
+    }
+
+    @Bean
+    public Queue fanoutQueue02() {
+        return new Queue("fanout.queue02");
+    }
+
+    @Bean
+    public Binding fanoutBinding01(Queue fanoutQueue01, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(fanoutQueue01).to(fanoutExchange);
+    }
+
+    @Bean
+    public Binding fanoutBinding02(Queue fanoutQueue02, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(fanoutQueue02).to(fanoutExchange);
+    }
+}
+--------------------------------------------------------------------------------------------
+@RabbitListener(queues = "fanout.queue01")
+public void listenFanoutQueue01(String msg) {
+    System.out.println("01 " + msg);
+}
+
+@RabbitListener(queues = "fanout.queue02")
+public void listenFanoutQueue02(String msg) {
+    System.out.println("02 " + msg);
+}
+--------------------------------------------------------------------------------------------
+@Test
+public void testFanoutExchange() {
+    String exchangeName = "itcast.fanout";
+    String message = "hello, every one!";
+    rabbitTemplate.convertAndSend(exchangeName, "", message);
+}

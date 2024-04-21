@@ -1,0 +1,20 @@
+﻿@ControllerAdvice
+https://matthung0807.blogspot.com/2019/12/spring-boot-controlleradvice.html
+
+SpringBoot Security
+https://ithelp.ithome.com.tw/articles/10250502
+https://chikuwa-tech-study.blogspot.com/2021/06/spring-boot-security-authentication-and-authorization.html
+
+SpringBoot Filter
+https://ithelp.ithome.com.tw/articles/10278213
+https://bingdoal.github.io/backend/2021/11/spring-boot-request-middleware-filter/
+
+@Order(1)
+@Component
+public class RequestFilter implements Filter {
+	@Override init() {}
+	@Override destroy() {}
+	@Override doFilter() {
+		chain.doFilter(httpReq, httpResp);
+	}
+}

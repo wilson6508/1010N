@@ -1,0 +1,32 @@
+package com.eland.scheduler;
+
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+@Component
+public class AutoReportScheduler {
+
+    private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+    @Scheduled(cron = "0 0/5 * * * *")
+    public void autoReportTask() throws InterruptedException {
+        Timestamp startTime = new Timestamp(System.currentTimeMillis());
+        System.out.println(Thread.currentThread().getName() + " autoReport start " + sdf.format(startTime));
+        Thread.sleep(7 * 60 * 1000);
+        Timestamp endTime = new Timestamp(System.currentTimeMillis());
+        System.out.println(Thread.currentThread().getName() + " autoReport done " + sdf.format(endTime));
+    }
+
+
+    @Scheduled(cron = "0 3 10 * * *")
+    public void autoReportNotify() throws InterruptedException {
+        Timestamp startTime = new Timestamp(System.currentTimeMillis());
+        System.out.println(Thread.currentThread().getName() + " SRE start " + sdf.format(startTime));
+        Timestamp endTime = new Timestamp(System.currentTimeMillis());
+        System.out.println(Thread.currentThread().getName() + " SRE done " + sdf.format(endTime));
+    }
+
+}

@@ -1,0 +1,11 @@
+servers:
+  ipAddress:
+  ipaddress:
+  ip_address: 
+  ip-address:  (烤肉串格式)
+  IPADDRESS:
+  IP_ADDRESS:  (常量模式)
+  IP_ADD_R-E_SS:
+
+yml寫法無限制(官方推薦烤肉串格式)
+@ConfigurationProperties(prefix = "(烤肉串格式 or 全小寫)")

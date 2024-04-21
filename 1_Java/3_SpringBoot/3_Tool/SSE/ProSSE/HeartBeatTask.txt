@@ -1,0 +1,14 @@
+public class HeartBeatTask implements Runnable {
+
+    private final String clientId;
+
+    public HeartBeatTask(String clientId) {
+        this.clientId = clientId;
+    }
+
+    @Override
+    public void run() {
+        SseSession.send(clientId, "ping");
+    }
+	
+}

@@ -1,0 +1,14 @@
+SpringBoot中使用Retry&Cache
+https://ithelp.ithome.com.tw/articles/10191550
+
+Spring @EnableRetry throws InternalAutoProxyCreator
+https://stackoverflow.com/questions/53699750/spring-enableretry-throws-internalautoproxycreator
+
+<dependency>
+    <groupId>org.springframework.retry</groupId>
+    <artifactId>spring-retry</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+</dependency>

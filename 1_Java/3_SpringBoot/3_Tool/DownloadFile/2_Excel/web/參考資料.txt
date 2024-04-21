@@ -1,0 +1,14 @@
+Setting mime type for excel document
+https://stackoverflow.com/questions/974079/setting-mime-type-for-excel-document
+
+How to download files using axios
+https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+https://ithelp.ithome.com.tw/articles/10255451
+
+SpringBoot 實現跨網域請求 CORS
+https://www.tpisoftware.com/tpu/articleDetails/1415
+https://vimsky.com/zh-tw/examples/detail/java-method-org.springframework.web.cors.CorsConfiguration.addAllowedOrigin.html
+https://stackoverflow.com/questions/36809528/spring-boot-cors-filter-cors-preflight-channel-did-not-succeed
+
+Axios get access to response header fields
+https://stackoverflow.com/questions/37897523/axios-get-access-to-response-header-fields

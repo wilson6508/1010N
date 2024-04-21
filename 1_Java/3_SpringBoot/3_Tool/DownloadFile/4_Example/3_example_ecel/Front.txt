@@ -1,0 +1,110 @@
+import Axios from "axios";
+
+downloadReq() {
+  Axios.post("http://127.0.0.1:9000/insight/standard", {
+	module: {
+	  moduleName: "downloadHtmlReportFile"
+	},
+	parameter: {
+	  generalReportTaskInfo: {
+		id: 4
+	  }
+	}
+  }, {
+	headers: {
+	  Authorization: `Bearer ${this.getCookie("nuif")}`,
+	},
+	responseType: "blob",
+  }).then((response) => {
+	console.log(response.headers["content-disposition"]);
+	const fileName = "front.html";
+	const blob = new Blob([response.data]);
+	const url = window.URL.createObjectURL(blob);
+	const link = document.createElement("a");
+	link.href = url;
+	link.setAttribute("download", fileName);
+	document.body.appendChild(link);
+	link.click(); // 執行下載
+	window.URL.revokeObjectURL(url); // 釋放url
+	document.body.removeChild(link); // 釋放標籤
+  }).catch(() => {
+	this.simpleSwal("下載失敗", "error");
+  });
+},
+---------------------------------------------------------------------------
+test() {
+  const downloadInfo = {
+	module: {
+	  moduleName: "downloadHtmlReportFile"
+	},
+	parameter: {
+	  generalReportTaskInfo: {
+		id: 1
+	  }
+	}
+  };
+  this.downloadFile("standard", "front.html", downloadInfo);
+},
+demo() {
+  const downloadInfo = {
+	module: {
+	  moduleName: "downloadExcelReportFile"
+	},
+	parameter: {
+	  generalReportTaskInfo: {
+		id: 1
+	  }
+	}
+  };
+  this.downloadFile("standard", "front.xlsx", downloadInfo);
+}
+
+downloadFile(url, fileName, downloadInfo) {
+  this.loadingSwal("下載資料中", -1);
+  store
+	.dispatch("request", {
+	  url,
+	  method: "POST",
+	  headers: {
+		Authorization: `Bearer ${this.getCookie("nuif")}`,
+	  },
+	  data: downloadInfo,
+	  responseType: "blob",
+	})
+	.then((response) => {
+	  const msg = response.headers["content-disposition"];
+	  const success = msg.split("=")[1];
+	  if (success === "true") {
+		const blob = new Blob([response.data]);
+		const url = window.URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.setAttribute("download", fileName);
+		document.body.appendChild(link);
+		link.click();
+		window.URL.revokeObjectURL(url);
+		document.body.removeChild(link);
+		this.loadingSwal("下載資料中", 1);
+	  } else {
+		this.simpleSwal("下載失敗", "error");
+	  }
+	})
+	.catch(() => {
+	  this.simpleSwal("下載失敗", "error");
+	});
+},
+
+request({ commit, state }, requestConfig) {
+  requestConfig.baseURL = apiUrl.getApiURL();
+  requestConfig.timeout = 1200000;
+
+  return new Promise((resolve, reject) => {
+	Axios(requestConfig)
+	  .then((result) => {
+		resolve(result);
+	  })
+	  .catch((xhr) => {
+		reject(xhr);
+	  });
+  });
+},

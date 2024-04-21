@@ -1,0 +1,18 @@
+https://www.jianshu.com/p/d094d876aa76
+https://www.cnblogs.com/chenpi/p/9696310.html
+
+實現在應用啟動後 去執行相關代碼邏輯 且只會執行一次
+spring batch批量處理框架依賴這些執行器去觸發執行任務
+我們可以在run()方法里使用任何依賴 因為它們已經初始化好了
+
+
+@Order(1)
+@Component
+public class InitRunner implements CommandLineRunner {
+    
+    @Override
+    public void run(String... args) throws Exception {
+        ...
+    }
+
+}

@@ -1,0 +1,47 @@
+@Query(value = "SELECT * FROM source_cluster as entity WHERE entity.id in (:idSet)", nativeQuery = true)
+List<SourceClusterEntity> findAllByClusterIdIn(@Param("idSet") Set<Integer> idSet);
+
+@Query(value = "select * from car_records where carVinNo = :vinNo and carSerialNo >= :serialNo", nativeQuery = true)
+List<Car> retrieveCars(@Param("vinNo") Long vinNo, @Param("serialNo") Long serialNo);
+-------------------------------------------------------------------------------------------------
+@Query(value = " SELECT report_id, report_date, COUNT ( CASE WHEN status = 'wait' THEN 1 ELSE NULL END ) AS wait_count, code FROM complex_analysis_result GROUP BY report_id, report_date, code ORDER BY report_id, report_date DESC ", nativeQuery = true)
+List<StatusInterface> getOrderByData();
+
+public interface StatusInterface {
+    int getReport_id();
+    String getReport_date();
+    int getWait_count();
+    String getCode();
+}
+
+List<StatusInterface> statusBeans = complexAnalysisResultRepository.getOrderByData();
+statusBeans.forEach(statusBean -> {
+	ReportInfo reportInfo = new ReportInfo();
+	reportInfo.setReportDate(statusBean.getReport_date());
+	reportInfo.setCode(statusBean.getCode());
+});
+----------------------------------------------------------------------------------------------------------------------------
+@Query(value = "SELECT id, module, search_time, topic_id, update_time, status FROM insight_result_task WHERE user_id = :userId", nativeQuery = true)
+List<Object[]> readAllTaskByUserId(int userId);
+
+public List<HashMap<String, Object>> readAllTaskByUserId(int userId) {
+	List<Object[]> objArrList = insightResultTaskRepository.readAllTaskByUserId(userId);
+	List<HashMap<String, Object>> list = new ArrayList<>();
+	for (Object[] objArr : objArrList) {
+		HashMap<String, Object> hashMap = new HashMap<>();
+		hashMap.put("id", objArr[0]);
+		hashMap.put("module", objArr[1]);
+		hashMap.put("searchTime", objArr[2]);
+		hashMap.put("topicId", objArr[3]);
+		hashMap.put("updateTime", objArr[4].toString());
+		hashMap.put("status", objArr[5]);
+		list.add(hashMap);
+	}
+	return list;
+}
+----------------------------------------------------------------------------------------------------------------------------
+@Resource
+private JdbcTemplate jdbcTemplate;
+
+String sql = "select trade_date from tw_trade_log";
+List<TwTradeLogEntity> query = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TwTradeLogEntity.class));

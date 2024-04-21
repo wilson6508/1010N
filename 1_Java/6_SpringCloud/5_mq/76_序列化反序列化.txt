@@ -1,0 +1,29 @@
+父pom
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+
+子
+@Bean
+public MessageConverter messageConverter() {
+    return new Jackson2JsonMessageConverter();
+}
+-----------------------------------------------------------------
+@Bean
+public Queue objectQueue() {
+    return new Queue("object.queue");
+}
+
+@RabbitListener(queues = "object.queue")
+public void listenObjectQueue(Map<String, Object> msg) {
+    System.out.println(msg);
+}
+-----------------------------------------------------------------
+@Test
+public void testObjectQueue() {
+    HashMap<String, Object> msg = new HashMap<>();
+    msg.put("name", "柳炎");
+    msg.put("age", 21);
+    rabbitTemplate.convertAndSend("object.queue", msg);
+}

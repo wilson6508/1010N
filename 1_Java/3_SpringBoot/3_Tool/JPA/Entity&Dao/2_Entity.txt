@@ -1,0 +1,39 @@
+使用自己寫的NewInsightDb專案去產生Entity
+
+刪除 schema 和 catalog
+
+添加 @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+( 
+    如果DB欄位的型別是DATETIME 而且有設DEFAULT current_timestamp()
+    java物件不想setCreateTime
+    則Entity添加 @CreationTimestamp @UpdateTimestamp
+)
+(
+    如果DB欄位的型別是TIMESTAMP
+    java物件不想setCreateTime
+    則Entity不用添加
+)
+---------------------------------------------------------------------------------------
+@Basic
+@Column(name = "create_time")
+@CreationTimestamp
+public Timestamp getCreateTime() {
+    return createTime;
+}
+public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
+}
+
+@Basic
+@Column(name = "update_time")
+@UpdateTimestamp
+public Timestamp getUpdateTime() {
+    return updateTime;
+}
+public void setUpdateTime(Timestamp updateTime) {
+    this.updateTime = updateTime;
+}

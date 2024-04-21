@@ -1,0 +1,14 @@
+老師筆記https://www.yuque.com/atguigu/springboot/?fbclid=IwAR3FhDeXH7A73kH8PubSWgkVLmwmsCwR9nFKCn2dp0KalBY6mpBCnZ2eQxs
+課程清單https://www.youtube.com/watch?v=xu33IJNxkn0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u
+
+spring官網https://spring.io/
+
+1.課程介绍 https://www.youtube.com/watch?v=xu33IJNxkn0
+2.Spring生態圈 https://www.youtube.com/watch?v=l3KbA-E_WkE
+3.大时代背景 https://www.youtube.com/watch?v=Nlfn_aSzy1I
+4.官方文檔架構 https://www.youtube.com/watch?v=6ZnYlanvC1U
+5.HelloWorld https://www.youtube.com/watch?v=N7dsPcsmxM4
+6.套件版本管理 https://www.youtube.com/watch?v=1YXSmRnE99Y
+7.自動配置特性 https://www.youtube.com/watch?v=dJIksiVQDj4
+8.MyConfig https://www.youtube.com/watch?v=GGWMK2BJs7E
+9.@Import導入组件 https://www.youtube.com/watch?v=uUpNr3PzNsY

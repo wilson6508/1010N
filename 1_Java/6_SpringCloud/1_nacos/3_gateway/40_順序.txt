@@ -1,0 +1,20 @@
+gateway:
+    routes:
+    - id: user-service
+        uri: lb://userservice
+        predicates:
+        - Path=/user/**
+        filters:
+        - AddRequestHeader=Truth, Itcast is good    order = 1
+        - AxxxRequestHeader=Truth, Itcast is good   order = 2
+        - AyyyRequestHeader=Truth, Itcast is good   order = 3
+    - id: order-service
+        uri: lb://orderservice
+        predicates:
+        - Path=/order/**
+    default-filters:
+        - AddRequestHeader=Truth, Itcast is good    order = 1
+        - AxxxRequestHeader=Truth, Itcast is good   order = 2
+        - AyyyRequestHeader=Truth, Itcast is good   order = 3
+
+order值相同 先default-filters 再filters 然後GlobalFilter

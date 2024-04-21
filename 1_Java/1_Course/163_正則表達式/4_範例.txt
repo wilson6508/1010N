@@ -1,0 +1,32 @@
+// 第一位:數字1
+// 第二位:數字3~9
+// 之後九位:數字
+String regex = "1[3-9]\\d{9}";
+
+// 第一位:數字0
+// 二個或三個數字
+// hyphen character: 0次or1次
+String regex = "0\\d{2,3}-?";
+
+// email
+String regex = "\\w+@[a-zA-Z0-9]+(\\.[a-zA-Z]+){1,2}";
+System.out.println("323@qq.com".matches(regex));
+System.out.println("san@icast.cnn".matches(regex));
+System.out.println("tom566@163.com".matches(regex));
+System.out.println("kobe1234@pci.com.cn".matches(regex));
+
+// 24小時
+String regex = "[01]\\d|2[0-3](:[0-5]\\d){2}";
+System.out.println("23:11:11".matches(regex));
+
+// 忽略大小寫
+String regex = "(?i)abc";
+String regex = "a(?i)bc";
+String regex = "a((?i)b)c";
+
+
+年分前半 18 19 20
+年分後半 00~99
+月份 01~09 10 11 12
+日期 01~09 10~19 20~29 30 31
+"(18|19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])"

@@ -1,0 +1,35 @@
+// 匹配一個字符
+System.out.println("a".matches("[abc]"));               // true
+System.out.println("z".matches("[abc]"));               // false
+System.out.println("ab".matches("[abc]"));              // false
+System.out.println("ab".matches("[abc][abc]"));         // true
+
+// 範圍
+System.out.println("a".matches("[a-zA-Z]"));            // true
+System.out.println("z".matches("[a-zA-Z]"));            // true
+System.out.println("aa".matches("[a-zA-Z]"));           // false
+System.out.println("aa".matches("[a-zA-Z][a-zA-Z]"));   // true
+
+// 取反
+System.out.println("a".matches("[^abc]"));              // false
+System.out.println("z".matches("[^abc]"));              // true
+System.out.println("zz".matches("[^abc]"));             // false
+System.out.println("zz".matches("[^abc][^abc]"));       // true
+
+// 或者 
+System.out.println("a".matches("[a-d[m-p]]"));          // true
+System.out.println("e".matches("[a-d[m-p]]"));          // false
+System.out.println("&".matches("[a-z&[def]]"));         // true
+
+// 而且 (匹配def)
+System.out.println("&".matches("[a-z&&[def]]"));        // false
+System.out.println("a".matches("[a-z&&[def]]"));        // false
+System.out.println("e".matches("[a-z&&[def]]"));        // true
+
+// [ad-z]
+System.out.println("a".matches("[a-z&&[^bc]]"));        // true
+System.out.println("b".matches("[a-z&&[^bc]]"));        // false
+
+// [a-lq-z]
+System.out.println("a".matches("[a-z&&[^m-p]]"));       // true
+System.out.println("m".matches("[a-z&&[^m-p]]"));       // false

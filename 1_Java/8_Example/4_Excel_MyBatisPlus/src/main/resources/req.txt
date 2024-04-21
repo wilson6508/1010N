@@ -1,0 +1,24 @@
+Post
+http://localhost:8085/rawData/createExcel
+http://localhost:8085/rawData/downloadExcel
+{
+  "colMap": {
+    "0": "id",
+    "1": "name",
+    "2": "age"
+  },
+  "dataList": [
+    {
+      "id": 1,
+      "name": "Tom",
+      "age": 18
+    },
+    {
+      "id": 2,
+      "name": "Amy",
+      "age": 20
+    }
+  ]
+}
+Get
+http://localhost:8085/rawData/readJsonExcel?fileName=0926vd

@@ -1,0 +1,7 @@
+'\t'
+"\t"
+console時
+把前面字串的長度補到8或8的倍數 (IDEA為4)
+最少補1格空格 最多補8格空格
+System.out.println("name" + '\t' + "age");
+System.out.println("Tom" + '\t' + "23");

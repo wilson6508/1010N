@@ -1,0 +1,53 @@
+public interface PersonService {
+	public String name();
+}
+
+@Service("womanService")
+public class WomanServiceImpl implements PersonService {
+	@Override
+	public String name() {
+		return "Woman";
+	};
+}
+
+@Service("manService")
+public class ManServiceImpl implements PersonService {
+	@Override
+	public String name() {
+		return "Man";
+	};
+}
+
+@Autowired
+@Qualifier("manService")
+private PersonService personService;
+
+@Resource(type = WomanServiceImpl.class)
+private PersonService personService;
+----------------------------------------------------------------------
+public interface HumanService {
+    public String name();
+}
+
+@Service
+public class TeacherServiceImpl implements HumanService {
+    @Override
+    public String name() {
+        return "teacher";
+    }
+}
+@Service
+public class DoctorServiceImpl implements HumanService {
+    @Override
+    public String name() {
+        return "doctor";
+    }
+}
+
+@Autowired
+@Qualifier("teacherServiceImpl")
+private HumanService humanService;
+
+@Resource(type = DoctorServiceImpl.class)
+private HumanService humanService;
+----------------------------------------------------------------------

@@ -1,0 +1,31 @@
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.support.CronTrigger;
+
+@Service
+public class AnnouncementService implements SchedulingConfigurer {
+
+    @Value("0/5 * * * * ?")
+    private String cron;
+
+    public String getCron() {
+        return cron;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
+
+	// 可從"0/5 * * * * ?"切換至"0/2 * * * * ?"
+
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.addTriggerTask(this::test, context -> new CronTrigger(getCron()).nextExecutionTime(context));
+    }
+
+    public void test() {
+        System.out.println(1234);
+    }
+	
+}

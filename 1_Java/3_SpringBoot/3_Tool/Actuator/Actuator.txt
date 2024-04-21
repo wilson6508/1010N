@@ -1,0 +1,12 @@
+compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+management.endpoints.web.exposure.include=*
+http://127.0.0.1:7780/actuator/scheduledtasks
+http://127.0.0.1:7780/actuator/env
+http://127.0.0.1:7780/actuator/health
+http://127.0.0.1:7780/actuator/metrics/system.cpu.usage
+
+management.endpoint.shutdown.enabled=true
+http://127.0.0.1:7780/actuator/shutdown
+
+https://kucw.github.io/blog/2020/7/spring-actuator/

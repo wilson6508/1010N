@@ -1,0 +1,42 @@
+https://github.com/liyupi/sql-father-backend-public
+
+Application: 1
+Forder(12):
+    annotation:
+        AuthCheck.java (@interface AuthCheck)
+    aop:
+        AuthInterceptor.java
+        LogInterceptor.java
+    common:
+        BaseResponse.java (BaseResponse<T> implements Serializable)
+        DeleteRequest.java (implements Serializable)
+        ErrorCode.java (enum)
+        PageRequest.java
+        ResultUtils.java (return BaseResponse)
+    config:
+        CorsConfig.java
+        FreeMarkerConfigurationConfig.java
+        Knife4jConfig.java
+        MyBatisPlusConfig.java
+    constant:
+        CommonConstant.java (interface)
+        UserConstant.java (interface)
+    controller:
+    core: (專案核心(複雜))
+    exception:
+        BusinessException.java (extends RuntimeException)
+        GlobalExceptionHandler.java (@RestControllerAdvice)
+    mapper:
+    model:
+        dto:
+            DictAddRequest.java
+        entity:
+        enums:
+            ReportStatusEnum.java
+    service:
+        impl:
+            DictServiceImpl.java (implements DictService)
+        DictService.java(interface)
+    utils:
+        NetUtils.java (取得客戶端ip)
+        SpringContextUtils.java (上下文取得bean)

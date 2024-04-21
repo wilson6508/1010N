@@ -1,0 +1,10 @@
+對Gradle進行一層包裝 解決多人開發中不同版本的Gradle問題
+在gradlew所在位置使用指令 (使用的是gradle/wrapper/gradle-wrapper.jar)
+
+gradlew -v
+gradle.bat -v
+
+gradlew classes
+gradle.bat classes
+
+用別人的項目或舊版的gradle可以使用gradle wrapper

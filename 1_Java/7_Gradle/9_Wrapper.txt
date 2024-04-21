@@ -1,0 +1,7 @@
+https://mvnrepository.com/
+
+C:\Users\hcw\Desktop\demo\gradle01\gradle\wrapper
+
+gradle wrapper --gradle-version=7.4.2
+gradlew.bat classes
+gradlew.bat -v

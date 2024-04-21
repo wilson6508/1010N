@@ -1,0 +1,31 @@
+create table spring_test (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	user_id INT(8) NOT NULL COMMENT '使用者帳號',
+	user_info VARCHAR(1000) NOT NULL COMMENT '使用者資訊',
+	result MEDIUMTEXT NULL DEFAULT NULL COMMENT '結果/錯誤訊息',
+	create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '創建時間',
+	update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+);
+-------------------------------------------------------------------------------------------------------------------
+@Entity
+@Table(name = "spring_test")
+public class SpringTest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+    
+    @Column(name = "user_info", nullable = false)
+    private String userInfo;
+    
+    @Column(name = "result")
+    private String result;
+    
+    @Column(name = "create_time", insertable = false, updatable = false)
+    private Timestamp createTime;
+    
+    @Column(name = "update_time", insertable = false, updatable = false)
+    private Timestamp updateTime;
+}

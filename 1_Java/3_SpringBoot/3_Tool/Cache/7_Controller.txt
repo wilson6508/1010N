@@ -1,0 +1,21 @@
+package com.atguigu.cache.controller;
+
+import com.atguigu.cache.bean.TwNameMapping;
+import com.atguigu.cache.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TestController {
+
+    @Autowired
+    TestService testService;
+
+    @GetMapping("/emp/{id}")
+    public TwNameMapping getTwNameMapping(@PathVariable("id") Integer id) {
+        return testService.getTwNameMapping(id);
+    }
+
+}

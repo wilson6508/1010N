@@ -1,0 +1,19 @@
+深入 JDBC、Connection Pool 並導入 H2 DB
+https://medium.com/learning-from-jhipster/14-%E6%B7%B1%E5%85%A5-jdbc-connection-pool-%E4%B8%A6%E5%B0%8E%E5%85%A5-h2-db-939adee9c50
+
+基本原理就是在應用程式一啟動的時候
+先建立好固定數量的 Connection 物件存放在 Pool 內
+並透過 getConnection() 的方法從 Pool 裡面取得 Connection
+等到跟資料庫取完資料後
+透過 returnConnection() 的方法將用完的 Connection 返還，並存回 Pool 中
+
+不論是 嵌入式資料庫 或是 一般常見的關聯式資料庫
+只要是想要透過 Java 的應用程式與資料庫溝通 一定會需要 JDBC
+
+spring:
+  datasource:
+    type: 設定ConnectionPool的DataSource (或從classPath中自動檢測)
+    url: 設定jdbc連線至資料庫的url
+    username: 設定jdbc連線至資料庫的帳號
+    password: 設定jdbc連線至資料庫的密碼
+    driver-class-name: 設定JDBC的Driver (或依照url自動檢測)

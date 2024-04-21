@@ -1,0 +1,11 @@
+application.properties 
+enableAop=false
+
+@Aspect
+@Component
+@ConditionalOnProperty(value = "enableAop", havingValue = "true", matchIfMissing = true)
+public class TestAop {...}
+
+matchIfMissing = false (設定檔沒有enableAop Conditional: false)
+matchIfMissing = true (設定檔沒有enableAop Conditional: true)
+(預設false)

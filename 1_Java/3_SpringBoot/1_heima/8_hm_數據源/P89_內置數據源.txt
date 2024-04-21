@@ -1,0 +1,10 @@
+數據源: DruidDataSource
+持久化技術: MyBatis
+資料庫: MySQL
+-------------------------------------
+Hikari(SpringBoot預設)
+Tomcat
+Commons DBCP
+-------------------------------------
+hikari:
+    maximum-pool-size: 50

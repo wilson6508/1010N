@@ -1,0 +1,10 @@
+SpringBoot會對測試類的 事務提交操作進行回滾	
+
+@SpringBootTest
+@Transactional
+-----------------------------------------------------------------------------
+如果想在測試類中提交事務
+
+@SpringBootTest
+@Transactional
+@Rollback(value = false)

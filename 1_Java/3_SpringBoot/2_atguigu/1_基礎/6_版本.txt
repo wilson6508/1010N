@@ -1,0 +1,11 @@
+maven就近原則改版本
+<properties>
+    <mysql.version>8.0.31</mysql.version>
+</properties>
+
+直接寫版本
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.0.31</version>
+</dependency>

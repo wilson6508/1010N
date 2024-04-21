@@ -1,0 +1,6 @@
+https://xenby.com/b/264-%E6%95%99%E5%AD%B8-intellij-idea-%E4%BD%BF%E7%94%A8%E5%A5%97%E4%BB%B6%E7%94%A2%E7%94%9F-jpa-%E8%88%87-repository
+https://blog.typeart.cc/generate-spring-boot-entity-from-database-by-intelij/
+
+一、連接資料庫
+二、將專案增加JPA
+三、由資料庫schema反產entity (上方選單View > Tool Windows > Persistence)

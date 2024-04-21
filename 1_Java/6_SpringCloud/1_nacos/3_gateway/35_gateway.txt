@@ -1,0 +1,21 @@
+身分驗證 權限校驗
+路由到微服務 並實現負載均衡
+限流
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://127.0.0.1:9001
+          predicates:
+            - Path=/**

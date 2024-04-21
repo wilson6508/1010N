@@ -1,0 +1,20 @@
+無法debug > 暫不採用
+
+@JoinTable(
+
+    // 連結創造一個中介表格(todos_tag)
+    name = "todos_tag", 
+
+    // 連接關聯外鍵(tag_id)至TAG的id
+    joinColumns = {@JoinColumn(name = "tag_id")},
+
+    // 連結到外鍵(todo_id)至TODO的id
+    inverseJoinColumns = {@JoinColumn(name = "todo_id")}
+
+)
+
+
+INSERT INTO USER (NAME, GENDER) VALUES ('caili', 2);
+INSERT INTO TAG (TAG) VALUES ('生活');
+INSERT INTO TODO (TASK, STATUS, UPDATE_TIME, CREATE_TIME, USER_ID) values ('寫鐵人賽', 1, '2020-09-09 17:00', '2020-09-09 17:00', 1);
+INSERT INTO TODOS_TAG (TODO_ID, TAG_ID) values(1, 1)

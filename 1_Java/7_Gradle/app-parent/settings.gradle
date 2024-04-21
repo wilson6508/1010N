@@ -1,0 +1,5 @@
+rootProject.name = 'app-parent'
+include 'feign-api'
+include 'pojo'
+include 'service'
+

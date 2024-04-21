@@ -1,0 +1,54 @@
+public class SseSession {
+
+    private static Map<String, SseEmitter> SESSION = new ConcurrentHashMap<>();
+
+    public static boolean exist(String id) {
+        return SESSION.get(id) == null;
+    }
+
+    public static void add(String id, SseEmitter emitter) {
+        final SseEmitter oldEmitter = SESSION.get(id);
+        if (oldEmitter != null) {
+            oldEmitter.completeWithError(new SseException("RepeatConnect(Id:" + id + ")"));
+        }
+        SESSION.put(id, emitter);
+    }
+
+    public static boolean del(String id) {
+        final SseEmitter emitter = SESSION.remove(id);
+        if (emitter != null) {
+            emitter.complete();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean send(String id, Object msg) {
+        final SseEmitter emitter = SESSION.get(id);
+        if (emitter != null) {
+            try {
+                emitter.send(msg);
+                return true;
+            } catch (IOException e) {
+                logger.error("MSG: SendMessageError-IOException | ID: " + id + " | Date: " + new Date() + " |", e);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static void onCompletion(String id, ScheduledFuture<?> future) {
+        SESSION.remove(id);
+        if (future != null) {
+            future.cancel(true);
+        }
+    }
+
+    public static void onError(String id, SseException e) {
+        final SseEmitter emitter = SESSION.get(id);
+        if (emitter != null) {
+            emitter.completeWithError(e);
+        }
+    }
+    
+}

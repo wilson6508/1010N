@@ -1,0 +1,45 @@
+@Scheduled cron 
+https://www.cnblogs.com/javahr/p/8318728.html
+
+使用 @Async 和@ EnableAsync 做 @Scheduled
+https://iter01.com/558514.html (@EnableAsync)
+https://blog.csdn.net/qq_29550537/article/details/91974893?utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.vipsorttest&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.vipsorttest
+https://blog.csdn.net/zhaominpro/article/details/84561966?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.vipsorttest&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.vipsorttest
+
+--------------------------------------------------------------------------------------
+
+import com.eland.service.autoreport.AutoReportScheduleService;
+import com.eland.service.autoreport.AutoReportTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+@Async
+public class AutoReportScheduler {
+
+    @Autowired
+    private AutoReportTaskService autoReportTaskService;
+    @Autowired
+    private AutoReportScheduleService autoReportScheduleService;
+
+    @Scheduled(cron = "${auto_report.exec_task}")
+    public void autoReportTask() {
+        try {
+            autoReportTaskService.process();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Scheduled(cron = "${auto_report.add_scheduled_task}")
+    public void autoReportSchedule() {
+        try {
+            autoReportScheduleService.process();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}

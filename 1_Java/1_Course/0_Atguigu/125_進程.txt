@@ -1,0 +1,9 @@
+進程(process):正在運行中的程序
+
+我們編寫的程序是由
+CPU中央處理器裡面的
+內部核心處理器(cpu內核)來執行的
+
+javac Hello.java
+java Hello
+jps可以查看同資料夾的java進程

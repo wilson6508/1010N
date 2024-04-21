@@ -1,0 +1,48 @@
+Job JobDetail Trigger Scheduler
+-------------------------------------------------------------------------------------
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Ex {
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(5566);
+            }
+        };
+        // timer.schedule(task, 5000);    // 5秒後執行一次
+        // timer.schedule(task, 0, 2000); // 馬上執行 每2秒再次執行
+    }
+}
+----------------------------------------------------------------------------------------
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Ex {
+    public static void main(String[] args) throws InterruptedException {
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(5566);
+            }
+        };
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.MARCH, 4, 23, 29, 0);
+        Date time = calendar.getTime();
+        Timer timer = new Timer();
+        // timer.schedule(task, time);        // 指定時間執行一次
+        // timer.schedule(task, time, 2000);  // 指定時間執行 每2秒再次執行
+
+        while (true) {
+            Thread.sleep(5000);
+            System.out.println(1);
+        }
+
+    }
+}

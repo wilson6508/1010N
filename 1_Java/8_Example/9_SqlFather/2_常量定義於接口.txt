@@ -1,0 +1,14 @@
+public class final Constants {
+    private Constants() {}
+    public static final int A = 100;
+}
+不給繼承 不給實例化
+----------------------------------------------------------------------------------
+interface中的變量默認是"public static final"即常量 > 因此直接寫成"type variable"
+在interface和class中定義相同的常量
+interface生成的class文件比class生成的class文件小且更簡潔
+
+常量接口模式: 類要使用接口中定義的常量就實現該接口 (不推薦使用)
+靜態導入import static (不推薦使用)
+直接使用"接口.常量名" (推薦使用)
+----------------------------------------------------------------------------------

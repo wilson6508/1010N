@@ -1,0 +1,10 @@
+@Configuration(proxyBeanMethods = false)
+public class SpringConfig {
+    @Bean
+    public Cat cat() {
+        return new Cat();
+    }
+}
+
+false: 調用cat()方法new新對象
+true: 調用cat()方法同一個對象

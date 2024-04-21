@@ -1,0 +1,18 @@
+@Value("${country}")
+private String c;
+
+@Value("${obj.a}")
+@Value("${arr[1]}")
+---------------------------------
+@Autowired
+private Environment env;
+
+env.getProperty("server.port")
+---------------------------------
+server:
+  port: 8081
+  servlet:
+    context-path: /test123
+
+才能訪問
+127.0.0.1:8081/test123/books

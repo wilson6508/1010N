@@ -1,0 +1,39 @@
+package com.eland;
+
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+@RestController
+public class TestController {
+
+    @RequestMapping(value = "/downloadPPT")
+    public ResponseEntity<Object> downloadPPT() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        InputStream pptxFile = getClass().getResourceAsStream("/autoCustomReportTemplate.pptx");
+        try {
+            if (pptxFile != null) {
+                XMLSlideShow xmlSlideShow = new XMLSlideShow(pptxFile);
+                xmlSlideShow.write(outputStream);
+                xmlSlideShow.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment;filename=123.pptx")
+                .contentType(MediaType.parseMediaType("application/vnd.ms-powerpoint"))
+                .body(inputStreamResource);
+    }
+
+}

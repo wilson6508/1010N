@@ -1,0 +1,15 @@
+servers:
+  size: 10MB
+  dataSize: 10
+  serverTimeout: 3
+
+@Data
+@Component
+@ConfigurationProperties(prefix = "servers")
+public class ServerConfig {
+    private DataSize size;
+    @DataSizeUnit(DataUnit.MEGABYTES)
+    private DataSize dataSize;
+    @DurationUnit(ChronoUnit.HOURS)
+    private Duration serverTimeout;
+}

@@ -1,0 +1,8 @@
+建立並串接資料庫，實作Entity
+實作Dao層、Service層和Controller層
+將ToDo List用Thymeleaf模版引擎完成
+
+單元測試與整合測試
+實作CRUD RESTful API
+串接CRUD RESTful API
+實作多對多查詢

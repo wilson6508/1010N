@@ -1,0 +1,10 @@
+@Controller
+@ResponseBody     // 傳送給瀏覽器 (配置在類or方法)
+@RestController   // @Controller + @ResponseBody
+-------------------------------------------------------------------
+@RequestMapping("/hello") // 映射瀏覽器發送的請求
+public String handle01(@RequestParam("name") String name) {
+	return "hello 5566" + "你好" + name;
+}
+127.0.0.1:8080/hello?name=張三
+-------------------------------------------------------------------

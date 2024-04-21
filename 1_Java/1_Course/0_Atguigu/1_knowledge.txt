@@ -1,0 +1,9 @@
+bit and byte
+https://www.youtube.com/watch?v=xm3IwoFGSVM
+
+bit 0 or 1
+1 byte = 8 bit
+1 KB = 1024 byte
+1 Mb = 1024 KB
+1 GB = 1024 MB
+1 TB = 1024 GB

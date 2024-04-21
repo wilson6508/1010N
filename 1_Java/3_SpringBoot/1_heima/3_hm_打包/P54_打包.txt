@@ -1,0 +1,5 @@
+java -jar projectName.jar
+
+Lifecycle
+執行package會依照生命週期1步1步執行
+有 Toggle Skip Test modes 可以按

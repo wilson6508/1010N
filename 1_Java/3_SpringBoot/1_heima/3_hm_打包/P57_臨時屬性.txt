@@ -1,0 +1,5 @@
+java -jar projectName.jar --server.port=9001
+java -jar projectName.jar --server.port=9001 --spring.datasource.password=1234
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
+https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config

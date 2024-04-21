@@ -1,0 +1,6 @@
+spring:
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        period: 11000

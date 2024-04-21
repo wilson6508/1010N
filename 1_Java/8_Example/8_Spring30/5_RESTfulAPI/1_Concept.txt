@@ -1,0 +1,54 @@
+REST (Representational State Transfer)是一種網頁服務架構（Web Service Architecture）
+HTTP 就是一個符合 REST 架構的實作 (應用程式使用了 HTTP 連線不保證它就是 REST 架構)
+------------------------------------------------------------------------------------------
+RESTful systems 有五個主要特性/限制：
+1. 伺服器/客戶端分離
+2. 無狀態
+3. 可快取
+4. 分層
+5. 統一操作介面
+
+伺服器/客戶端分離 (Separation of Server and Client)
+
+無狀態 (Stateless)
+每個請求都是獨立的 自成一個個體 與前後請求無關
+可擴充性（可以將請求交給不同伺服器處理）
+
+可快取 (Cacheable)
+快取機制可以在 Client 或 Server 中實作
+
+分層 (Layered)
+在發出請求的 Client 與送出回應的 Server 之間可以有好幾個 Server 中間人（稱作 Connectors）
+彼此獨立並且不會影響到 Request 與 Response
+
+統一操作介面 (Uniform Interface)
+將操作細節抽象出來，降低耦合並提高獨立性。
+------------------------------------------------------------------------------------------
+REST 有三個主要角色：Data Elements Connectors Components
+
+Data Elements
+    Resource 有自己的 Resource Identifier 與 Resource Metadata
+    Resource Metadata 是儲存 Source Link, Alternates 等資訊
+
+    Representation 是表示這個資源目前的狀態
+    Content-Type (e.g. application/html, image/jpg) 就是一種 Representation
+    Representation Metadata 則包含了 Media Type, Last-Modified Time 等資料
+
+Connectors
+    REST connectors 包含五種型態：Client, Server, Cache, Resolver, Tunnel
+    其中 Client 與 Server 是兩種主要型態。
+    一次請求到回應的路徑是：Server 監聽 → Client 發出 Request → Server 收到 → 傳回 Response
+    Cache 的機制則可以實做在 Client 端或是 Server 端
+    Resolver 的角色像是 Client 與 Server 的中間人（e.g. DNS lookup），
+    Tunnel 則可以做強制加密等工作
+
+Components
+    REST components 包含四種角色：User Agent, Origin Server, Gateway, Proxy
+    User Agent 就是有時候當我們要用爬蟲，會必須要註明 User-Agent = "Mozilla/5.0" 的那個 User Agent
+    User Agent 代表瀏覽器那一方
+    Origin Server 則代表伺服器那一方
+    Gateway 與 Proxy 則是在 User Agent 與 Origin Server 的溝通過程中確保效率與安全性
+------------------------------------------------------------------------------------------
+URI (Uniform Resource Identifier)
+URL (Uniform Resource Locator)
+都是識別資源的方法，而 URL 是 URI 的一種

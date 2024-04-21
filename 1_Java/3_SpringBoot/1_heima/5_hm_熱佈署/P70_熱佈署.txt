@@ -1,0 +1,12 @@
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+</dependency>
+
+Build Project
+----------------------------------------------------
+Restart: 代碼
+Reload: jar包
+
+熱佈署(Build Project) > Restart代碼
+Stop And Run > Restart代碼 Reloadjar包

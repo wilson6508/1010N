@@ -1,0 +1,64 @@
+﻿3個重點
+
+Spring Boot + Spring Data JPA 配置多個 DataSource
+https://www.tpisoftware.com/tpu/articleDetails/2637
+
+Day 17 - Spring Boot 例外處理
+https://ithelp.ithome.com.tw/articles/10275702?sc=hot
+
+<excludes>
+	<exclude>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+	</exclude>
+</excludes>
+----------------------------------------------------------------------------------------------
+工具
+
+import org.springframework.beans.BeanUtils;
+BeanUtils.copyProperties(student, person);
+
+import org.springframework.util.CollectionUtils;
+CollectionUtils
+
+<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-lang3</artifactId>
+</dependency>
+https://cloud.tencent.com/developer/article/1497811
+StringUtils.isNumeric("123") // 整数
+StringUtils.isNotBlank("A")
+ArrayUtils.isEmpty(array);
+
+private static boolean isDouble(String str) {
+	Pattern pattern = Pattern.compile("[0-9]+[.]{0,1}[0-9]*[dD]{0,1}");
+	Matcher isNum = pattern.matcher(str);
+	return isNum.matches();
+}
+
+private static final String[] DATE_PATTERNS = {"yyyy-MM-dd", "yyyy年MM月dd日", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyyMMdd"};
+
+private static boolean isDate(String str) {
+	if (StringUtils.isBlank(str)) {
+		return false;
+	}
+	try {
+		DateUtils.parseDate(str, DATE_PATTERNS);
+		return true;
+	} catch (Exception e) {
+		return false;
+	}
+}
+
+
+https://www.1ju.org/article/java-datafaker
+<dependency>
+	<groupId>net.datafaker</groupId>
+	<artifactId>datafaker</artifactId>
+	<version>1.6.0</version>
+</dependency>
+----------------------------------------------------------------------------------------------
+額外的補充
+
+Lombok @SneakyThrows用法
+https://matthung0807.blogspot.com/2020/09/lombok-sneakythrows.html

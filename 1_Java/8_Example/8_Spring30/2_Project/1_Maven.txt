@@ -1,0 +1,51 @@
+Group： 可自由填寫，通常為組織名稱
+Artifact： 專案名稱，通常會以專案名稱命名
+Version ： 專案版本號
+Type：選擇Maven
+Language：選擇Java
+Packaging：選擇Jar
+Java Version：選擇 8
+
+<name>todolist</name>
+<groupId>com.caili</groupId>
+<artifactId>todolist</artifactId>
+-----------------------------------------------------------------
+Maven 基於XML的配置
+Gradle 採用Groovy的配置
+
+Maven和Gradle都是專案的自動建構工具
+在軟體發行需要經過編譯原始碼、程式測試、構建步驟和版本佈署等
+若用人工的方式易出錯
+所以使用自動化的方式來執行繁瑣的步驟
+-----------------------------------------------------------------
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-devtools</artifactId>
+	<optional>true</optional>
+</dependency>
+
+ctrl + f9
+-----------------------------------------------------------------
+Maven Dependencies -> pom.xml
+根目錄底下的 pom.xml 定義專案需要用到的依賴，類似於node專案package.json
+
+modelVersion: Maven的版本
+groupId: 專案package名稱
+artifactId: 專案package的識別名
+version: 專案版本
+name: 專案名稱
+description: 專案敘述
+properties: 專案其他參數設定, JDK版本
+dependencies: 專案所用的的依賴套件
+-----------------------------------------------------------------

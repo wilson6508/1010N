@@ -1,0 +1,15 @@
+DI依賴注入(Dependency Injection)
+
+SpringFramework是框架,底層是Java.
+SpringBoot是高層框架,底層是SpringFramework.
+
+Spring5內部源碼基於JDK8
+SpringBoot2響應式編程處理高併發
+
+SpringBoot優點
+1.能快速創建生產級別的Spring應用 // Create stand-alone Spring applications
+2.內嵌web服務器 // Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files)
+3.自動starter依賴,簡化配置 // Provide opinionated 'starter' dependencies to simplify your build configuration
+4.自動配置spring及第3方功能 // Automatically configure Spring and 3rd party libraries whenever possible
+5.提供生產級別的監控,健康檢查及外部化配置 // Provide production-ready features such as metrics, health checks, and externalized configuration
+6.無代碼生成、不需編寫XML // Absolutely no code generation and no requirement for XML configuration

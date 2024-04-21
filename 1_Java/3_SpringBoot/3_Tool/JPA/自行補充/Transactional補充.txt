@@ -1,0 +1,10 @@
+https://blog.csdn.net/zhenlingcn/article/details/84593013
+
+@Modifying(聲明執行的SQL是增刪改操作)
+@Transactional(JPA默認會依賴JDBC默認的隔離級別)
+
+默認情況下JPA每個操作都為事務且只讀
+@Transactional標籤中(boolean readOnly() default false;)
+
+自己的理解為打上@Transactional標籤就可以進行增刪改操作
+寫不寫@Modifying不重要(@Modifying標籤本身還有2個屬性 目前尚未理解)

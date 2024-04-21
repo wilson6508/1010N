@@ -1,0 +1,4 @@
+autoReportTaskRepository.saveAndFlush(autoReportTask);
+
+JPA Save()物件後返回該物件在資料庫中的ID的解決方法
+https://www.796t.com/content/1548852678.html

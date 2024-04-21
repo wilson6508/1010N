@@ -1,0 +1,24 @@
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "direct.queue01"),
+        exchange = @Exchange(name = "itcast.direct", type = ExchangeTypes.DIRECT),
+        key = {"red", "blue"}
+))
+public void listenDirectQueue01(String msg) {
+    System.out.println("01 " + msg);
+}
+
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "direct.queue02"),
+        exchange = @Exchange(name = "itcast.direct", type = ExchangeTypes.DIRECT),
+        key = {"red", "yellow"}
+))
+public void listenDirectQueue02(String msg) {
+    System.out.println("02 " + msg);
+}
+---------------------------------------------------------------------------------------------
+@Test
+public void testDirectExchange() {
+    String exchangeName = "itcast.direct";
+    String message = "hello, red!";
+    rabbitTemplate.convertAndSend(exchangeName, "red", message);
+}

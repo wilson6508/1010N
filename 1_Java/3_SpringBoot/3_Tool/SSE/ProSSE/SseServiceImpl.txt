@@ -1,0 +1,46 @@
+@Service
+public class SseServiceImpl implements SseService {
+
+    private static ScheduledExecutorService heartbeatExecutors = Executors.newScheduledThreadPool(8);
+
+    @Override
+    public SseEmitter start(String clientId) {
+
+        SseEmitter emitter = new SseEmitter(30_000L);
+        SseSession.add(clientId, emitter);
+		
+        final ScheduledFuture<?> future = heartbeatExecutors.scheduleAtFixedRate(new HeartBeatTask(clientId), 0, 10, TimeUnit.SECONDS);
+		
+        emitter.onCompletion(() -> {
+            SseSession.onCompletion(clientId, future);
+        });
+		
+        emitter.onTimeout(() -> {
+            SseSession.onError(clientId, new SseException("TimeOut(clientId: " + clientId + ")"));
+        });
+		
+        emitter.onError(t -> {
+            SseSession.onError(clientId, new SseException("Error(clientId: " + clientId + ")"));
+        });
+		
+        return emitter;
+    }
+
+    @Override
+    public String send(String clientId) {
+        if (SseSession.send(clientId, System.currentTimeMillis())) {
+            return "Succeed!";
+        }
+        return "error";
+    }
+
+    @Override
+    public String close(String clientId) {
+        if (SseSession.del(clientId)) {
+			return "Succeed!";	
+		}
+        return "Error!";
+    }
+	
+	
+}

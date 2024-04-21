@@ -1,0 +1,42 @@
+Kubernetes-SpringCloud-Docker-Jenkins-Java-Linux
+http://www.mydlq.club/about/menu/
+http://www.mydlq.club/article/89/
+
+Bean-Conditional-Component-Flux-MockMvc
+https://ithelp.ithome.com.tw/m/users/20139933/ironman/3938
+
+前端人員學習SpringBoot
+https://ithelp.ithome.com.tw/users/20118857/ironman/3007
+
+Swagger-Retry-SpringBootAdmin-HATEOAS
+https://ithelp.ithome.com.tw/users/20107338/ironman/1445?page=1
+
+WebSocket-遊戲機制
+https://ithelp.ithome.com.tw/users/20152418/ironman/5654?page=1
+
+RabbitMQ
+https://blog.samzhu.dev/SpringCloudStreamPresentation/
+
+JPA: 日期與時間標籤
+https://kknews.cc/zh-tw/code/apbbo2v.html
+https://www.twblogs.net/a/5d47f28fbd9eee5327fb87cd
+https://ithelp.ithome.com.tw/articles/10273243
+
+Maven-Hibernate-JDBC-JpaRepository-Docker-PostgreSQL
+https://medium.com/@albert-hg
+--------------------------------------------------------------------------------------------------------------
+臺灣證券交易所 OpenAPI
+https://openapi.twse.com.tw/#/
+https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20190820&stockNo=2330
+
+Servlet 與 Servlet 容器
+https://ithelp.ithome.com.tw/articles/10267786
+
+RestTemplate實作(一)
+https://ithelp.ithome.com.tw/articles/10272136
+
+誤打誤撞學了Spring Boot 還當了後端工程師
+https://ithelp.ithome.com.tw/users/20140728/ironman/4245
+
+Angular + Spring Boot API 處理股市資料
+https://ithelp.ithome.com.tw/users/20138857/ironman/4048

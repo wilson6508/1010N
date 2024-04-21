@@ -1,0 +1,9 @@
+MySQL建立table
+
+準備3個nacos
+修改cluster.conf
+修改application.properties
+分別啟動startup.cmd
+
+修改nginx.conf
+啟動nginx

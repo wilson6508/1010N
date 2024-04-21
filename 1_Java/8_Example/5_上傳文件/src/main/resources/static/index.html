@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TDS-LOG</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <textarea rows="16" cols="120" v-model="queryJson"></textarea>
+    <br />
+    <br />
+    <textarea rows="16" cols="120" v-model="result"></textarea>
+    <br />
+    <br />
+    <button @click="createLog()">新增Log</button>
+    <button @click="clear()">清空</button>
+    <button @click="upload()">upload</button>
+    <button @click="test()">test</button>
+    <button @click="scheduledownload()">scheduledownload</button>
+    <input id="test0816" class="file" multiple type="file" name="file">
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    new Vue({
+        el: '#app',
+        data: {
+            queryJson: "",
+            result: "",
+        },
+        methods: {
+            createLog() {
+                const obj = {
+                    queryJson: this.queryJson,
+                    result: this.result
+                };
+                axios.delete("/createLog", obj).then(
+                    response => {
+                        alert(response.data);
+                    },
+                    error => {
+                        alert(error);
+                    }
+                )
+            },
+            clear() {
+                this.queryJson = "";
+                this.result = "";
+            },
+            upload() {
+                const file = document.getElementById("test0816").files[0];
+                let formData = new FormData();
+                formData.append("file", file);
+                const config = {
+                    headers: {"Content-Type": "multipart/form-data;boundary=" + new Date().getTime()}
+                };
+                axios.post("/upload/blog", formData, config);
+            },
+            downloadExcel(url, params) {
+                return new Promise((resolve, reject) => {
+                    axios
+                        .post(url, params, {
+                            responseType: "blob",
+                        })
+                        .then((response) => {
+                            resolve({ data: response.data  });
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                });
+            },
+            async test() {
+                const apiUrl = "http://127.0.0.1:8081/accountant/income/statistics/downloadExcel";
+                const postBody = {
+                    page: 3,
+                    years: [2025],
+                };
+                const { data } = await this.downloadExcel(apiUrl, postBody);
+                const blob = new Blob([data]);
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "front.xlsx");
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url);
+            },
+
+            // scheduledownload() {
+            //     const requestBody = {
+            //         dirName: 'aaa',
+            //         fileName: 'E01.zip',
+            //     };
+            //
+            //     axios({
+            //         method: 'post',
+            //         url: '/download/schedule/task',
+            //         data: requestBody,
+            //         responseType: 'arraybuffer',
+            //     }).then(response => {
+            //             const blob = new Blob([response.data], { type: 'application/zip' });
+            //             const link = document.createElement('a');
+            //             link.href = window.URL.createObjectURL(blob);
+            //             link.download = 'E01.zip'; // Use the desired file name
+            //             link.click();
+            //         })
+            //         .catch(error => {
+            //             console.error('Error downloading file:', error);
+            //         });
+            // }
+
+            scheduledownload() {
+                axios({
+                    method: 'get',
+                    url: '/download/schedule/task?dir=aaa&file=E01.zip',
+                    responseType: 'arraybuffer',
+                })
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'b.zip';
+                    link.click();
+                })
+                .catch(error => {
+                    console.error('Error downloading file:', error);
+                });
+            }
+
+            // scheduledownload() {
+            //     axios({
+            //         method: 'get',
+            //         url: '/download/schedule/task',
+            //         responseType: 'arraybuffer', // Important for handling binary data like Excel files
+            //     }).then(response => {
+            //             const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            //             const link = document.createElement('a');
+            //             link.href = window.URL.createObjectURL(blob);
+            //             link.download = 'b.xlsx';
+            //             link.click();
+            //         })
+            //         .catch(error => {
+            //             console.error('Error downloading file:', error);
+            //         });
+            // }
+
+            // scheduledownload() {
+            //     // axios.get("/download/schedule/task");
+            //     // axios.get("http://192.168.184.102/scheduledownload/bbb/b.txt");
+            //     fetch('http://192.168.184.102/scheduledownload/bbb/b.txt')
+            //         .then(response => response.blob())
+            //         .then(blob => {
+            //             const blobUrl = URL.createObjectURL(blob);
+            //             const downloadLink = document.createElement('a');
+            //             downloadLink.href = blobUrl;
+            //             downloadLink.download = 'a.txt';
+            //             document.body.appendChild(downloadLink);
+            //             downloadLink.click();
+            //             document.body.removeChild(downloadLink);
+            //             URL.revokeObjectURL(blobUrl);
+            //         })
+            //         .catch(error => {
+            //             console.error('Error:', error);
+            //         });
+            // }
+
+
+        }
+    })
+</script>
+</body>
+</html>

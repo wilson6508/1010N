@@ -1,0 +1,44 @@
+https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories
+------------------------------------------------------------------------------------------------------
+局部
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://userservice
+          predicates:
+            - Path=/user/**
+          filters:
+            - AddRequestHeader=Truth, Itcast is good
+------------------------------------------------------------------------------------------------------
+全局
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://userservice
+          predicates:
+            - Path=/user/**
+        - id: order-service
+          uri: lb://orderservice
+          predicates:
+            - Path=/order/**
+      default-filters:
+        - AddRequestHeader=Truth, Itcast is good
+------------------------------------------------------------------------------------------------------
+@GetMapping("/{id}")
+public User queryById(@PathVariable("id") Long id,
+                      @RequestHeader(value = "Truth", required = false) String truth) {
+    System.out.println("truth = " + truth);
+    return userService.queryById(id);
+}

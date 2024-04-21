@@ -1,0 +1,60 @@
+觀念
+    每個starter都會導入spring-boot-starter
+    spring-boot-starter又導入了spring-boot-starter-logging
+    spring-boot-starter-logging默認使用logback+slf4j
+    application.yaml前綴為logging
+--------------------------------------------------------------------------------
+日誌格式
+    日期和時間
+    日誌級別(ERROR WARN INFO DEBUG TRACE)
+    進程ID # 用 cmd jps 查看
+    ---
+    [線程名]
+    產生日誌的類名
+    內容
+logging.pattern.dateformat=yyyy-MM-dd HH:mm:ss
+--------------------------------------------------------------------------------
+使用
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TestController {
+    Logger logger = LoggerFactory.getLogger(getClass());
+    @GetMapping("/hello")
+    public String hello() {
+        logger.info("進入方法");
+        return "hello";
+    }
+}
+--------------------------------------------------------------------------------
+project:
+  location: "D:/test"
+
+logging:
+  level:
+    root: info 
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss
+  file:
+    name: "${project.location}/logs/Log"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "${LOG_FILE}_%d{yyyyMMdd}_%i.txt"
+      max-file-size: 10MB 
+      total-size-cap: 300MB
+      max-history: 7
+
+#默認就是info(可不寫)
+#默認就是10MB(可不寫)
+#默認就是7天(可不寫)
+--------------------------------------------------------------------------------
+自訂義
+
+resources/logback.xml
+resources/logback-spring.xml
+resources/log4j2.xml
+resources/log4j2-spring.xml
+--------------------------------------------------------------------------------

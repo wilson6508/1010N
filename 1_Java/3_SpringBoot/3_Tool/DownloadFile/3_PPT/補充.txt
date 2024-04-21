@@ -1,0 +1,14 @@
+Java讀取多種檔案格式的檔案（pdf,pptx,ppt,doc,docx...）
+https://www.itread01.com/content/1547514575.html
+https://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc
+https://docs.microsoft.com/hr-hr/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
+https://stackoverflow.com/questions/39828967/spring-outputstream-download-pptx-with-ie
+
+How to convert InputStream to FileInputStream(用暫存檔複製resource裡面檔案內容)
+https://stackoverflow.com/questions/2353057/how-to-convert-inputstream-to-fileinputstream
+
+How to get a path to a resource in a Java JAR file(沒辦法取路徑，只能取inputstream)
+https://stackoverflow.com/questions/941754/how-to-get-a-path-to-a-resource-in-a-java-jar-file
+
+Apache POI PPT
+https://www.w3cschool.cn/apache_poi_ppt/apache_poi_ppt_formatting_text.html

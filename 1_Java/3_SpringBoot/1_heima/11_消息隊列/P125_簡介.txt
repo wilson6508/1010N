@@ -1,0 +1,2 @@
+AMQP(advanced message queuing protocol): 規範消息傳遞的格式: byte[]
+JMS(Java Message Service): 規範消息開發的API

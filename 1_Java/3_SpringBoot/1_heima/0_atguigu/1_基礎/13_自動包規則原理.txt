@@ -1,0 +1,26 @@
+@SpringBootApplication = @SpringBootConfiguration + @ComponentScan + @EnableAutoConfiguration
+--------------------------------------------------------------------------------------------------------
+@SpringBootConfiguration = @Configuration // 代表是一個配置類
+
+@ComponentScan = 
+
+@EnableAutoConfiguration = @AutoConfigurationPackage + @Import({AutoConfigurationImportSelector.class})
+@AutoConfigurationPackage = @Import({Registrar.class})
+Registrar = 2個方法可以導入一系列組件 
+// 將指定的一個包下所有組件導入進來 Evaluate Expression 可以看到是main程序所在的包
+
+AutoConfigurationImportSelector = protected AutoConfigurationImportSelector.AutoConfigurationEntry getAutoConfigurationEntry() {}
+List<String> configurations = this.getCandidateConfigurations(annotationMetadata, attributes);
+SpringFactoriesLoader.loadFactoryNames
+Enumeration urls = classLoader.getResources("META-INF/spring.factories");
+spring-boot-autoconfigure-2.6.6.jar
+spring.factories
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+
+int beanDefinitionCount = run.getBeanDefinitionCount();
+
+--------------------------------------------------------------------------------------------------------
+@ConditionalOnBean({CacheAspectSupport.class})
+
+String[] beanNamesForType = run.getBeanNamesForType(CacheAspectSupport.class);
+System.out.println(beanNamesForType.length);

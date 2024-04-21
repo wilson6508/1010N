@@ -1,0 +1,23 @@
+\是轉譯字符 改變後面字符原本的含意
+記憶點: (書寫正則需要\就寫\\)
+
+// .表示任一字符
+System.out.println("你".matches("."));                  // true
+System.out.println("你".matches(".."));                 // false
+
+// \d表示任一數字
+System.out.println("3".matches("\\d"));                 // true
+System.out.println("a".matches("\\d"));                 // false
+System.out.println("333".matches("\\d"));               // false
+
+// 非 數字字母底線              
+System.out.println("3".matches("\\W"));                 // false
+System.out.println("你".matches("\\W"));                // true
+
+// 數字字母底線 至少4次
+System.out.println("a3_".matches("\\w{4,}"));           // false
+System.out.println("a3_f".matches("\\w{4,}"));          // true
+
+// 數字字母 剛好4次
+System.out.println("23df".matches("[a-zA-Z0-9]{4}"));   // true
+System.out.println("23_f".matches("[\\w&&[^_]]{4}"));   // false

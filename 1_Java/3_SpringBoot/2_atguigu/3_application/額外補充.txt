@@ -1,0 +1,30 @@
+POST request via RestTemplate in JSON
+https://stackoverflow.com/questions/4075991/post-request-via-resttemplate-in-json
+
+Spring Boot Configuration 配置檔案讀取以及自定義配置檔案
+https://www.itread01.com/content/1544190130.html
+
+SpringBoot application.properties各種配置解釋
+https://www.twblogs.net/a/5b8224c72b717737e032a87a
+-----------------------------------------------------------------------------------------
+Spring Boot Maven 打包可執行Jar檔案的實現方法
+https://www.itread01.com/article/1517883008.html
+
+Springboot讀取配置檔案、pom檔案及自定義配置檔案
+https://www.itread01.com/content/1541321107.html
+
+Spring Boot 入門系列（二十五）讀取配置檔案的幾種方式詳解！
+https://iter01.com/615135.html
+-----------------------------------------------------------------------------------------
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-configuration-processor</artifactId>
+	<optional>true</optional>
+</dependency>
+
+heima: <optional>true</optional>不用寫
+-------------------------------------------------------------------
+編寫yaml有提示 ?(應該不是 後來發現是)
+
+解决Spring Boot Configuration Annotation Processor not configured
+https://blog.csdn.net/weixin_45906830/article/details/106558296

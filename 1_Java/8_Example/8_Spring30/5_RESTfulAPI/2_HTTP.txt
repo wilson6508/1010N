@@ -1,0 +1,40 @@
+HTTP 動詞 > 執行特定操作的請求方法，每個方法有不同的語意
+
+GET 讀取資源
+PUT 替換資源
+PATCH 更換資源部分內容
+DELETE 刪除資源
+POST 新增資源
+
+https://adventure-works.com/orders // Good
+https://adventure-works.com/createOrder // Avoid
+--------------------------------------------------------------------------------
+HTTP回傳狀態碼
+
+GET: 200(OK)，若找不到該資源，應會傳回 404 (Not Found)
+
+POST: 建立了新資源後就會回傳201(Created) 若沒有可傳回的結果回傳204(No Content)
+若輸入無效的資料，會傳回 HTTP 狀態碼 400（Bad Request）
+
+PUT: 建立了新資源時，**就會傳回 HTTP 狀態碼 201(已建立)
+在某些情況下會無法更新現有的資源 考慮傳回 HTTP 狀態碼 409 (衝突)
+
+DELETE: 若刪除成功則會回傳204(No Content) 該資源不存在則會回傳404(Not Found)
+
+2xx 回應成功
+200 OK
+201 Created
+204 No Content
+3xx 重新導向
+301 重新導向URI
+4xx 用戶端錯誤
+400 錯誤的要求
+401 Unauthorized
+403 禁止使用
+404 找不到
+414 要求URI太長
+5xx 伺服器錯誤
+500 內部伺服器錯誤
+
+Class ResponseEntity<T>
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html

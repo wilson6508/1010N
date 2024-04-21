@@ -1,0 +1,21 @@
+Reference:
+---------------------------------------------------------------------------------------------------------
+前置作業:
+1. Application 移除 @EnableScheduling 的 Tag
+2. AutoReportScheduler class 只需要 @Component & @Scheduled 的 Tag
+3. 新增 ScheduleConfig class (implements SchedulingConfigurer , @Override void configureTasks())  
+4. ScheduleConfig 要有 @Configuration & @EnableScheduling 的 Tag
+---------------------------------------------------------------------------------------------------------
+效果:
+	任務 autoReport : @Scheduled(cron = "0 0/5 * * * *") > 每5分鐘執行         > Thread.sleep(7 * 60 * 1000);
+	任務 SRE :      : @Scheduled(cron = "0 3 10 * * *")  > 早上10點3分0秒執行
+	
+	pool-1-thread-1 autoReport start 10:00:00
+	pool-1-thread-2 SRE start 10:03:00
+	pool-1-thread-2 SRE done 10:03:00
+	pool-1-thread-1 autoReport done 10:07:00
+	pool-1-thread-2 autoReport start 10:10:00
+---------------------------------------------------------------------------------------------------------	
+結論:
+	autoReport正在運行時，SRE發動時間到，會開另一個執行緒去執行。
+	autoReport 10:05:00發動時間，因任務尚未結束 > 故會等到執行完畢後的下一次發動時間。

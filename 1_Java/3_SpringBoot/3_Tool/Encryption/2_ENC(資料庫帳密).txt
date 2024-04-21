@@ -1,0 +1,24 @@
+Intellij IDEA实现SpringBoot项目启动参数配置
+https://blog.csdn.net/fysuccess/article/details/89447406
+
+不会真有人数据库密码配置项都不加密吧
+https://juejin.cn/post/7051088773664210974
+
+在Intellij Idea中Maven构建的Spring Boot项目打jar包
+https://blog.csdn.net/yangfengjueqi/article/details/79076350
+
+vm options 如何设置_springboot中多环境设置及切换
+https://blog.csdn.net/weixin_39580124/article/details/111131067
+----------------------------------------------------------------------------------------
+在 Java 中轉換字串為輸入流
+https://www.delftstack.com/zh-tw/howto/java/java-string-to-inputstream/
+
+YAML to List of Objects in Spring Boot
+https://www.baeldung.com/spring-boot-yaml-list
+
+Spring Boot 把配置檔案和日誌檔案放到jar外部
+https://www.itread01.com/article/1519697649.html
+
+Java 中的相對路徑 (無法應用到產品上)
+https://www.delftstack.com/zh-tw/howto/java/java-relative-path/
+------------------------------------------------------------------------------------------------------------------------------------------

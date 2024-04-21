@@ -1,0 +1,7 @@
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+
+jdbc引入Hikari
+MyBatis本身就有引入jdbc

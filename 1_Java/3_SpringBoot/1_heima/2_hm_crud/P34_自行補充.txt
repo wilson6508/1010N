@@ -1,0 +1,50 @@
+1.建立資料表
+=============================================================================================================================
+DROP TABLE opv_insight_dev.reputation_query_task;
+TRUNCATE TABLE opv_insight_dev.reputation_query_task;
+
+create table reputation_query_task (
+	id INT NOT NULL AUTO_INCREMENT COMMENT '流水號',
+	service_id INT NOT NULL COMMENT '服務帳號',
+	user_id INT NOT NULL COMMENT '使用者帳號',
+	search_info TEXT NOT NULL COMMENT '查詢條件(前台)',
+	parameter_bean TEXT NOT NULL COMMENT '查詢條件(後台)',
+	user_info VARCHAR(1000) NOT NULL COMMENT '使用者資訊',
+	create_time DATETIME NOT NULL COMMENT '建立時間',
+	update_time DATETIME NOT NULL COMMENT '更新時間',
+	result MEDIUMTEXT NULL DEFAULT NULL COMMENT '結果/錯誤訊息',
+	status VARCHAR(20) NOT NULL COMMENT '狀態',
+	PRIMARY KEY (id)
+);
+
+查詢條件: 使用TEXT(字段的最大長度是65535個字符)
+建立時間&更新時間: 使用DATETIME(YYYY-MM-DD HH:MM:SS)
+結果/錯誤訊息: 使用MEDIUMTEXT(具有16777215字符的最大長度)
+-----------------------------------------------------------------------------------------------------------------------------
+DROP TABLE opv_insight_dev.webpage_notification;
+TRUNCATE TABLE opv_insight_dev.webpage_notification;
+
+create table webpage_notification (
+	id INT NOT NULL AUTO_INCREMENT COMMENT '流水號',
+	service_id INT NOT NULL COMMENT '服務帳號',
+	user_id INT NOT NULL COMMENT '使用者帳號',
+	type VARCHAR(10) NOT NULL COMMENT '種類',
+	title VARCHAR(1000) NOT NULL COMMENT '標題',
+	content TEXT NOT NULL COMMENT '內容',
+	create_time DATETIME NOT NULL COMMENT '建立時間',
+	status BOOLEAN NOT NULL COMMENT '0未讀 1已讀', 
+	PRIMARY KEY (id)
+);
+
+insert into webpage_notification (service_id, user_id, type, title, content, create_time, status)
+values (1, 2, '任', 'OpView雲端監測服務報', '2022/10/26_13_日常觀測，已完成', '2022-10-26 12:12:46', false)
+=============================================================================================================================
+2.建立entity與dao
+刪除 schema 和 catalog
+添加 @GeneratedValue(strategy = GenerationType.IDENTITY)
+添加 @CreationTimestamp @UpdateTimestamp
+-----------------------------------------------------------------------------------------------------------------------------
+添加 interface Repository extends JpaRepository<EntityClass, id type>
+@Transactional
+void deleteById(int id);
+=============================================================================================================================

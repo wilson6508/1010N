@@ -1,0 +1,15 @@
+https://stackoverflow.com/questions/33383366/cacheble-annotation-on-no-parameter-method
+-------------------------------------------------------------------------------
+@Cacheable(value="usercache", key = "#root.methodName")
+public string sayHello(){
+    return "test"
+}
+-------------------------------------------------------------------------------
+public static final String MY_KEY = "mykey";
+
+@Cacheable(value="usercache", key = "#root.target.MY_KEY")
+public string sayHello(){
+    return "test"
+}
+-------------------------------------------------------------------------------
+@Cacheable(value="usercache", key = "'mykey'")

@@ -1,0 +1,70 @@
+SseEmitter教學
+https://www.youtube.com/watch?v=T_JZzdPCkOU&ab_channel=JavaGrowth (推送給全員)
+https://www.youtube.com/watch?v=HoxPgU4lFGE&ab_channel=JavaGrowth (推送給指定人員)
+https://golb.hplar.ch/2017/03/Server-Sent-Events-with-Spring.html (重要文件參考)
+https://www.gushiciku.cn/pl/pVIs/zh-tw (觀念)
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/732603/ (觀念)
+
+前台心跳
+https://stackoverflow.com/questions/71688537/event-source-timeout-in-45-seconds
+https://github.com/tserkov/vue-sse/issues/35#issuecomment-986807802
+https://www.npmjs.com/package/event-source-polyfill
+
+太專業
+https://www.uj5u.com/houduan/246160.html
+
+WebSocket和EventSource
+https://www.796t.com/content/1544695566.html
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/664928/
+
+其他例子
+https://iter01.com/564597.html
+https://www.it145.com/9/186924.html
+https://blog.csdn.net/w_monster/article/details/123478021
+https://turkogluc.com/server-sent-events-with-spring-boot-and-reactjs/
+
+Spring WebFlux
+https://www.youtube.com/watch?v=2To3_mYT2hc&ab_channel=SpringDeveloper
+------------------------------------------------------------------------------------------
+Content-Type: text/event-stream;charset=UTF-8
+Cache-Control: no-cache
+Connection: keep-alive
+
+@RestController
+@RequestMapping(path = "sse")
+public class SseRest {
+	
+	private static Map<String, SseEmitter> sseCache = new ConcurrentHashMap<>();
+	
+	@GetMapping(path = "subscribe")
+	public SseEmitter push(String id) {
+		// 超時時間設置為1小時
+		SseEmitter sseEmitter = new SseEmitter(3600_000L);
+		sseCache.put(id, sseEmitter);
+		sseEmitter.onTimeout(() -> sseCache.remove(id));
+		sseEmitter.onCompletion(() -> System.out.println("完成！！！"));
+		return sseEmitter;
+	}
+	
+	@GetMapping(path = "push")
+	public String push(String id, String content) throws IOException {
+		SseEmitter sseEmitter = sseCache.get(id);
+		if (sseEmitter != null) {
+			sseEmitter.send(content);
+		}
+		return "over";
+	}
+	
+	@GetMapping(path = "over")
+	public String over(String id) {
+		SseEmitter sseEmitter = sseCache.get(id);
+		if (sseEmitter != null) {
+			sseEmitter.complete();
+			sseCache.remove(id);
+		}
+		return "over";
+	}
+	
+}
+
+

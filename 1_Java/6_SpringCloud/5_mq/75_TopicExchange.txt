@@ -1,0 +1,36 @@
+TopicExchange與DirectExchange類似
+差在routingKey必須是多個單詞的列表 且用.分割
+china.news
+china.weather
+japan.news
+japan.weather
+
+通配符
+#: 0個或多個單詞
+*: 1個單詞
+-------------------------------------------------------------------------------------------
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "topic.queue01"),
+        exchange = @Exchange(name = "itcast.topic", type = ExchangeTypes.TOPIC),
+        key = "china.#"
+))
+public void listenTopicQueue01(String msg) {
+    System.out.println("01 " + msg);
+}
+
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "topic.queue02"),
+        exchange = @Exchange(name = "itcast.topic", type = ExchangeTypes.TOPIC),
+        key = "#.news"
+))
+public void listenTopicQueue02(String msg) {
+    System.out.println("02 " + msg);
+}
+-------------------------------------------------------------------------------------------
+@Test
+public void testTopicExchange() {
+    String exchangeName = "itcast.topic";
+    String message = "傳智教育在深交所上市了";
+    // rabbitTemplate.convertAndSend(exchangeName, "china.news", message);
+    rabbitTemplate.convertAndSend(exchangeName, "china.weather", message);
+}

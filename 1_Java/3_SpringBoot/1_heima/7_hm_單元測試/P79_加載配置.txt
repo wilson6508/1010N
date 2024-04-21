@@ -1,0 +1,8 @@
+test:
+    prop: a1
+
+@SpringBootTest(properties = {"test.prop=a2"})
+@SpringBootTest(args = {"--test.prop=a3"})
+
+@Value("${test.prop}")
+private String msg;

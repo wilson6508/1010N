@@ -1,0 +1,28 @@
+@Scope("prototype")
+
+在 Spring Framework 中，@Scope 註釋可以接受不同的參數值，以定義類別的實例化模式。以下是一些可能的參數值：
+
+singleton（預設值）：每個應用程式上下文中只會有一個類別的實例。
+prototype：每次調用時都會創建一個新的實例。
+request：在一次 HTTP 請求期間，僅創建一個類別的實例，並在該請求的所有 bean 之間共享。
+session：在整個 HTTP 會話期間，僅創建一個類別的實例，並在該會話的所有 bean 之間共享。
+application：在整個 Web 應用程式期間，僅創建一個類別的實例，並在所有 bean 之間共享。
+websocket：在一個 WebSocket 連接期間，僅創建一個類別的實例，並在所有 bean 之間共享。
+------------------------------------------------------------------------------------------------------
+注入一个多例的service
+https://zhuanlan.zhihu.com/p/27971569
+https://www.baeldung.com/spring-bean-scopes
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class Cat {}
+------------------------------------------------------------------------------------------------------
+BeanFactory 和 ApplicationContext
+結論用ApplicationContext
+https://www.baeldung.com/spring-beanfactory-vs-applicationcontext
+https://www.cnblogs.com/east7/p/15875901.html

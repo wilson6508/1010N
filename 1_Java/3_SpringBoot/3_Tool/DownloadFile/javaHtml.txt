@@ -1,0 +1,29 @@
+Converting HTML to PDF
+https://hmkcode.com/itext-html-to-pdf-using-java/
+
+MySQL索引
+https://medium.com/@michael80402/mysql%E7%B4%A2%E5%BC%95-e002f707a5f4
+
+How to convert a String into an ArrayList?
+https://stackoverflow.com/questions/7347856/how-to-convert-a-string-into-an-arraylist
+
+java中pdf文件的生成
+https://kknews.cc/zh-tw/code/babq8nj.html
+
+製作一個html轉pdf的spring boot starter
+https://iter01.com/548996.html
+
+Java输出Pdf（2021）集成springboot
+https://blog.51cto.com/u_13794952/5558098
+
+springboot+Thymeleaf生成PDF
+https://www.twblogs.net/a/5ee8805de8d3b317573e6d8d
+
+spring boot -+- httpclient訪問api -+-下載pdf文件 總結
+https://www.796t.com/content/1546275617.html
+
+Spring Boot | 将 html 页面转化为 pdf 文件
+https://www.jianshu.com/p/8040fec4db5f
+
+SpringBoot加itext實現PDF導出
+https://www.twblogs.net/a/5cbf7d13bd9eee3aed78550e

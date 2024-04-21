@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database: 設定要操作的資料庫是哪一種 (預設值為系統自動檢測)
+    database-platform: 可以選擇要使用的資料庫的「平台」 (預設值為系統自動檢測)
+    defer-datasource-initialization: 延遲數據源初始化，預設為false(當有需要使用data.sql描述檔時使用)
+    generate-ddl: 是否在初系統啟動的時候就初始化Table的Schema，預設值為false
+    mapping-resources: 如果有客製化的mapping-file，可以設定於此(這個值的作用同等於在Hibernate的persistence.xml中的<mapping-file>)
+    open-in-view: 是否在ViewLayer就開啟EntityManager，預設值為true
+    show-sql: 是否於Log中印出跟SQL相關的語句內容，預設值為false
+    properties.*: 其他與JPA相關Provider的設定
+    hibernate:
+      ddl-auto: 可以設定DDL模式，預設值為none(這個值的作用同等於在Hibernate的hibernate.hbm2ddl.auto屬性配置)
+      use-new-id-generator-mappings: 是否使用Hibernate的Sequence生成策略，預設值為true(這個值的作用同等於在Hibernate的hibernate.id.new_generator_mappings屬性配置)
+      naming:
+        implicit-strategy: 可以指定表名稱或欄位名稱的Implicit Naming Strategy
+        physical-strategy: 可以指定表名稱或欄位名稱的Physical Naming Strategy

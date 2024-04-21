@@ -1,0 +1,50 @@
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AuthCheck {
+    String price() default "12";
+    String[] names() default {"Tom", "Amy"};
+}
+-----------------------------------------------------------------------------------------------------------------
+import com.annotation.AuthCheck;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TestService {
+    @AuthCheck(price = "36")
+    public String test() {
+        System.out.println("enter method");
+        return "5566";
+    }
+    @AuthCheck(names = {"David", "Travis"})
+    public String demo() {
+        System.out.println("enter method");
+        return "7788";
+    }
+}
+-----------------------------------------------------------------------------------------------------------------
+import com.annotation.AuthCheck;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+@Slf4j
+@Aspect
+@Component
+public class SysLogAspect {
+    @Around("@annotation(authCheck)") // 切點寫法 也許可以寫大寫AuthCheck 也許可以寫com.annotation.AuthCheck
+    public Object doInterceptor(ProceedingJoinPoint joinPoint, AuthCheck authCheck) throws Throwable {
+        System.out.println(authCheck.price());
+        Object result = joinPoint.proceed();
+        System.out.println(Arrays.toString(authCheck.names()));
+        return result;
+    }
+}

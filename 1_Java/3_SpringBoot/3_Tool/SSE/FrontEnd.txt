@@ -1,0 +1,109 @@
+npm install event-source-polyfill
+-------------------------------------------------------------------------------------------------------------	
+import SseModal from "../components/modal/SseModal";
+import moment from "moment";
+import ApiUrl from "@/mixins/ApiUrl";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import axios from "axios";
+-------------------------------------------------------------------------------------------------------------	
+sseFunc() {
+  const parameter = {
+	headers: {
+	  Authorization: `Bearer ${this.getCookie("nuif")}`,
+	},
+	heartbeatTimeout: moment().endOf("day").diff(moment(), "milliseconds"),
+  };
+  const url = "http://127.0.0.1:9000/insight/subscribe/event";
+  const sse = new EventSourcePolyfill(url, parameter);
+  sse.onerror = () => {
+	sse.close();
+  };
+  sse.onmessage = (evt) => {
+	const obj = JSON.parse(evt.data);
+	switch (obj.type) {
+	  case "announcement": {
+		console.log(obj);
+		this.openModal("modalSse");
+		break;
+	  }
+	  case "notice": {
+		console.log(obj);
+		this.testArr.push(obj);
+		break;
+	  }
+	  case "clear": {
+		console.log(obj);
+		break;
+	  }
+	}
+  };
+},
+-------------------------------------------------------------------------------------------------------------		
+async getAnn() {
+  const postBody = this.getPostBody("readAnnouncement");
+  const result = await this.postApi("http://127.0.0.1:9000/insight/standard", postBody);
+  if (result.data.result.length > 0) {
+	const ls = JSON.parse(localStorage.getItem("ls"));
+	const format = "YYYY-MM-DD";
+	const today = moment().format(format);
+	if (!ls || ls.showTwice || moment(ls.timeStamp, format).isBefore(today)) {
+	  localStorage.setItem("ls", JSON.stringify({ showTwice: true, timeStamp: today }));
+	  this.openModal("modalSse");
+	}
+  }
+},
+-------------------------------------------------------------------------------------------------------------		
+postApi(url, params) {
+  return axios
+	.post(url, params, { headers: { Authorization: `Bearer ${this.getCookie("nuif")}` } })
+	.then((res) => ({
+	  success: res.data.success,
+	  data: res.data,
+	}))
+	.catch((err) => ({
+	  success: false,
+	  data: err,
+	}));
+},
+
+===================================================================================================================================
+emitters.get(key).send(SseEmitter.event().name("notice").data(detailList));
+-------------------------------------------------------------------------------------------------------------
+// 原生EventSource
+test() {
+  const url = "http://127.0.0.1:9000/event/connect?str=1234";
+  const sse = new EventSource(url);
+  sse.addEventListener("notice", (evt) => {
+    for (const temp of JSON.parse(evt.data)) {
+      const { date, title } = temp;
+      this.testArr.push({ date, title });
+    }
+  });
+},
+-------------------------------------------------------------------------------------------------------------
+// addEventListener
+demo() {
+  const obj = {
+    headers: {
+      Authorization: `Bearer ${this.getCookie("nuif")}`,
+    },
+    heartbeatTimeout: 120 * 60 * 1000,
+  };
+  const url = "http://127.0.0.1:9000/event/subscribe";
+  const sse = new EventSourcePolyfill(url, obj);
+  sse.onopen = (evt) => {
+	  console.log(evt);
+  };
+  sse.addEventListener("notice", (evt) => {
+    console.log(evt);
+    for (const temp of JSON.parse(evt.data)) {
+      this.testArr.push(temp);
+    }
+  });
+},
+-------------------------------------------------------------------------------------------------------------
+
+
+
+
+	

@@ -1,0 +1,15 @@
+https://www.twblogs.net/a/5d435f2abd9eee541c2fc71a
+
+@Query(value="SELECT stock_id, SUM(share) AS totalShare, SUM(payment) AS totalPayment FROM dbo.transaction_record GROUP BY stock_id;", nativeQuery = true)
+List<Object[]> findStockIdTotalList();
+
+List<Object[]> temp = transactionRecordRepository.findStockIdTotalList();
+for (Object[] objArray : temp) {
+	Map<String, Object> map = new HashMap<>();
+	String stockId = objArray[0].toString();
+	map.put("stockId", stockId);
+	map.put("totalShare", objArray[1]);
+	map.put("totalPayment", objArray[2]);
+}
+
+Optional<List<TransactionRecordEntity>> findByStockIdAndTransactionDateBetween(String stockId, Date startDate, Date endDate);

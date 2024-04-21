@@ -1,0 +1,22 @@
+@Transactional注解是Spring提供來進行控制事務的注解
+當注解標明在方法上時 會對該方法進行做AOP增強(動態代理)
+然後在方法執行前開啟事務 執行後提交事務
+
+@Transactional
+public synchronized SmsResponse createForm() {
+    ...
+}
+
+如果方法只添加synchronized並沒有標明@Transactional
+因為加了同步鎖 一次只能允許一個線程進入
+
+@Transactional和synchronized同時存在
+synchronized會失效:
+因為synchronized鎖定的是當前調用方法對象 
+而SpringAOP處理事務會進行生成一個代理對象 並在代理對象執行方法前的事務開啟 方法執行完的事務提交
+所以事務的開啟和提交並不是在synchronized鎖定的範圍內
+
+出現同步鎖失效的原因是:
+當A線程執行完方法 -> 釋放同步鎖 -> 提交事務
+但在A線程還沒有提交完事務之前 -> B線程執行方法 -> 執行完畢 -> 和A線程一起提交事務
+出現線程安全問題

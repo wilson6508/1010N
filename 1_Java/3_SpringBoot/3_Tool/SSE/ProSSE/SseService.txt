@@ -1,0 +1,29 @@
+public interface SseService {
+
+    /**
+     * 新建連接
+     *
+     * @param clientId 客戶端ID
+     * @return
+     */
+    SseEmitter start(String clientId);
+
+
+    /**
+     * 發送資料
+     *
+     * @param clientId 客戶端ID
+     * @return
+     */
+    String send(String clientId);
+
+
+    /**
+     * 關閉連接
+     *
+     * @param clientId 客戶端ID
+     * @return
+     */
+    String close(String clientId);
+	
+}

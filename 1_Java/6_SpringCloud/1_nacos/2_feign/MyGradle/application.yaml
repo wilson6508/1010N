@@ -1,0 +1,12 @@
+https://www.baeldung.com/feign-timeout
+https://www.baeldung.com/spring-cloud-feignclient-url
+https://juejin.cn/post/7020626793841295373
+
+feign:
+  client:
+    config:
+      helloService:
+        connectTimeout: 1200000
+        readTimeout: 1200000
+project:
+  url: "http://127.0.0.1:9001"

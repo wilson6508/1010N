@@ -1,0 +1,6 @@
+public class Dog {}
+
+@Import({Dog.class})
+public class SpringConfig {}
+
+加載Dog的全路徑類名

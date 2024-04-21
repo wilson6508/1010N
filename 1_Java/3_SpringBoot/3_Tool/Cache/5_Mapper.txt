@@ -1,0 +1,19 @@
+package com.atguigu.cache.mapper;
+
+import com.atguigu.cache.bean.TwNameMapping;
+import org.apache.ibatis.annotations.*;
+
+@Mapper
+public interface TwNameMapper {
+    @Insert("INSERT INTO tw_name_mapping(stock_id, stock_name, price) VALUES(#{stockId}, #{stockName}, #{price})")
+    public void createTwNameMapping(TwNameMapping twNameMapping);
+
+    @Select("SELECT * FROM tw_name_mapping WHERE id = #{id}")
+    public TwNameMapping getTwNameMappingById(Integer id);
+
+    @Update("UPDATE tw_name_mapping SET stock_id = #{stockId}, stock_name = #{stockName}, price = #{price} WHERE id = #{id}")
+    public void updateTwNameMapping(TwNameMapping twNameMapping);
+
+    @Delete("DELETE FROM tw_name_mapping WHERE id = #{id}")
+    public void deleteTwNameMappingById(Integer id);
+}

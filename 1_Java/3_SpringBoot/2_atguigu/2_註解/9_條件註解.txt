@@ -1,0 +1,37 @@
+@ConditionalOnBean
+@ConditionalOnMissingBean
+
+@ConditionalOnClass
+@ConditionalOnMissingClass
+
+@ConditionalOnProperty
+@ConditionalOnResource
+---------------------------------------------------------------------------
+@SpringBootConfiguration
+public class AppConfig {
+
+    @ConditionalOnClass(name = "com.alibaba.druid.FastsqlException")
+    @Bean
+    public Cat cat01() {
+        return new Cat();
+    }
+
+    @ConditionalOnMissingClass(value = "com.alibaba.druid.FastsqlException")
+    @Bean
+    public Dog dog01() {
+        return new Dog();
+    }    
+
+    @ConditionalOnBean(value = Dog.class)
+    @Bean
+    public User tom() {
+        return new User();
+    }
+
+    @ConditionalOnMissingBean(value = Dog.class)
+    @Bean
+    public User amy() {
+        return new User();
+    }   
+
+}

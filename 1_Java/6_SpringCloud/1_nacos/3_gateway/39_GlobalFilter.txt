@@ -1,0 +1,4 @@
+對所有路由都生效的過濾器
+
+實現GlobalFilter接口
+@Order

@@ -1,0 +1,5 @@
+// 設定檔無sch.value2則為:後的值
+@Scheduled(cron = "${sch.value2:-}")
+
+// 容器有myProp的bean
+@Scheduled(cron = "#{myProp.cron}")

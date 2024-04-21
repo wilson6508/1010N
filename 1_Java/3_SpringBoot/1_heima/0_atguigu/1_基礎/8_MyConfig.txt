@@ -1,0 +1,37 @@
+1. 配置類本身是组件
+2. 配置類裡使用@Bean標註在方法上，給容器註冊組件，默認為單實例
+3. proxyBeanMethods:代理bean的方法
+   > Full(proxyBeanMethods = true) 【每個@Bean方法被調用，返回的組件都是單實例的】
+   > Lite(proxyBeanMethods = false)【每個@Bean方法被調用，返回的組件都是新建立的】
+   > 組件依賴必須使用Full模式(默認)
+
+// 告訴SpringBoot此為配置文件
+@Configuration(proxyBeanMethods = true) 
+public class MyConfig {
+
+    @Bean // 给容器中添加組件。以方法名為组件的id。
+    public User user01(){
+        User zhangsan = new User("zhangsan", 18);
+        // user组件依賴Pet组件
+        zhangsan.setPet(tomcatPet());
+        return zhangsan;
+    }
+
+    @Bean("tom")
+    public Pet tomcatPet(){
+        return new Pet("tomcat");
+    }
+}
+------------------------------------------------------------------------------------------------
+// 從容器中獲得組件
+Pet tom01 = run.getBean("tom", Pet.class);
+Pet tom02 = run.getBean("tom", Pet.class);
+
+// com.atguigu.boot.config.MyConfig$$EnhancerBySpringCGLIB$$51f1e1ca@1654a892
+MyConfig bean = run.getBean(MyConfig.class);
+
+// 如果@Configuration(proxyBeanMethods = true)代理對象調用方法。
+// 則保持組件單實例。SpringBoot會檢查這個组件是否在容器中有。
+User user = bean.user01();
+User user1 = bean.user01();
+System.out.println(user == user1); // true

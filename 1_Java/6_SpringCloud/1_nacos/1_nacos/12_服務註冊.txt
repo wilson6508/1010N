@@ -1,0 +1,5 @@
+https://www.bilibili.com/video/BV1LQ4y127n4?p=12
+
+IDE啟動2個實例
+右鍵Copy Configuration
+-Dserver.port=8082

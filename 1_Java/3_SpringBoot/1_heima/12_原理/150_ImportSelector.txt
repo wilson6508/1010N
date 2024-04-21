@@ -1,0 +1,26 @@
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@ComponentScan(basePackages = "com.controller")
+@Import(MyImportSelector.class)
+public class SpringConfig6 {}
+---------------------------------------------------------------------------
+import org.springframework.context.annotation.ImportSelector;
+import org.springframework.core.type.AnnotationMetadata;
+
+import java.util.Map;
+
+public class MyImportSelector implements ImportSelector {
+    @Override
+    public String[] selectImports(AnnotationMetadata metadata) {
+        System.out.println(metadata.getClassName()); // SpringConfig6 全路徑類名
+        Map<String, Object> attributes = metadata.getAnnotationAttributes("org.springframework.context.annotation.ComponentScan");
+        boolean flag = metadata.hasAnnotation("org.springframework.context.annotation.Configuration");
+        if (flag) {
+            return new String[]{"com.itheima.Dog"};
+        }
+        return new String[]{"com.itheima.Cat"};
+    }
+}

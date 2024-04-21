@@ -1,0 +1,7 @@
+package com.atguigu.cache.bean;
+
+public class TwNameMapping {
+    private int id;
+    private String stockId;
+    private String stockName;
+    private double price;

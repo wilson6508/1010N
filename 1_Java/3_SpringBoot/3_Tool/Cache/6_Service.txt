@@ -1,0 +1,36 @@
+package com.atguigu.cache.service;
+
+import com.atguigu.cache.bean.TwNameMapping;
+import com.atguigu.cache.mapper.TwNameMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TestService {
+
+    @Autowired
+    TwNameMapper twNameMapper;
+
+    /**
+     * CacheManager管理多個Cache組件, 每一個緩存組件有自己唯一一個名字
+     *
+     * cacheNames/value: 指定緩存組件的名字
+     *
+     * keu: 緩存數據使用的key, 默認方法參數的值 id = 1 > key = 1
+     * (SpEL: 參數id的值 #id or #a0 or #p0 or #root.args[0])
+     * key = "#id"
+     *
+     * condition為真 > 緩存
+     * condition = "#id > 1"
+     *
+     * unless為真 > 不緩存
+     * unless = "#result == null"
+     *
+     */
+    @Cacheable(cacheNames = { "emp" }, condition = "#id > 1", unless = "#result == null")
+    public TwNameMapping getTwNameMapping(Integer id) {
+        return twNameMapper.getTwNameMappingById(id);
+    }
+
+}

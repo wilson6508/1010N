@@ -1,0 +1,14 @@
+public class CellInfo {
+    private String style;
+    private Object value;
+    private int width;
+    private String dataFormat;
+    private boolean hasUrl;
+    private String address;
+}
+
+public class SheetInfo {
+    private String sheetName;
+    private LinkedList<LinkedList<CellInfo>> cellInfoListList;
+}
+

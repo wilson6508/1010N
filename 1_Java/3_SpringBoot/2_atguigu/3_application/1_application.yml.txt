@@ -1,0 +1,46 @@
+路徑:resources底下
+檔名:application.yml
+
+person:
+  userName: zhangsan
+  #  單引號將\n作為字符串輸出(會轉譯)
+  #  雙引號將\n作為換行輸出(不轉譯)
+  boss: true
+  birth: 2019/12/9
+  age: 18
+  #  interests: [籃球, 足球]
+  interests:
+    - 籃球
+    - 足球
+    - 18
+  animal: [阿貓, 阿狗]
+  #  score:
+  #    english: 90
+  #    math: 80
+  score: {english:80,math:90}
+  salarys:
+    - 9999.98
+    - 9999.99
+  pet:
+    name: 阿狗
+    weight: 99.99
+  allPets:
+    sick:
+      - {name: 阿狗, weight: 99.99}
+      - name: 阿貓
+        weight: 88.88
+      - name: 阿重
+        weight: 77.77
+    health:
+      - {name: 阿花, weight: 199.99}
+      - {name: 阿名, weight: 199.99}
+
+#spring:
+#  banner:
+#    location:
+#    image:
+#      bitdepth: 4
+#  cache:
+#    type: redis
+#    redis:
+#      time-to-live: 11000

@@ -1,0 +1,18 @@
+id
+
+@Component("tom")
+@Service("jerry)
+----------------------------------------------------------
+@Controller
+@Repository
+----------------------------------------------------------
+加載第3方的bean
+
+@Configuration
+public class DbConfig {
+    @Bean
+    public DruidDataSource dataSource() {
+        DruidDataSource ds = new DruidDataSource();
+        return ds;
+    }
+}

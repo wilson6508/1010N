@@ -1,0 +1,31 @@
+NoSQL
+    Redis
+    Mongo
+    ES
+------------------------------------------------------------------
+已失效
+https://github.com/tporaddowski/redis/releases
+------------------------------------------------------------------
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+void set(@Autowired RedisTemplate redisTemplate) {
+    RedisTemplate以對象作為key value > 內部對數據進行序列化
+}
+void set(@Autowired StringRedisTemplate stringRedisTemplate) {
+    StringRedisTemplate以字串作為key value
+}
+------------------------------------------------------------------
+jedis與lettuce
+jedis連redis採用直連模式 多線程有線程安全問題
+lettuce基於Netty框架與redis連接 保障併發安全
+
+<dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    // 版本仲裁
+</dependency>
+
+spring.redis.client-type: jedis // 預設是lettuce(可不寫)

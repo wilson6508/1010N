@@ -1,0 +1,3 @@
+微服務在啟動時會從nacos讀取2個配置文件
+
+服務名-profile.yaml > 服務名.yaml > application.yaml

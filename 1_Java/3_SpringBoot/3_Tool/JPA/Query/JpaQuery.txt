@@ -1,0 +1,74 @@
+﻿https://wiki.eland.com.tw/pages/viewpage.action?pageId=17794276
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+find -> SELECT * FROM TABLE
+delete -> DELETE FROM TABLE
+
+By欄位 -> WHERE 欄位
+ByOrderBy -> ORDER BY
+
+findById(int 7) -> select * from table where id = 7;
+findTop3ByIdLessThan(long 7) -> select top(3) from table where id < 7;
+findTop3ByOrderByUsageAmountDesc() -> SELECT TOP(3) * FROM dbo.user_profile ORDER BY usage_amount DESC;
+----------------------------------------------------------------------------------------------------------------
+order
+
+Optional<UsaPriceLogEntity> findFirstByOrderByIdDesc(); // 找ID最大的
+Optional<List<AutoReporTaskEntity>> findByServiceIdOrderByIdDesc(int serviceId);
+Optional<List<VwUserProfileEntity>> findTop3ByOrderByUsageAmountDesc();
+
+FormSignListEntity findFirstByCodeOrderByIdDesc(String code);
+----------------------------------------------------------------------------------------------------------------
+between before after
+
+List<SystemAnnouncementEntity> findByPostTimeBeforeAndClassificationAndStatus(Timestamp t, String c, String s);
+List<SystemAnnouncementEntity> findByPostTimeBetweenAndClassificationAndStatus(Timestamp t1, Timestamp t2, String c, String s);
+----------------------------------------------------------------------------------------------------------------
+top limit
+Optional<VwSourceInfoEntity> findTop1BySourceId(String sourceId);
+Optional<List<VwUserProfileEntity>> findTop10ByPromotionExpiredDays(int day);
+
+TwTradeLogEntity findTop1ByOrderByTradeDateDesc();
+List<TwTradeLogEntity> findTop2ByOrderByTradeDateDesc();
+
+@Query(value = "SELECT * FROM system_announcement WHERE classification = '公告' ORDER BY post_time DESC LIMIT 10", nativeQuery = true)
+List<SystemAnnouncementEntity> getTopTenAnnouncement();
+----------------------------------------------------------------------------------------------------------------
+greater less
+
+import java.sql.Date;
+List<ComplexAnalysisViewLogEntity> findByCreatedTimeGreaterThan(Date date);
+
+List<PromotionInfoEntity> findByIdGreaterThan(int id);
+Optional<List<VwUserProfileEntity>> findTop3ByIdLessThan(long id);
+----------------------------------------------------------------------------------------------------------------
+boolean
+
+Optional<List<VwUserProfileEntity>> findByEnableIsFalse();
+Optional<List<VwUserProfileEntity>> findByEnableShareLinkIsFalse();
+----------------------------------------------------------------------------------------------------------------
+in
+
+Optional<List<VwUserProfileEntity>> findByTypeIdIn(List<Integer> typeIds);
+----------------------------------------------------------------------------------------------------------------
+like contain
+
+Optional<List<VwUserProfileEntity>> findByFacebookNameContaining(String name);  // name = "洪"    // 建議使用
+Optional<List<VwUserProfileEntity>> findByFacebookNameLike(String name); 	// name = "%洪%"  // 不建議使用
+Optional<List<VwUserProfileEntity>> findByFacebookNameLikeOrGoogleNameLikeOrAppleNameLike(String fName, String gName, String aName);
+
+https://www.baeldung.com/spring-jpa-like-queries
+EndsWith
+List<AutoReportScheduleTimeEntity> findByReportTimeTypeAndReportTimeSettingEndsWith(String timeType, String end);
+----------------------------------------------------------------------------------------------------------------
+count
+
+SpringJPA 直接實現count(*)
+https://blog.csdn.net/hikeboy/article/details/68062427
+
+Long countByServiceId(int i);
+----------------------------------------------------------------------------------------------------------------
+@Modifying
+@Transactional
+@Query(value = "TRUNCATE TABLE schedule_download_work", nativeQuery = true)
+void truncateTable();

@@ -1,0 +1,7 @@
+String + ? = String
+byte short char 相加 = int
+
+char + char = int
+char + int = int
+'a' = 97
+'A' = 65

@@ -1,0 +1,46 @@
+﻿https://blog.csdn.net/weixin_45184159/article/details/112133103
+
+Spring Boot 入門
+	Spring Boot 簡介
+	微服務
+	環境準備
+	HelloWorld
+	Spring Initializer
+配置文件
+	YAML語法
+	配置文件值注入
+	Profile
+	配置文件加載位置
+	外部配置加載順序
+	自動配置原理
+日志
+	日志框架
+	SLF4j使用
+	SpringBoot日志關系
+	日志使用
+	切換日志框架
+Web開發
+	簡介
+	SpringBoot對靜態資源的映射規則
+	模板引擎(JSP、Velocity、Freemarker、Thymeleaf)
+	SpringMVC自動配置
+	如何修改SpringBoot的默認配置
+	RestfulCRUD
+	錯誤處理機制
+	配置嵌入式Servlet容器
+	使用外置的Servlet容器
+Docker
+	簡介
+	核心概念
+	安裝Docker
+	Docker常用命令&操作
+SpringBoot與數據訪問
+	JDBC
+	整合Druid數據源
+	整合MyBatis
+	整合SpringData JPA
+啟動配置原理
+	創建SpringApplication對象
+	運行run方法
+	事件監聽機制
+自定義starter

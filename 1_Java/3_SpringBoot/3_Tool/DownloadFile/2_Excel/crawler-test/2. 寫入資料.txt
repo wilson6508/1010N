@@ -1,0 +1,54 @@
+package com;
+
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+
+public class Test {
+    public static void main(String[] args) {
+
+        // 要寫入的資料
+        Object[][] data = {
+                {"English", 79, "中文字", 12.25},
+                {"test", 1203, "測試測試", 3.14},
+        };
+
+        // 將資料放入Excel
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+        XSSFSheet sheet = xssfWorkbook.createSheet("第一頁");
+        for (int row = 0; row < data.length; row++) {
+            XSSFRow sheetRow = sheet.createRow(row);
+            int col = 0;
+            for (Object obj : data[row]) {
+                XSSFCell cell = sheetRow.createCell(col++);
+                if (obj instanceof String) {
+                    cell.setCellValue(obj.toString());
+                } else if (obj instanceof Integer) {
+                    cell.setCellValue(Integer.parseInt(obj.toString()));
+                } else if (obj instanceof Double) {
+                    cell.setCellValue(Double.parseDouble(obj.toString()));
+                }
+            }
+        }
+        CellRangeAddress cellRangeAddress = new CellRangeAddress(0, data.length - 1, 0, 3);
+        RegionUtil.setBorderBottom(BorderStyle.THICK, cellRangeAddress, sheet);
+
+        // 輸出檔案
+        try {
+            FileOutputStream fileOut = new FileOutputStream("C:\\report\\apiResponse\\test0406.xlsx");
+            xssfWorkbook.write(fileOut);
+            xssfWorkbook.close();
+            fileOut.flush();
+            fileOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}

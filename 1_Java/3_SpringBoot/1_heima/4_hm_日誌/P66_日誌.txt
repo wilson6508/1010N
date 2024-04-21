@@ -1,0 +1,33 @@
+與boot相關的
+debug=true
+
+所有的包
+logging.level.root=debug
+logging.level.root=info
+logging.level.root=warn
+logging.level.root=error
+--------------------------------------------------------------------------------
+調整特定包下的日誌級別
+
+logging:
+  level:
+    root: info
+    com.itheima.controller: debug
+--------------------------------------------------------------------------------
+日誌級別分組
+
+logging:
+  group:
+    ebank: com.itheima.controller, com.itheima.service, com.itheima.dao
+    iservice: com.alibaba
+  level:
+    root: info
+    sql: debug
+    web: debug
+    ebank: debug
+--------------------------------------------------------------------------------
+private static final Logger log = LoggerFactory.getLogger(BookController.class);
+log.debug("debug...");
+log.info("info...");
+log.warn("warn...");
+log.error("error...");

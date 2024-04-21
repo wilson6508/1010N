@@ -1,0 +1,7 @@
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
+
+@SpringBootTest
+@Sql(scripts = "classpath:test/data.sql") // sql 檔案放置的地方
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+class ApplicationTests {

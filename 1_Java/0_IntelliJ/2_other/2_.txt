@@ -1,0 +1,10 @@
+F2: 下一個錯誤點
+ctrl + e: 看歷史編輯文件
+alt + enter -> forEach
+
+ctrl + enter: 下方多一行
+alt + 1 -> search
+alt + 7: 看類的結構
+alt + F7: 看被用到的
+
+actions: keymap shortcut

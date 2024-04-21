@@ -1,0 +1,16 @@
+// 對當前工程及子工程都設置
+allprojects {
+
+}
+
+// 對子工程都設置
+subprojects {
+
+}
+
+舉例來說
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+}

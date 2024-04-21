@@ -1,0 +1,58 @@
+logging:
+  logback:
+    rollingpolicy:
+      max-file-size: 4KB
+      file-name-pattern: server.%d{yyyy-MM-dd}.%i.log
+(i:序號)
+----------------------------------------------------------------------------------
+logging:
+  file:
+    name: D:/weblog/nestle_2023/logs/Log.log
+  logback:
+    rollingpolicy:
+      max-file-size: 2KB
+      file-name-pattern: D:/weblog/nestle_2023/logs/Log%d{yyyy-MM-dd}.%i.log
+----------------------------------------------------------------------------------
+logging:
+  file:
+    name: D:/weblog/CusReport/Log.txt
+  logback:
+    rollingpolicy:
+      file-name-pattern: D:/weblog/CusReport/Log%d{yyyyMMdd}_%i.txt
+      max-file-size: 2KB
+      max-history: 3
+      total-size-cap: 10KB
+----------------------------------------------------------------------------------
+windows可以寫相對路徑 linux不行
+
+logging:
+  file:
+    name: ./logs/Log.txt
+  logback:
+    rollingpolicy:
+      file-name-pattern: ./logs/Log%d{yyyyMMdd}_%i.txt
+      max-file-size: 10MB
+      max-history: 15
+      total-size-cap: 300MB
+------------------------------------------------------------------------------------------------------------------------------------------------------
+官網
+https://docs.spring.io/spring-boot/docs/2.5.4/reference/htmlsingle/#features.logging
+Spring Boot uses Commons Logging for all internal logging but leaves the underlying log implementation open. Default configurations
+are provided for Java Util Logging, Log4J2, and Logback. In each case, loggers are pre-configured to use console output with optional
+file output also available.
+By default, if you use the “Starters”, Logback is used for logging. Appropriate Logback routing is also included to ensure that dependent
+libraries that use Java Util Logging, Commons Logging, Log4J, or SLF4J all work correctly.
+
+Spring Boot 整合 Logback 定制日志框架
+https://tobebetterjavaer.com/springboot/logback.html
+1. Logback實現了SLF4J
+2. Spring Boot 的默認日志框架使用的是 Logback(By default, if you use the “Starters”, Logback is used for logging)
+
+Spring Boot 2.x 日志配置 與集成 Logback 日志框架
+https://blog.csdn.net/wangmx1993328/article/details/81044147
+1. Spring Boot 底層默認使用 slf4j+logback 的方式進行日志記錄
+2. Spring Boot 使用中間替換包把其的日志框架都替換成了slf4j
+------------------------------------------------------------------------------------------------------------------------------------------------------
+官網(application-properties配置方式)
+https://docs.spring.io/spring-boot/docs/2.5.4/reference/html/application-properties.html#appendix.application-properties
+https://blog.csdn.net/u012723183/article/details/107685109

@@ -1,0 +1,12 @@
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+
+public class JUnit5Test {
+
+    @Test
+    void assumption() {
+        Assumptions.assumeTrue(false, "結果為false");
+        System.out.println("假設成功");
+    }
+
+}

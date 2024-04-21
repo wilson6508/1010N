@@ -1,0 +1,11 @@
+Maven Application VM options
+-Dspring.profiles.active=dev -Djasypt.encryptor.password=apple
+-Dspring.profiles.active=dev -Djasypt.encryptor.password=apple -Dserver.port=10002
+
+Maven Build
+clean package -DskipTests=true
+
+Start.bat
+java -Dfile.encoding=UTF-8 -Dspring.profiles.active=prod -Djasypt.encryptor.password=apple -Xms1024m -Xmx2048m -jar StockServer-1.0.jar
+pause
+------------------------------------------------------------------------------------------------------------------------------------------

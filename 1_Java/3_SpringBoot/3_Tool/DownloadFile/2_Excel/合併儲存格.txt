@@ -1,0 +1,5 @@
+import org.apache.poi.ss.util.CellRangeAddress;
+
+Sheet sheet = workbook.getSheetAt(0);
+CellRangeAddress range = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
+sheet.addMergedRegion(range);

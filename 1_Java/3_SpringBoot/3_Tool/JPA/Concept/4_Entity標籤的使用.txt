@@ -1,0 +1,9 @@
+https://ithelp.ithome.com.tw/articles/10273243
+
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+@CreateBy
+@CreatedDate
+@Temporal(TemporalType.TIMESTAMP)
+@LastModifiedBy
+@LastModifiedDate

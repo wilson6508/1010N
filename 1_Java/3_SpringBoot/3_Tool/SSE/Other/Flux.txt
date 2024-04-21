@@ -1,0 +1,124 @@
+package com.eland.controller;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import reactor.core.publisher.Flux;
+    compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.8.RELEASE'
+
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by eddywang on 2020/4/15.
+ */
+@RestController
+public class HelloWorld {
+
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    @PostConstruct
+    public void init() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            executor.shutdown();
+            try {
+                executor.awaitTermination(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+    private void sleep(int seconds, SseEmitter sseEmitter) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            sseEmitter.completeWithError(e);
+        }
+    }
+
+    @GetMapping("/helloWorld")
+    public SseEmitter streamDateTime() {
+
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+
+//        sseEmitter.onCompletion(() -> LOGGER.info("SseEmitter is completed"));
+//        sseEmitter.onTimeout(() -> LOGGER.info("SseEmitter is timed out"));
+//        sseEmitter.onError((ex) -> LOGGER.info("SseEmitter got error:", ex));
+
+        executor.execute(() -> {
+            for (int i = 0; i < 15; i++) {
+                try {
+                    sseEmitter.send(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")));
+                    sleep(5, sseEmitter);
+                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    sseEmitter.completeWithError(e);
+                }
+            }
+            sseEmitter.complete();
+        });
+
+        return sseEmitter;
+    }
+
+
+    @GetMapping(value = "helloWorld")
+    public Flux<ServerSentEvent<String>> sse(){
+        return  Flux.interval(Duration.ofMillis(2000)).map(val -> ServerSentEvent.<String>builder()
+                .event("ping")
+                .data(val.toString())
+                .build());
+    }
+
+    private static List<String> list = Arrays.asList("AAA", "BBB", "CCC");
+
+    @GetMapping(value = "/helloWorld", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<List<String>> streamTightCouplingEvents() {
+        return Flux.interval(Duration.ofSeconds(10)).map(sequence -> list);
+    }
+
+    @GetMapping("/helloWorld")
+    public Flux<ServerSentEvent<String>> streamEvents() {
+        System.out.println("請求進來了");
+        return Flux.interval(Duration.ofSeconds(5))
+                   .map(sequence -> ServerSentEvent.<String> builder().event("test").data("RD3_" + LocalTime.now().toString())
+                   .build());
+    }
+
+
+    private final ExecutorService nonBlockingService = Executors.newCachedThreadPool();
+
+    @RequestMapping("/helloWorld")
+    public SseEmitter handleSse() {
+        SseEmitter emitter = new SseEmitter();
+        nonBlockingService.execute(() -> {
+            try {
+                emitter.send("RD3_" + new Date());
+                emitter.complete();
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+            }
+        });
+        return emitter;
+    }
+
+
+}

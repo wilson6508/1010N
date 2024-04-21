@@ -1,0 +1,18 @@
+Java 日期時區
+https://www.w3cschool.cn/java/java-date-time-zone.html
+
+Java LocalDateTime 和 Epoch
+https://blog.csdn.net/qq_31635851/article/details/120151149
+
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+LocalDateTime now = LocalDateTime.now();
+ZoneOffset zoneOffset  = ZoneOffset.of("+08:00");
+long utc_8 = now.toEpochSecond(zoneOffset);
+long utc_8_mil = System.currentTimeMillis();
+long utc = now.toEpochSecond(ZoneOffset.UTC);
+System.out.println(utc_8);
+System.out.println(utc_8_mil);
+System.out.println(utc);

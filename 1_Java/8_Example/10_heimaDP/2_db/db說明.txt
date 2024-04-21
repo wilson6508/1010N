@@ -1,0 +1,24 @@
+ENGINE = InnoDB 
+使用innodb引擎
+
+AUTO_INCREMENT = 23
+自增鍵的起始值23
+
+CHARACTER SET = utf8mb4
+設定編碼為utf8mb4
+
+COLLATE = utf8mb4_general_ci
+校對規則。
+ci是case insensitive(大小寫不敏感)
+
+cs是case sensitive(大小寫敏感)
+name VARCHAR(50) COLLATE utf8mb4_general_cs
+ALTER TABLE mytable MODIFY name VARCHAR(50) COLLATE utf8mb4_general_cs;
+
+還有一種是utf8_bin 將每個字符用二進制儲存(區分大小寫)
+name VARCHAR(50) COLLATE utf8mb4_bin
+ALTER TABLE mytable MODIFY name VARCHAR(50) COLLATE utf8mb4_bin;
+
+ROW_FORMAT = Compact
+"Compact" 表示緊湊格式，適用於存儲大量數據並且行數據量不會改變的表。它的存儲空間效率比較高，但讀取效率略低。
+"Dynamic" 表示動態格式，適用於存儲行數據量可能變化的表。它的讀取效率高，但存儲空間效率略低。

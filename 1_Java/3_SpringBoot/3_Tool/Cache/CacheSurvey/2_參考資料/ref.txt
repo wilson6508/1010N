@@ -1,0 +1,16 @@
+https://iter01.com/603258.html
+https://www.cnblogs.com/morganlin/p/12000223.html
+https://iter01.com/638816.html
+
+https://medium.com/tech-it-out/spring-boot-in-memory-caching-f2327f9bfdd6
+https://matthung0807.blogspot.com/2020/07/spring-boot-caching-simple.html
+https://matthung0807.blogspot.com/2020/07/spring-boot-ehcache-3-jsr-107.html
+
+注意不要在生產環境使用SpringBootCache預設的ConcurrentHashMap，
+因為其生命週期為應用程式的執行期間，
+且SpringBootCache沒提供存活時間及最大空間等設定，
+因此若用在生產環境可能會造成記憶體洩漏。
+
+https://stackoverflow.com/questions/37780249/spring-boot-cachable-cache-size
+https://stackoverflow.com/questions/68232938/how-much-cache-can-be-stored-using-springboot-and-caffeine-cache
+https://stackoverflow.com/questions/72283201/will-spring-cache-cause-memory-leak-issue

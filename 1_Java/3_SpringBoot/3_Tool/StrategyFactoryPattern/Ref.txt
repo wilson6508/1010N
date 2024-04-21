@@ -1,0 +1,8 @@
+為什麼在Service層要使用Interface
+https://matthung0807.blogspot.com/2017/12/java-serviceinterface.html
+
+使用BeanFactory動態取得bean
+https://matthung0807.blogspot.com/2020/10/spring-boot-beanfactory-get-bean-dynamically.html
+
+MVC商業邏輯(Business Logic)該放在哪
+https://matthung0807.blogspot.com/2019/04/java-mvc-business-logic.html

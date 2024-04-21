@@ -1,0 +1,24 @@
+https://www.youtube.com/watch?v=_D5kcXrWfAw
+
+1. 確認版本
+C:\Program Files\JetBrains\IntelliJ IDEA 2021.2\plugins\gradle\lib
+https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
+
+2. 下載gradle
+https://gradle.org/
+https://gradle.org/install/
+https://gradle.org/releases/
+complete
+
+3. 配置環境變量
+
+GRADLE_HOME
+D:\Gradle\gradle-7.1
+
+Path 新增
+%GRADLE_HOME%\bin
+
+GRADLE_USER_HOME
+D:\Gradle\user-home
+
+4. cmd gradle -v

@@ -1,0 +1,41 @@
+JPA為Java Persistence API的簡寫，
+它是官方提出的ORM規範 也是一個 Java 應用程式的介面
+利用標註 Annotation 的方式或XML描述物件與關係表的對應關係
+import 套件時的package路徑為 
+javax.persistence.*
+
+@Entity、@Table、@Column、@Transient
+但JPA只是一個介面，需要實現它，
+Hibernate就是實現了JPA介面的ORM框架。
+-----------------------------------------------------------------
+Spring Data 提供了持久層(Data Persistence Layer)的支援，
+目的是希望與 Spring 其他元件易於整合，
+物件導向模型(ORM)來看待持久層，
+ORM讓Model資料層與資料訪問層做了關聯，
+當作一個中繼資料，
+用操作物件的方式對資料庫進行操作。
+
+Spring Data JPA 有提供以下Interface
+Repository 最頂層的介面
+CrudRepository 是Repository的子介面，提供CRUD的功能
+PagingAndSortingRepository 是CrudRepository的子介面，添加分頁和排序的功能
+JpaRepository 是PagingAndSortingRepository的子介面
+
+Is, Equals  > findById, findByIdEquals  > where id = ?
+And         > findByNameAndPwd          > where name = ? and pwd = ?
+Or          > findByNameOrGender        > where name = ? or gender = ?
+Between     > findByIdBetween           > where id between ? and ?
+-----------------------------------------------------------------
+DAO(Data Access Object)
+資料存取物件
+是為了讓我們在開發專案時，
+處理資料庫相關操作更方便而產生的物件，
+它會幫助我們封裝資料庫進行持久層的操作，
+我們會在 DAO 層提供一些特定的資料操作，
+不需要直接暴露資料庫細節。
+
+用TodoDao 去繼承一個CrudRepository的介面，卻不用implement它的方法 ?
+是因為TodoDao將在運行時基於SimpleJpaRepository從Spring Data JPA實現，
+從內部文件來看CrudRepository已經有繼承一個SimpleJpaRepository的class，
+而這個class已經有實作一些方法了
+-----------------------------------------------------------------

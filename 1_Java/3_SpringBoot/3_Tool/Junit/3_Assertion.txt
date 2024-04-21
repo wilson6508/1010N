@@ -1,0 +1,69 @@
+import org.junit.jupiter.api.*;
+import org.springframework.boot.test.context.SpringBootTest;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.*;
+
+// 前面斷言失敗 後面不執行
+// 單元測試報告 > clean & test
+public class JUnit5Test {
+
+    int cal(int a, int b) {
+        return a + b;
+    }
+
+    @Test
+    void assertion() {
+        int cal = cal(2, 3);
+        Assertions.assertEquals(5, cal);
+        Assertions.assertEquals(6, cal, "失敗");
+    }
+
+    @Test
+    void assertion() {
+        Object obj1 = new Object();
+        Object obj2 = new Object();
+        Assertions.assertSame(obj2, obj1);
+        Assertions.assertSame(obj2, obj1, "不一樣");
+    }
+
+    @Test
+    void assertion() {
+        int[] arr1 = new int[] {1, 2};
+        int[] arr2 = new int[] {1, 2, 3};
+        System.out.println(arr1 == arr2);
+        assertArrayEquals(arr1, arr2);
+    }
+
+    @Test
+    void assertion() {
+        // 全部須成功
+        assertAll("test",
+                () -> assertTrue(true && true, "第一行"),
+                () -> assertEquals(1, 2, "第一行")
+        );
+    }
+
+    @Test
+    void assertion() {
+        assertThrows(ArithmeticException.class, () -> {
+            int i = 10 / 2;
+        }, "沒有拋出異常");
+    }
+
+    @Test
+    void assertion() {
+        if (1 == 1) {
+            fail("test fail");
+        }
+    }
+
+    @Test
+    void assertion() {
+        // 方法超時 > 異常
+        assertTimeout(Duration.ofMillis(1000), () -> {
+            Thread.sleep(1500);
+        });
+    }
+
+}

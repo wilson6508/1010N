@@ -1,0 +1,200 @@
+package com.eland.aop;
+
+import com.eland.pojo.bean.InsightApiRequestBean.*;
+import com.eland.pojo.bean.InsightApiResponseBean;
+import com.eland.pojo.bean.InsightPropertiesBean;
+import com.eland.service.trend.LoggerService;
+import com.eland.util.InsightUtil;
+import com.eland.util.JwtTokenUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import org.aspectj.lang.JoinPoint;
+
+
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import java.util.concurrent.ForkJoinPool;
+
+
+/**
+ * Created by yshong on 2021/4/20.
+ */
+@Aspect
+@Component
+@EnableAsync
+public class InsightLogAOP {
+    private LoggerInfoEntity loggerInfoEntity = null;
+    private Gson gson = new Gson();
+
+    @Autowired
+    private InsightUtil insightUtil;
+    @Autowired
+    private LoggerService loggerService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private InsightPropertiesBean insightPropertiesBean;
+
+    private List<String> needWriteLogServiceMethods = new ArrayList<>(Arrays.asList(
+            "com.eland.service.trend.HomeService.authCallBack",
+                "com.eland.service.trend.KeywordService.search",
+                "com.eland.service.trend.SaveShareResultService.saveShareResult",
+                "com.eland.service.trend.PromotionInfoService.getPromotionInfo",
+                "com.eland.service.trend.AccountManagementService.updateAccount"));
+
+    @AfterReturning(pointcut = "execution(* com.eland.util.GlobalExceptionHandler.*(..))", returning = "responseEntity")
+    public void globalExceptionHandlerReturnLog(JoinPoint joinPoint, ResponseEntity responseEntity) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool(2); //執行序數目
+        forkJoinPool.submit(() -> {
+            HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[1];
+            InsightApiResponseBean responseBean = gson.fromJson(gson.toJson(responseEntity.getBody()), InsightApiResponseBean.class);
+            loggerInfoEntity = insightUtil.initialLogger(request, "ERROR");
+            switch (responseBean.getErrorCode()) {
+                case "7.0":
+                    loggerInfoEntity.setError_message("API程式錯誤");
+                    loggerInfoEntity.setError_code(7.0);
+                    break;
+                case "7.1":
+                    loggerInfoEntity.setError_message("格式空值");
+                    loggerInfoEntity.setError_code(7.1);
+                    break;
+                case "7.2":
+                    loggerInfoEntity.setError_message("所需參數值異常");
+                    loggerInfoEntity.setError_code(7.2);
+                    break;
+                case "7.3":
+                    loggerInfoEntity.setError_message("所需參數值異常，參數為空");
+                    loggerInfoEntity.setError_code(7.3);
+                    break;
+                case "7.4":
+                    loggerInfoEntity.setError_message("所需參數值異常，參數null");
+                    loggerInfoEntity.setError_code(7.4);
+                    break;
+            }
+            if (!responseBean.getErrorCode().equals("7.5")) {
+                loggerService.createTrendLogger(loggerInfoEntity);
+            }
+        });
+
+    }
+
+    @Async
+    @AfterReturning(pointcut = "execution(* com.eland.service.trend.*.*(..))", returning = "responseObject") // 在 com.eland.service.trend 資料夾裡的Service之後做
+    public void insertAsLog(JoinPoint joinPoint, Object responseObject) {
+
+        String serviceName = joinPoint.getTarget().getClass().getName();  // 取得切入點的 class 名稱
+        String methodName = joinPoint.getSignature().getName();           // 取得切入點的 method 名稱
+        String str = serviceName+"."+methodName;
+//        Timestamp now = new Timestamp(System.currentTimeMillis());
+//        System.out.println("AOP " + methodName + " " + now);
+        if (!needWriteLogServiceMethods.contains(str)) {
+            return;
+        }
+
+        InsightApiResponseBean responseBean = (InsightApiResponseBean) responseObject;  // 取得 Service return 物件
+        Object[] objects = joinPoint.getArgs();                                         // 取得切入點 method 的參數
+        HashMap<String, Object> asLoggerData = new HashMap<>();
+
+        switch (str) {
+            case "com.eland.service.trend.HomeService.authCallBack": // 使用者登入
+                if (!responseBean.getData().toString().startsWith("https://")) {
+                    String jwt = responseBean.getData().toString();
+                    asLoggerData.put("userType", jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.FROM_LOGIN.getName()));
+                    asLoggerData.put("userEmail", jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.USER_ACCOUNT.getName()));
+                    asLoggerData.put("userName", jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtSifClaimsName.SUB.getName()));
+                    loggerService.createAsLogger("user_login_info", asLoggerData);
+                }
+                break;
+            case "com.eland.service.trend.KeywordService.search": // 搜尋關鍵字
+                setUserTypeAndEmail(asLoggerData, ((HttpServletRequest)objects[1]).getHeader("Authorization"));
+                SearchInformationBean searchInformationBean = (SearchInformationBean) objects[0];
+                for (int j=1 ; j <= searchInformationBean.getKeywords().size() ; j++) {
+                    String key = "topicKeyword" + j;
+                    asLoggerData.put(key, searchInformationBean.getKeywords().get(j-1));
+                }
+                asLoggerData.put("searchTime", searchInformationBean.getTime_range());
+                asLoggerData.put("searchSource", searchInformationBean.getSource_type());
+                String modelList = String.join(";", searchInformationBean.getModel());
+                asLoggerData.put("modelList", modelList);
+                asLoggerData.put("errorCode", responseBean.getErrorCode());
+                asLoggerData.put("errorMessage", responseBean.getMessage());
+                loggerService.createAsLogger("trend_search_history", asLoggerData);
+                break;
+            case "com.eland.service.trend.SaveShareResultService.saveShareResult":  // 分享查詢結果
+                setUserTypeAndEmail(asLoggerData, ((HttpServletRequest)objects[1]).getHeader("Authorization"));
+                SaveShareResultEntity saveShareResultEntity = (SaveShareResultEntity) objects[0];
+                asLoggerData.put("searchSource", saveShareResultEntity.getSearchSource());
+                asLoggerData.put("searchTime", saveShareResultEntity.getSearchTime());
+                JsonArray jsonArray = gson.fromJson(saveShareResultEntity.getSearchTopic(), JsonArray.class);
+                String searchTopic = "";
+                for (int i = 0; i < jsonArray.size() ; i++) {
+                    searchTopic += jsonArray.get(i).getAsJsonObject().get("topic").getAsString() + ";";
+                }
+                asLoggerData.put("searchTopic", searchTopic);
+                String url = insightPropertiesBean.getHomeUrl() + "trend/s/" + responseBean.getData().toString().substring(0, 6);
+                asLoggerData.put("url", url);
+                Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");  // T和Z為處理時區的參數
+                asLoggerData.put("createTime", sdf.format(currentTime));
+                cal.setTime(currentTime);
+                cal.add(Calendar.DAY_OF_WEEK, Integer.parseInt(responseBean.getData().toString().substring(6)));
+                currentTime.setTime(cal.getTime().getTime());
+                asLoggerData.put("expiredTime", sdf.format(currentTime));
+                loggerService.createAsLogger("promotion_info", asLoggerData);
+                break;
+            case "com.eland.service.trend.PromotionInfoService.getPromotionInfo":  // 造訪分享連結
+                PromotionInfoEntity promotionInfoEntity = (PromotionInfoEntity) objects[0];
+                asLoggerData.put("url", insightPropertiesBean.getHomeUrl() + "trend/s/" + promotionInfoEntity.getPromotionCode());
+                asLoggerData.put("ipAddress", getIpAddress(((HttpServletRequest)objects[1])));
+                loggerService.createAsLogger("visit_promotion_info", asLoggerData);
+                break;
+            case "com.eland.service.trend.AccountManagementService.updateAccount":  // 更新帳號權限
+                String authorizationHeader = ((HttpServletRequest)objects[1]).getHeader("Authorization");
+                String jwt = authorizationHeader.substring(7);
+                String operatorAccount = jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.USER_ACCOUNT.getName());
+                String operatorName = jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.CUSTOMER_NAME.getName());
+                asLoggerData.put("operatorAccount", operatorAccount);
+                asLoggerData.put("operatorName", operatorName);
+                Map map = (Map) responseBean.getData();
+                asLoggerData.put("updateUserType", map.get("updateUserType"));
+                asLoggerData.put("updateUserEmail", map.get("updateUserEmail"));
+                asLoggerData.put("updateUserName", map.get("updateUserName"));
+                asLoggerData.put("updateMessage", map.get("updateMessage"));
+                loggerService.createAsLogger("account_update_info", asLoggerData);
+                break;
+        }
+
+    }
+
+    private void setUserTypeAndEmail(HashMap<String, Object> hashMap, String authorizationHeader) {
+        String jwt = authorizationHeader.substring(7);
+        hashMap.put("userType", jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.FROM_LOGIN.getName()));
+        hashMap.put("userEmail", jwtTokenUtil.extractClaim(jwt, InsightUtil.JwtClaimsName.USER_ACCOUNT.getName()));
+    }
+
+    private String getIpAddress(HttpServletRequest request) {  // 取得客戶端IP
+        String ipAddress;
+        if (StringUtils.isEmpty(request.getHeader("X-Real-IP"))) {
+            ipAddress = request.getRemoteAddr();
+        } else {
+            ipAddress = request.getHeader("X-Real-IP");
+        }
+        return ipAddress;
+    }
+
+}

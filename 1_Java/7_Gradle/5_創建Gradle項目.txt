@@ -1,0 +1,12 @@
+https://start.spring.io/
+Gradle Project
+Java
+2.6.11
+com.atguigu
+gradle01
+gradle01
+Demo project for Spring Boot
+com.atguigu.gradle01
+jar
+8
+GENERATE

@@ -1,0 +1,44 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class UpdateExcelSheetExample {
+
+    public static void main(String[] args) throws IOException {
+        String fileName = "example.xlsx";
+        String sheetName = "sheet01";
+        int rowIndexToUpdate = 1; // 0-based index
+        int cellIndexToUpdate = 2; // 0-based index
+        String newValue = "new value";
+
+        FileInputStream file = new FileInputStream(fileName);
+        Workbook workbook = new XSSFWorkbook(file);
+        Sheet sheet = workbook.getSheet(sheetName);
+
+        Row rowToUpdate = sheet.getRow(rowIndexToUpdate);
+        if (rowToUpdate == null) {
+            // If the row does not exist, create it
+            rowToUpdate = sheet.createRow(rowIndexToUpdate);
+        }
+
+        Cell cellToUpdate = rowToUpdate.getCell(cellIndexToUpdate);
+        if (cellToUpdate == null) {
+            cellToUpdate = rowToUpdate.createCell(cellIndexToUpdate);
+        }
+
+        cellToUpdate.setCellValue(newValue);
+        
+        FileOutputStream fileOut = new FileOutputStream(fileName);
+        workbook.write(fileOut);
+        fileOut.close();
+        workbook.close();
+        file.close();
+    }
+
+}

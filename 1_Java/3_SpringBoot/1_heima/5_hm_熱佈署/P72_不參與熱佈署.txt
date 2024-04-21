@@ -1,0 +1,16 @@
+spring:
+  devtools:
+    restart:
+      # 不參與熱佈署
+      exclude: static/**, public/**, config/application.yml
+      # true開啟熱佈署 false關閉熱佈署
+      enabled: false
+--------------------------------------------------------------------
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        // 比設定檔層級更高
+        System.setProperty("spring.devtools.restart.enabled", "false");
+        SpringApplication.run(Application.class, args);
+    }
+}

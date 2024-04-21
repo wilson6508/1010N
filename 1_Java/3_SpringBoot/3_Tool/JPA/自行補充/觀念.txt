@@ -1,0 +1,61 @@
+public interface TwTradeLogRepository extends JpaRepository<TwTradeLogEntity, Integer> {}
+
+public interface JpaRepository<T, ID> extends PagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T> {
+    List<T> findAll(Sort sort);
+}
+
+public interface PagingAndSortingRepository<T, ID> extends CrudRepository<T, ID> {
+    Page<T> findAll(Pageable pageable);
+}
+
+public interface QueryByExampleExecutor<T> {
+    <S extends T, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction);
+}
+
+public interface CrudRepository<T, ID> extends Repository<T, ID> {
+    long count();
+}
+
+重要
+SimpleJpaRepository 為實現類(看源碼)
+---------------------------------------------------------------------------------------------------------------------
+
+public interface TwTradeLogRepository extends JpaRepository<TwTradeLogEntity, Integer> {
+
+    // 源自CrudRepository
+    int countByStockIdIn(List<String> ids); 
+
+    // 一般使用
+    List<TwTradeLogEntity> findAllByStockIdIn(List<String> ids);
+
+    // 源自QueryByExampleExecutor 代表可以動態排序
+    List<TwTradeLogEntity> findAllByStockIdIn(List<String> ids, Sort sort);
+
+    // 源自QueryByExampleExecutor 代表可以動態排序+limit
+    List<TwTradeLogEntity> findAllByStockIdIn(List<String> ids, Pageable pageable);
+    
+}
+
+@Test
+void contextLoads() {
+
+    // 源自JpaRepository
+    Sort sort = Sort.by(Sort.Direction.ASC, "payment");
+    List<TwTradeLogEntity> list =  twTradeLogRepository.findAll(sort);
+
+    // 排序
+    List<String> strings = Arrays.asList("AAPL", "MSFT", "FB");
+    List<TwTradeLogEntity> list =  twTradeLogRepository.findAllByStockIdIn(strings, Sort.by(Sort.Direction.DESC, "payment"));
+    // Sort s = Sort.unsorted() (不排序)
+
+    // 源自PagingAndSortingRepository 分頁 -> (page存0開始, size, 排序)
+    Pageable pageable = PageRequest.of(2, 10, Sort.by("id").descending());
+    Page<TwTradeLogEntity> all = twTradeLogRepository.findAll(pageable);
+    List<TwTradeLogEntity> content = all.getContent();
+
+    // 動態排序+limit
+    Pageable p1 = PageRequest.of(2, 10, Sort.by("id").descending());
+    Pageable p2 = Pageable.ofSize(2);
+    Pageable p3 = Pageable.unpaged(); (不分頁)
+
+}

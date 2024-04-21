@@ -1,0 +1,43 @@
+H2 Database
+H2 屬於記憶體型資料庫(In memory database)，
+即全部儲存的資料內容是存放在伺服器記憶體中，
+也因此讀寫效能相對較高，
+但當伺服器關閉時資料也會立即消失，
+而 H2 是利用 Java 所設計出的關聯式資料庫，
+目前是一款具開源、免費、輕量與速度相當快的資料庫引擎，
+當我們在專案引用時，
+自動會提供瀏覽器的管理控制台，
+支援 JDBC、ODBC API 和 SQL語法。
+-----------------------------------------------------------------
+server:
+  port: 9100
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:todolist
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+-----------------------------------------------------------------
+http://localhost:9100/h2-console/
+-----------------------------------------------------------------
+@Entity // 宣告此類是一個實體
+@Table // 映射其至Todo表(預設為Entity名稱)
+public class Todo {
+    @Id // 聲明為一個主鍵
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 主鍵生成的策略
+    Integer id;
+    @Column // 聲明是個欄位，可以針對此欄位設置參數，如name, unique, length等
+    String task;
+    @Column
+    Integer status;
+}
+-----------------------------------------------------------------
+GenerationType.TABLE用一個特定數據庫保存主鍵
+GenerationType.SEQUENCE 用序列的方式
+GenerationType.IDENTITY 自動增長生成
+GenerationType.AUTO 程式指定主鍵

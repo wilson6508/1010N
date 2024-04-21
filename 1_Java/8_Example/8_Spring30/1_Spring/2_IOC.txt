@@ -1,0 +1,20 @@
+IOC控制反轉(Inversion of Control)
+1. 由Spring管理對象創建與調用對象的過程
+2. 目的: 降低耦合度
+3. 底層原理: a.xml解析 b.工廠模式 c.反射
+
+<bean id="dao" class="com.atguigu.UserDao"></bean>
+
+class UserFactory {
+	public static UserDao getDao() {
+		String classVal = class屬性值;          // 解析xml
+		Class clazz = Class.forName(classVal);
+		return (UserDao) clazz.newInstance();
+	}
+}
+
+那麼使用@Autowired的原理是什麼？
+其實在啟動spring IoC時，
+容器自動裝載了一個AutowiredAnnotationBeanPostProcessor後置處理器，
+當容器掃描到@Autowied、@Resource或@Inject時，
+就會在IoC容器自動查詢需要的bean，並裝配給該物件的屬性

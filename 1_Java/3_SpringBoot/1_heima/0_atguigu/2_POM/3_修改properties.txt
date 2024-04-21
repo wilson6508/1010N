@@ -1,0 +1,5 @@
+<properties>
+	<java.version>1.8</java.version>
+	<!--修改預設版本 ctrl點spring-boot-starter-parent ctrl點spring-boot-dependencies 查看mysql屬性-->
+	<!--<mysql.version>5.1.43</mysql.version>-->
+</properties>

@@ -1,0 +1,7 @@
+https://b-l-u-e-b-e-r-r-y.github.io/post/ForeignKey/
+
+Foreign Key(外鍵) 指向其他表的 Primary Key(主鍵) 的欄位
+
+如果想要使用外鍵 儲存引擎必須是 InnoDB
+外鍵只能指向被設定為主鍵的欄位
+外鍵與指向的主鍵資料型別必須相同

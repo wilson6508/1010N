@@ -1,0 +1,14 @@
+FileInputStream fis = new FileInputStream("day03-code\\b.txt");
+int b1 = fis.read();
+System.out.println((char) b1);
+fis.close();
+-----------------------------------------------------------------------------------
+// read 表示讀取數據 (讀一個數據 就移動一次指針)
+
+FileInputStream fis = new FileInputStream("day03-code\\b.txt");
+int b; 
+while ((b = fis.read()) != -1) {
+    System.out.println((char) b);
+}
+fis.close();
+-----------------------------------------------------------------------------------

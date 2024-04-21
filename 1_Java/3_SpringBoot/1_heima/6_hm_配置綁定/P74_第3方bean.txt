@@ -1,0 +1,42 @@
+datasource:
+    driverClassName: test1234
+
+@Bean
+@ConfigurationProperties(prefix = "datasource")
+public DruidDataSource datasource() {
+    DruidDataSource ds = new DruidDataSource();
+    return ds;
+}
+=======================================================================================
+servers:
+  ipAddress: 192.168.0.1
+  port: 2345
+  timeout: -1
+----------------------------------------------------------------------------------------
+@Data
+//@Component
+@ConfigurationProperties(prefix = "servers")
+public class ServerConfig {
+    private String ipAddress;
+    private int port;
+    private long timeout;
+}
+----------------------------------------------------------------------------------------
+import com.itheima.config.ServerConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+@EnableConfigurationProperties({ServerConfig.class})
+public class Application13 {
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext run = SpringApplication.run(Application13.class, args);
+        ServerConfig bean = run.getBean(ServerConfig.class);
+        System.out.println(bean);
+    }
+
+}
+=======================================================================================

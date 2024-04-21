@@ -1,0 +1,40 @@
+配置靜態資源在以下資料夾, 可直接訪問到
+
+resources/static
+resources/public
+resources/resources
+resources/META-INF/resources
+
+127.0.0.1:8080/abc.png
+原理：靜態映射/**
+
+請求進來>去Controller(@RequestMapping("/abc.png"))>不能處理的請求>交给靜態資源處理器>也找不到>404
+--------------------------------------------------------------------------------------------------
+spring:
+  mvc:
+    static-path-pattern: /res/**
+	
+127.0.0.1:8080/res/abc.png
+--------------------------------------------------------------------------------------------------
+spring:
+  mvc:
+    static-path-pattern: /res/**
+  web:
+    resources:
+      static-locations:
+        [ classpath:/haha/]
+		
+resources/haha/abc.png
+http://127.0.0.1:8085/res/abc.png
+--------------------------------------------------------------------------------------------------
+自动映射 /webjars/**
+
+引入的套件官網https://www.webjars.org/
+
+<dependency>
+	<groupId>org.webjars</groupId>
+	<artifactId>jquery</artifactId>
+	<version>3.5.1</version>
+</dependency>
+
+http://localhost:8080/webjars/jquery/3.5.1/jquery.js 

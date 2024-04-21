@@ -1,0 +1,111 @@
+@GetMapping("/test")
+public MessageBean downloadExcel(HttpServletResponse response) throws Exception {
+	return fileService.downloadExcel(response);
+}
+
+public MessageBean downloadExcel(HttpServletResponse response) throws Exception {
+	String subFileName = "xlsx";
+	try {
+		XSSFWorkbook workbook = excelService.downloadExcel();
+		if (workbook != null) {
+			response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Content-Disposition", "attachment;subFileName=xlsx");
+			OutputStream output = response.getOutputStream();
+			workbook.write(output);
+			workbook.close();
+			output.flush();
+			output.close();
+		}
+		return new MessageBean(workbook == null ? MessageEnum.FAIL : MessageEnum.SUCCESS, null);
+	} catch (Exception e) {
+		log.error("Download File Fail: ", e);
+		throw e;
+	}
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+public class SheetDataInfo {
+	private String SheetName;
+    private List<List<CellInfo>> sheetData;
+}
+public static class CellInfo {
+	private Object content;
+	private CellStyle style;
+	private Integer columnWidth;
+	private Integer rowHeight;
+	private CellRangeAddress mergedRegion;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+private void generateSheet(SheetDataInfo sheetDataInfo) {
+	String sheetName = sheetDataInfo.getSheetName();
+	List<List<CellInfo>> sheetData = sheetDataInfo.getSheetData();
+	int rowIdx = 0;
+	for (List<CellInfo> rowData : sheetData) {
+		int colIdx = 0;
+		for (CellInfo cellInfo : columnData) {
+			Cell cell = row.createCell(colIdx);
+			applyCellValue(cell, cellInfo);
+			applyCellProperties(cell, cellInfo);
+			applySheetProperties(sheet, colIdx, cellInfo);
+			applyRowProperties(row, cellInfo);
+			colIdx++;
+		}
+		rowIdx++;
+	}
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+private void applyCellValue(Cell cell, CellInfo cellInfo) {
+	Object content = cellInfo.getContent();
+	if (content instanceof String) {
+		cell.setCellValue((String) content);
+	} else if (content instanceof Number) {
+		cell.setCellValue(((Number) content).doubleValue());
+	} else if (content instanceof Date) {
+		cell.setCellValue((Date) content);
+	} else if (content instanceof Calendar) {
+		cell.setCellValue((Calendar) content);
+	} else if (content instanceof RichTextString) {
+		cell.setCellValue((RichTextString) content);
+	} else {
+		cell.setCellValue("");
+	}
+}
+private void applyCellProperties(Cell cell, CellInfo cellInfo) {
+	if (cellInfo == null) {
+		return;
+	}
+	CellStyle cellStyle = cellInfo.getStyle();
+	if (cellStyle != null) {
+		cell.setCellStyle(cellStyle);
+	} else {
+		// set default style
+		Object content = cellInfo.getContent();
+		if (content instanceof Double || content instanceof Float) {
+			cell.setCellStyle(this.cellStyles.doubleStyle);
+		} else if (content instanceof Number) {
+			cell.setCellStyle(this.cellStyles.integerStyle);
+		} else {
+			cell.setCellStyle(this.cellStyles.stringStyle);
+		}
+	}
+}
+private void applySheetProperties(XSSFSheet sheet, int columnIndex, CellInfo cellInfo) {
+	Integer columnWidth = cellInfo.getColumnWidth();
+	if (columnWidth != null) {
+		sheet.setColumnWidth(columnIndex, columnWidth * 256);
+	}
+	CellRangeAddress mergedRegion = cellInfo.getMergedRegion();
+	if (mergedRegion != null) {
+		sheet.addMergedRegion(mergedRegion);
+	}
+}
+private void applyRowProperties(XSSFRow row, CellInfo cellInfo) {
+	if (cellInfo == null) {
+		return;
+	}
+	Integer rowHeight = cellInfo.getRowHeight();
+	if (rowHeight != null) {
+		row.setHeightInPoints(rowHeight.floatValue());
+	}
+}
+---------------------------------------------------------------------------------------------------------------------------------------

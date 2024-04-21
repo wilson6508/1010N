@@ -1,0 +1,111 @@
+RD3_SpringBoot_Cache_Survey
+用途: 緩存方法返回的結果 (例如: 該方法從DB取出結果 or 該方法打API返回結果)
+-------------------------------------------------------------------------------------------------------------------------
+以Insight 5版的EPA-WebServer為例
+
+@Service
+public class SearchApiService {
+
+    @Autowired
+    InsightProperties insightProperties;
+
+    // 讓專案中其他Service調用打EPA-Search的方法
+    public SearchResponseDTO query(SearchRequestDTO epaRequestDTO) {
+        return this.query(epaRequestDTO, insightProperties.getSearchApiUrl(), insightProperties.getTimeout());
+    }
+
+    // 實際打EPA-Search的方法
+    public SearchResponseDTO query(SearchRequestDTO epaRequestDTO, String url, int timeout) {
+        SimpleClientHttpRequestFactory clientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        clientHttpRequestFactory.setConnectTimeout(timeout);
+        clientHttpRequestFactory.setReadTimeout(timeout);
+        RestTemplate restTemplate = new RestTemplate();
+        SearchResponseDTO epaResponseDTO = new SearchResponseDTO();
+        ...
+        return epaResponseDTO;
+    }
+
+}
+-------------------------------------------------------------------------------------------------------------------------
+使用@Cacheable
+
+@Cacheable(value = "epaCache", key = "#a0.user_information.user_account + '-' + #a0.model_information.model_name.get(0)")
+public SearchResponseDTO query(SearchRequestDTO epaRequestDTO) {
+    return this.query(epaRequestDTO, insightProperties.getSearchApiUrl(), insightProperties.getTimeout());
+}
+
+前台:
+1. 搜尋一次文章列表模組
+2. 相同條件再次搜尋
+3. 到熱門作者頁面
+4. 搜尋一次熱門作者模組
+5. 相同條件再次搜尋
+-------------------------------------------------------------------------------------------------------------------------
+若無另外配置設定檔，專案運行時會在容器中注入ConcurrentMapCacheManager這個類的Bean
+
+ConcurrentMapCacheManager有一個ConcurrentHashMap類的field名為cacheMap
+
+cacheMap的key存放緩存名稱，value存放對應的Cache物件
+
+Cache物件的型別為ConcurrentMapCache有一個ConcurrentMap類的field名為store
+
+store的key存放開發者設定的鍵值，value存放要緩存的結果
+
+以上面的例子來說，存放了一個名為"epaCache"的緩存，緩存的物件(k, v) 為 (userId + 查詢模組名稱, SearchResponseDTO物件)
+
+public class ConcurrentMapCacheManager implements CacheManager, BeanClassLoaderAware {
+	private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
+    ...很多方法
+}
+public class ConcurrentMapCache extends AbstractValueAdaptingCache {
+    private final String name;
+	private final ConcurrentMap<Object, Object> store;
+	@Nullable
+	private final SerializationDelegate serialization;
+    ...很多方法
+}
+-------------------------------------------------------------------------------------------------------------------------
+@Cacheable(value = "epaCache", key = "#a0.user_information.user_account + '-' + #a0.model_information.model_name.get(0)")
+
+(1): "epaCache"
+(2): userId + 查詢模組名稱
+
+@Autowired
+BeanFactory beanFactory;
+
+@GetMapping(value = "/helloWorld")
+public String insightApiRequest() {
+    ConcurrentMapCacheManager cacheManager = beanFactory.getBean(ConcurrentMapCacheManager.class);
+    Cache epaCache = cacheManager.getCache("epaCache");
+    return "hello world";
+}
+
+SimpleCacheConfiguration
+-------------------------------------------------------------------------------------------------------------------------
+ConcurrentMapCacheManager有一個ConcurrentHashMap field名為cacheMap
+key:   緩存名稱字串---(1)
+value:  Cache物件
+
+Cache物件有4個field, 其中store為ConcurrentMap物件
+key:   開發者設定的鍵值---(2)
+value:  要緩存的方法返回結果
+
+@Cacheable: 設定(1)(2)
+
+@Cacheable(value = "epaCache", key = "#a0.user_information.user_account + '-' + #a0.model_information.model_name.get(0)")
+
+(1) "epaCache"
+(2) userId + 查詢模組名稱
+
+public class ConcurrentMapCacheManager implements CacheManager, BeanClassLoaderAware {
+	private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
+…
+}
+
+public class ConcurrentMapCache extends AbstractValueAdaptingCache {
+    private final String name;
+	private final ConcurrentMap<Object, Object> store;
+	@Nullable
+	private final SerializationDelegate serialization;
+…
+}

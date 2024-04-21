@@ -1,0 +1,22 @@
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+----------------------------------------------------------------------------------
+implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+----------------------------------------------------------------------------------
+@AutoConfiguration
+@EnableConfigurationProperties(RedisProperties.class)
+public class RedisAutoConfiguration {}
+
+@ConfigurationProperties(prefix = "spring.redis")
+public class RedisProperties {}
+----------------------------------------------------------------------------------
+導入starter(spring-boot-starter-data-redis)
+生效自動配置類(RedisAutoConfiguration)
+1. 屬性綁訂於RedisProperties(prefix = spring.data.redis)
+2. 容器中注入組件(@Bean StringRedisTemplate)
+
+開發人員
+1. 配置屬性於application.yaml
+2. 於業務層@Autowired StringRedisTemplate

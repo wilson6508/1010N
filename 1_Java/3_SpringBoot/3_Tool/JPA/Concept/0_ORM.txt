@@ -1,0 +1,30 @@
+JDBC (Java Database Connectivity): 
+Java 來連接資料庫的一種技術 可以透過每個資料庫所對應的 JDBC Driver 來與資料庫進行連接
+並透過 JDBC 的 API 來向所指定的資料庫發送想要執行的 SQL 命令
+
+ORM (Object-Relational Mapping)物件關係的映射(Java物件 對應 關聯式資料庫(RDBMS))
+ORM 的概念:
+將要儲存的資料從物件 轉換為 資料庫可讀的格式
+將從資料庫取出的資料 映射成 程式語言可讀的物件型態
+
+JPA (Java Persistence API)
+持久化: 將資料「儲存」與「讀取」的過程
+持久化: 就是將資料儲存到資料庫的一種過程
+透過Java將資料儲存到資料庫的API就叫做JPA
+不過實際上 JPA 只是Interface而已
+由官方所統一的規範「映射物件與持久層的 API 的實作方式」
+可以透過 JPA 來映射「物件的欄位」與「表的欄位」之間的對應關係
+
+SQL: 不同的資料庫，有不同的SQL語句
+JPQL (Java Persistence Query Language): 著重在 JPA 的 Entity Object 下類似 SQL 的命令語句
+使用JPQL時，並不會隨著不同的資料庫而需要做對應語句修改
+
+透過 JPA 規範將「物件的欄位」與「表的欄位」之間的映射關係定義好後
+會需要選擇一種 ORM 的框架來達到與資料庫進行連接與溝通
+
+Java中 相對常見或常用的 ORM 框架有:
+Hibernate
+Spring Data JPA
+Open JPA
+EclipseLink
+Toplink

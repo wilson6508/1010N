@@ -1,0 +1,7 @@
+SpringDataJPA配置多個DataSource
+https://www.tpisoftware.com/tpu/articleDetails/2637
+
+@Bean
+public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+	return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
+}

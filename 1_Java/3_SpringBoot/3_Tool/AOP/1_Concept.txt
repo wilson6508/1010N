@@ -1,0 +1,67 @@
+@Before：在執行前切入。
+@After：在執行後切入。
+@AfterReturning：在執行後切入並擷取返回值。
+@AfterThrowing：在執行中拋出錯誤時切入。
+@Around：在執行的前後插入。
+
+@Before(value = "execution(public int com.aop.MathImpl.add(int, int))")
+@Before(value = "execution(* com.aop.*.*(..))")
+1st * 任意的訪問修飾符和返回值類型
+2nd * 任意類
+3rd * 類中任意方法
+
+前置通知: 作用於方法執行之前 > 
+後置通知: 作用於方法的finally語句 > 不管有無異常皆執行
+--------------------------------------------------------------------------------------------------------
+
+@Aspect
+@Component
+public class AopTest {
+    @Pointcut(value = "execution(* com.service.*.*(..))")
+    public void getPointcut() {}
+
+    @AfterReturning(value = "getPointcut()", returning = "responseObj")
+    public void aopTest(Object responseObj) {
+        System.out.println(responseObj);
+        System.out.println(responseObj.getClass().getSimpleName());
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
+
+System.out.println("Aop : " + Thread.currentThread().getId());
+System.out.println("Service : " + Thread.currentThread().getId());
+
+@Async
+@After("execution(* com.service.*.*(..))")
+public void aopTest(JoinPoint joinPoint) {
+
+	String className = joinPoint.getTarget().getClass().getName(); // 取得切入點的類別名稱
+	String methodName = joinPoint.getSignature().getName();        // 取得切入點的方法名稱
+
+	MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+	Parameter[] parameters = signature.getMethod().getParameters(); // 取得方法輸入參數資訊
+	System.out.println(Arrays.toString(parameters)); // [java.lang.String a, java.lang.String b]
+	
+	Object[] args = joinPoint.getArgs();
+	System.out.println(Arrays.toString(args)); // 取得輸入參數值
+
+}
+
+---------------------------------------------------------------------------------------------------------
+
+在Spring AOP Aspect中取得Request, Session
+https://matthung0807.blogspot.com/2018/02/spring-aop-aspectrequest-session.html
+
+@Autowired
+HttpServletRequest request;
+
+@After(value = "execution(* com.eland.controller.insight.ca.*.*(..))")
+public void test() {
+	InsightApiResponseBean temp = (InsightApiResponseBean) request.getAttribute("response");
+	System.out.println(gson.toJson(temp));
+}
+
+此區塊不建議使用 改為用魚皮的取法(2023-01-05 註記)
+
+---------------------------------------------------------------------------------------------------------

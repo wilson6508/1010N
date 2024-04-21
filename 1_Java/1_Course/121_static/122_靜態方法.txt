@@ -1,0 +1,10 @@
+public class ArrUtil {
+
+    // 建構子私有化 不讓創建該類對象
+    private ArrUtil() {}
+
+    public static String printArr(int[] arr) {
+        return Arrays.toString(arr);
+    }
+
+}
