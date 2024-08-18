@@ -1,0 +1,31 @@
+https://www.bilibili.com/video/BV17F411T7Ao?p=169
+-----------------------------------------------------------------------------------
+java.util.Date 的重點
+
+Date d1 = new Date();   // 當前時間
+Date d2 = new Date(0L); // 時間原點
+
+d2.setTime(1000L);
+long time = d2.getTime();
+-----------------------------------------------------------------------------------
+時間原點 一年後 的時間
+
+Date d1 = new Date(0L);
+long time = d1.getTime();
+time = time + 1000L * 60 * 60 * 24 * 365;
+d1.setTime(time);
+-----------------------------------------------------------------------------------
+比較時間
+
+Random random = new Random();
+Date d1 = new Date(Math.abs(random.nextInt()));
+Date d2 = new Date(Math.abs(random.nextInt()));
+
+if (d1.getTime() < d2.getTime()) {
+
+} else if (d1.getTime() == d2.getTime()) {
+
+} else {
+
+}
+-----------------------------------------------------------------------------------

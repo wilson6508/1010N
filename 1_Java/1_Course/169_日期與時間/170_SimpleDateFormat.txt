@@ -1,0 +1,17 @@
+https://www.bilibili.com/video/BV17F411T7Ao?p=170
+-----------------------------------------------------------------------------------
+解析字串
+
+String str = "2024-08-18 19:53:31";
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+Date date = sdf.parse(str);
+-----------------------------------------------------------------------------------
+日期格式化
+Date date = new Date();
+
+SimpleDateFormat sdf01 = new SimpleDateFormat();
+String str01 = sdf01.format(date);
+
+SimpleDateFormat sdf02 = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss EE");
+String str02 = sdf02.format(date);
+-----------------------------------------------------------------------------------
