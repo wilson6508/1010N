@@ -1,0 +1,8 @@
+import java.util.StringJoiner;
+
+StringJoiner si = new StringJoiner(", ", "[", "]");
+si.add("aaa").add("bbb").add("ccc");
+System.out.println(si);
+
+int length = si.length();
+String str = si.toString();
