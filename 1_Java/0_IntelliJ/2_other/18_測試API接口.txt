@@ -1,0 +1,19 @@
+###
+### curl -i http://localhost:8081/article/getAll
+GET http://localhost:8081/article/getAll
+
+
+###
+POST http://localhost:8081/article/add
+Content-Type: application/json
+Authorization: Bearer XXX
+
+{
+  "title": "明天會更好",
+  "category": "生活",
+  "time": "2000-01-01",
+  "state": "草稿"
+}
+
+###
+GET http://localhost:8081/article/search?category=籃球&state=草稿

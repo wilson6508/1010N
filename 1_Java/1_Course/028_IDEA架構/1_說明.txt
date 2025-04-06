@@ -1,0 +1,7 @@
+project(項目)
+    module(模塊)
+        package(包)
+            class(類)
+            
+Empty Project            
+Sroject Structure 注意Dependencies SDK

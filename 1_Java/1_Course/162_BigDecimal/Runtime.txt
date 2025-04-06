@@ -1,0 +1,19 @@
+https://www.bilibili.com/video/BV17F411T7Ao?spm_id_from=333.788.videopod.episodes&vd_source=b87226af1536c8beb514f409a1d10b55&p=158
+
+// 當前JVM的運行環境
+Runtime runtime = Runtime.getRuntime();
+
+// 停止虛擬機
+// runtime.exit(0);
+
+// CPU線程數
+System.out.println(runtime.availableProcessors());
+
+// JVM能夠從系統中獲取的總內存(byte)
+System.out.println(runtime.maxMemory() / 1024 / 1024);
+
+// JVM已經從系統中獲取的內存(byte)
+System.out.println(runtime.totalMemory() / 1024 / 1024);
+
+// JVM剩餘的內存(byte)
+System.out.println(runtime.freeMemory() / 1024 / 1024);

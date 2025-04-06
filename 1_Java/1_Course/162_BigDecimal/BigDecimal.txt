@@ -1,0 +1,30 @@
+https://www.bilibili.com/video/BV17F411T7Ao/?spm_id_from=333.788.videopod.episodes&vd_source=b87226af1536c8beb514f409a1d10b55&p=162
+
+// 要先轉2進制才能運算 又因為轉換過程時 小數的存儲不精確 (float double 存儲的bit位數)
+System.out.println(0.09 + 0.01);
+System.out.println(0.216 - 0.1);
+System.out.println(0.226 * 0.01);
+System.out.println(0.09 / 0.1);
+
+// 有可能不精確 不建議使用
+BigDecimal bd01 = new BigDecimal(0.01);
+BigDecimal bd02 = new BigDecimal(0.09);
+
+// 建議使用
+BigDecimal bd03 = new BigDecimal("0.01");
+BigDecimal bd04 = new BigDecimal("0.09");
+
+// 靜態方法
+BigDecimal bd06 = BigDecimal.valueOf(10);
+
+// +-*
+BigDecimal bd01 = new BigDecimal("10.0");
+BigDecimal bd02 = new BigDecimal("2.0");
+BigDecimal add = bd01.add(bd02);
+BigDecimal subtract = bd01.subtract(bd02);
+BigDecimal multiply = bd01.multiply(bd02);
+
+// /
+BigDecimal bd03 = new BigDecimal("10.0");
+BigDecimal bd04 = new BigDecimal("3.0");
+BigDecimal divide = bd03.divide(bd04, 2, RoundingMode.HALF_UP);
